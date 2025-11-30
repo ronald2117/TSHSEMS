@@ -1,0 +1,159 @@
+System Title:
+TSHSEMS (Taysan Senior High School Evaluation Management System)
+
+Short Description of the System:
+TSHSEMS (Taysan Senior High School Evaluation Management System) is a web-based 
+platform designed to streamline the evaluation and management of students’ academic 
+performance. It allows teachers to input and track grades and record daily attendance 
+with automatic monthly summaries, enables students to view their performance and 
+attendance history, and provides administrators with tools for reporting, class 
+management, attendance monitoring, and analytics—all in a secure, efficient, and 
+centralized environment.
+
+Project Scope and Deliverables:
+The Taysan Senior High School Evaluation Management System (TSHSEMS) is a web-based platform designed to digitalize and streamline the academic evaluation process of Taysan Senior High School. The scope of the system includes:
+1. User Management
+•	Creation and management of Admin, Teacher, and Student accounts
+•	Role-based access control (Super Admin, Academic Admin, Registrar Admin, Technical Admin)
+2. Student Information Management
+•	Student profile creation and editing
+•	Class, section, and strand assignment
+•	View of student information history
+3. Teacher and Class Management
+•	Assignment of teachers to subjects and sections
+•	Monitoring of class lists
+•	Access to student profiles under their advisory or subject load
+4. Grade Management
+•	Input, update, and computation of student grades
+•	Automated calculation of averages, remarks, and final grades
+•	Secure storage and retrieval of academic records
+5. Reports and Analytics
+•	Generation of downloadable/printable grade reports
+•	Class performance summaries and analytics
+•	School-wide performance insights for administrators
+•	Daily and monthly attendance summaries for teachers and administrators
+6. System Administration
+•	Backup and restore functionality
+•	System logs and activity monitoring
+•	Security features such as authentication, password encryption, and restricted access
+7. Accessibility and Interface
+•	Web-based system accessible on desktop and mobile
+•	Responsive and user-friendly UI based on modern design standards
+________________________________________
+II. Deliverables
+1. Fully Functional Web Application
+•	Complete modules for Admin, Teacher, and Student dashboards
+•	Accessible on major browsers and devices
+2. User Roles and Permissions
+•	Configured roles: Super Admin, Academic Admin, Registrar Admin, Technical Admin, Teacher, Student
+3. Student and Grade Management Modules
+•	Student profile system
+•	Grade encoding, validation, and automated computation features
+•	Attendance module with daily attendance entry and monthly summary generation
+4. Reporting Module
+•	Downloadable/printable reports (PDF/Excel)
+•	Analytics dashboard for administrators and teachers
+•	Attendance summary reports (daily and monthly)
+5. Database System
+•	Secure and structured database for student records, grades, and user accounts
+•	Backup and recovery system included
+6. Documentation
+•	User Manual (Admin, Teacher, Student)
+•	Technical Documentation (System architecture, database schema, API endpoints)
+•	Installation and deployment guide
+7. Deployed System
+•	Hosted and configured live web system
+•	Stable, scalable, and secure deployment
+•	Final testing, debugging, and optimization completed
+
+Define User Roles and their Permissions/Capabilities
+1. ADMIN
+
+(Combined Super Admin + Academic Admin + Registrar Admin + Technical Admin)
+The most powerful and only admin type.
+
+Permissions / Capabilities
+A. User & Account Management
+
+-Create, edit, and deactivate Teachers and Students
+
+-Reset passwords
+
+-Assign or reassign teachers to classes
+
+-Manage enrollment and student sectioning
+
+B. Academic & Grade Management
+
+-View all submitted grades
+
+-Validate/approve teacher-submitted grades
+
+-Edit or correct grades if needed
+
+-Manage subjects, sections, strands, and school year
+
+C. System Management
+
+-Manage system settings (school info, grading periods, announcements)
+
+-Monitor system logs and activity
+
+-Handle minor technical tasks (simple backups, data updates)
+
+D. Records Management
+
+-Access complete student profiles and academic histories
+
+-Generate form-like documents (summary reports, list of students, etc.)
+
+-E. Reporting & Analytics
+
+-Generate and download all reports
+
+-View school-wide analytics and performance dashboards
+
+- View and generate daily and monthly attendance summaries
+
+2. TEACHER
+
+(For grade encoding and monitoring classes)
+
+Permissions / Capabilities
+
+View assigned sections and student lists
+
+Input and update grades per subject
+
+Submit grades for admin validation
+
+View student profiles (read-only)
+
+Generate summary of grades for their own classes
+
+Receive announcements from Admin
+
+Record daily attendance and view monthly attendance summary of their classes
+
+
+3. STUDENT
+
+(View-only, simplest role)
+
+Permissions / Capabilities
+
+View their own grades
+
+View their own profile information
+
+Download/print their grade report (optional)
+
+Receive announcements
+
+View their attendance record (daily and monthly summary)
+
+Color Scheme: Green and white
+Notes: 
+- Dashboard for every user after log-in
+- Login page. register page, etc in center with background picture of the school. It is in the public folder.
+- Use the logo in the public folder

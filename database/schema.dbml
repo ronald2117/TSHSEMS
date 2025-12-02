@@ -1,0 +1,477 @@
+// TSHSEMS - Taguig Science High School Evaluation Management System
+// Database Schema for dbdiagram.io
+// Generated: December 2, 2025
+
+Project TSHSEMS {
+  database_type: 'MySQL'
+  Note: 'Senior High School Evaluation Management System with DepEd-compliant grading'
+}
+
+// ==========================================
+// 1. AUTHENTICATION & USERS
+// ==========================================
+
+Table users {
+  id bigint [pk, increment]
+  login_id varchar [unique, note: 'Student LRN or Employee ID for Hybrid Login']
+  email varchar [unique, not null]
+  password varchar [not null]
+  role enum('super_admin', 'academic_admin', 'registrar_admin', 'technical_admin', 'teacher', 'student') [default: 'student']
+  first_name varchar [not null]
+  middle_name varchar
+  last_name varchar [not null]
+  suffix varchar
+  avatar_path varchar
+  is_active boolean [default: true]
+  last_login_at timestamp
+  remember_token varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  indexes {
+    role
+    (role, is_active)
+    last_login_at
+  }
+
+  Note: 'Multi-role authentication for students, teachers, and admins'
+}
+
+// ==========================================
+// 2. ACADEMIC SETUP
+// ==========================================
+
+Table school_years {
+  id bigint [pk, increment]
+  name varchar [unique, not null, note: 'e.g., 2025-2026']
+  start_date date [not null]
+  end_date date [not null]
+  is_active boolean [default: false]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (start_date, end_date) [unique]
+  }
+
+  Note: 'Academic year configuration and date ranges'
+}
+
+Table academic_periods {
+  id bigint [pk, increment]
+  school_year_id bigint [ref: > school_years.id, not null]
+  name varchar [not null, note: 'e.g., 1st Semester']
+  status enum('Active', 'Closed') [default: 'Active']
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'Semesters or grading periods within a school year'
+}
+
+Table tracks {
+  id bigint [pk, increment]
+  code varchar [unique, not null, note: 'e.g., ACAD, TVL']
+  description varchar [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'SHS tracks: Academic, TVL, Sports, Arts & Design'
+}
+
+Table strands {
+  id bigint [pk, increment]
+  track_id bigint [ref: > tracks.id, not null]
+  code varchar [unique, not null, note: 'e.g., STEM, ABM']
+  name varchar [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'Specializations under each track (e.g., STEM, ABM, HUMSS)'
+}
+
+Table sections {
+  id bigint [pk, increment]
+  school_year_id bigint [ref: > school_years.id, not null]
+  name varchar [not null, note: 'e.g., Diamond']
+  grade_level int [not null, note: '11 or 12 only']
+  strand_id bigint [ref: > strands.id, not null]
+  adviser_id bigint [ref: > users.id]
+  max_students int [default: 40]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  indexes {
+    (school_year_id, name, grade_level) [unique]
+  }
+
+  Note: 'Class sections assigned to specific strands and grade levels'
+}
+
+// ==========================================
+// 3. USER PROFILES
+// ==========================================
+
+Table student_profiles {
+  id bigint [pk, increment]
+  user_id bigint [ref: - users.id, not null]
+  lrn varchar [unique, not null, note: 'Learner Reference Number']
+  current_section_id bigint [ref: > sections.id]
+  strand_id bigint [ref: > strands.id, not null]
+  guardian_name varchar
+  guardian_contact varchar
+  emergency_contacts json [note: 'Array of emergency contact details']
+  birthdate date
+  address varchar
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    lrn
+    current_section_id
+  }
+
+  Note: 'Extended profile information for student users'
+}
+
+Table teacher_profiles {
+  id bigint [pk, increment]
+  user_id bigint [ref: - users.id, not null]
+  department varchar [note: 'e.g., Science Dept']
+  specialization varchar
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'Extended profile information for teacher users'
+}
+
+// ==========================================
+// 4. SUBJECTS & SCHEDULES
+// ==========================================
+
+Table subjects {
+  id bigint [pk, increment]
+  code varchar [unique, not null, note: 'e.g., GENMATH']
+  name varchar [not null]
+  type enum('Core', 'Applied', 'Specialized') [not null]
+  units int [default: 1]
+  is_active boolean [default: true]
+  learning_competencies json [note: 'DepEd learning competencies']
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  Note: 'Subject catalog with codes and types'
+}
+
+Table strand_subjects {
+  id bigint [pk, increment]
+  strand_id bigint [ref: > strands.id, not null]
+  subject_id bigint [ref: > subjects.id, not null]
+  grade_level int [not null, note: '11 or 12']
+  semester enum('1st', '2nd')
+  is_required boolean [default: true]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (strand_id, subject_id, grade_level) [unique]
+  }
+
+  Note: 'Links subjects to strands with grade level and semester requirements'
+}
+
+Table class_schedules {
+  id bigint [pk, increment]
+  section_id bigint [ref: > sections.id, not null]
+  subject_id bigint [ref: > subjects.id, not null]
+  teacher_id bigint [ref: > users.id, not null]
+  academic_period_id bigint [ref: > academic_periods.id, not null]
+  schedule_time varchar [note: 'e.g., MWF 8:00-9:00']
+  room varchar
+  schedule_details json [note: 'Detailed schedule: days, times, room changes']
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  indexes {
+    (section_id, subject_id, academic_period_id) [unique]
+    (academic_period_id, section_id)
+    teacher_id
+  }
+
+  Note: 'Teacher assignments to sections for specific subjects'
+}
+
+Table student_subject_enrollments {
+  id bigint [pk, increment]
+  student_id bigint [ref: > users.id, not null]
+  class_schedule_id bigint [ref: > class_schedules.id, not null]
+  status enum('enrolled', 'dropped') [default: 'enrolled']
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  indexes {
+    (student_id, class_schedule_id) [unique]
+  }
+
+  Note: 'Student enrollment in specific class schedules'
+}
+
+Table student_enrollment_history {
+  id bigint [pk, increment]
+  student_id bigint [ref: > users.id, not null]
+  section_id bigint [ref: > sections.id, not null]
+  academic_period_id bigint [ref: > academic_periods.id, not null]
+  grade_level int [not null]
+  status varchar [not null, note: 'Enrolled, Transferred Out, etc.']
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'Historical record of student section assignments'
+}
+
+// ==========================================
+// 5. GRADING ENGINE (DepEd Compliant)
+// ==========================================
+
+Table grading_components {
+  id bigint [pk, increment]
+  subject_type enum('Core', 'Applied', 'Specialized') [unique, not null]
+  written_weight decimal(3,2) [not null, note: 'Must sum to 1.00 with performance and exam']
+  performance_weight decimal(3,2) [not null]
+  exam_weight decimal(3,2) [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'DepEd-compliant grading weights by subject type'
+}
+
+Table grade_transmutations {
+  id bigint [pk, increment]
+  min_score decimal(5,2) [not null]
+  max_score decimal(5,2) [not null]
+  transmuted_grade int [not null, note: '60-100']
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'Conversion table from percentage scores to transmuted grades'
+}
+
+Table assessments {
+  id bigint [pk, increment]
+  class_schedule_id bigint [ref: > class_schedules.id, not null]
+  title varchar [not null, note: 'Quiz #1, PT #2']
+  type enum('written_work', 'performance_task', 'quarterly_assessment') [not null]
+  max_score int [not null]
+  quarter int [not null, note: '1-4 only']
+  is_published boolean [default: false]
+  assessment_date date
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  Note: 'Graded activities and exams for each class'
+}
+
+Table student_scores {
+  id bigint [pk, increment]
+  assessment_id bigint [ref: > assessments.id, not null]
+  student_id bigint [ref: > users.id, not null]
+  score decimal(5,2) [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (student_id, assessment_id) [unique]
+  }
+
+  Note: 'Individual student scores for each assessment'
+}
+
+Table quarterly_grades {
+  id bigint [pk, increment]
+  student_id bigint [ref: > users.id, not null]
+  class_schedule_id bigint [ref: > class_schedules.id, not null]
+  quarter int [not null, note: '1-4 only']
+  initial_grade decimal(5,2) [not null, note: 'Computed raw score']
+  final_grade int [not null, note: 'Transmuted grade (75, 80, etc)']
+  remarks varchar [note: 'Passed/Failed']
+  status enum('Draft', 'Submitted', 'Approved', 'Returned') [default: 'Draft']
+  submitted_at timestamp
+  submitted_by bigint [ref: > users.id]
+  approved_at timestamp
+  approved_by bigint [ref: > users.id]
+  return_reason text [note: 'Reason when status is Returned']
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+
+  indexes {
+    (student_id, class_schedule_id, quarter) [unique]
+    (student_id, quarter)
+    status
+  }
+
+  Note: 'Final computed grades per quarter with approval workflow'
+}
+
+Table grade_audit_logs {
+  id bigint [pk, increment]
+  quarterly_grade_id bigint [ref: > quarterly_grades.id, not null]
+  user_id bigint [ref: > users.id, not null]
+  old_grade decimal(5,2) [note: 'Null for initial entries']
+  new_grade decimal(5,2) [not null]
+  field_changed varchar [default: 'final_grade', note: 'Track what field changed']
+  reason varchar [not null]
+  ip_address varchar
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (quarterly_grade_id, created_at)
+  }
+
+  Note: 'Complete audit trail of all grade changes'
+}
+
+Table student_gwa_cache {
+  id bigint [pk, increment]
+  student_id bigint [ref: > users.id, not null]
+  academic_period_id bigint [ref: > academic_periods.id, not null]
+  quarter int [not null, note: '1-4 only']
+  gwa decimal(5,2) [not null, note: 'General Weighted Average']
+  honors varchar [note: 'With Highest Honors, With High Honors, With Honors']
+  computed_at timestamp [not null]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (student_id, academic_period_id, quarter) [unique]
+    (student_id, quarter)
+  }
+
+  Note: 'Cached GWA calculations for performance optimization'
+}
+
+// ==========================================
+// 6. OPERATIONS & LOGS
+// ==========================================
+
+Table attendances {
+  id bigint [pk, increment]
+  student_id bigint [ref: > users.id, not null]
+  class_schedule_id bigint [ref: > class_schedules.id, not null]
+  date date [not null]
+  status enum('Present', 'Absent', 'Late', 'Excused') [not null]
+  remarks varchar
+  recorded_by bigint [ref: > users.id, note: 'Teacher who recorded']
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (student_id, class_schedule_id, date) [unique]
+    (student_id, date)
+    class_schedule_id
+  }
+
+  Note: 'Daily attendance records for students in each class'
+}
+
+Table document_requests {
+  id bigint [pk, increment]
+  student_id bigint [ref: > users.id, not null]
+  type varchar [not null, note: 'Form 137, Certificate of Enrollment']
+  status enum('Pending', 'Processing', 'Ready', 'Claimed', 'Rejected') [default: 'Pending']
+  copies int [default: 1, note: 'Number of copies requested']
+  purpose varchar [note: 'Reason for request']
+  fee decimal(8,2) [note: 'Document processing fee']
+  processed_by bigint [ref: > users.id]
+  claimed_at timestamp
+  rejection_reason text
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (student_id, status)
+  }
+
+  Note: 'Student document requests and processing status'
+}
+
+Table announcements {
+  id bigint [pk, increment]
+  title varchar [not null]
+  content text [not null]
+  is_public boolean [default: false, note: 'For Landing Page']
+  author_id bigint [ref: > users.id, not null]
+  target_role varchar [note: 'student, teacher, or null for all']
+  published_at timestamp
+  expires_at timestamp
+  is_pinned boolean [default: false]
+  created_at timestamp
+  updated_at timestamp
+
+  indexes {
+    (target_role, published_at)
+  }
+
+  Note: 'System-wide announcements with role-based targeting'
+}
+
+Table activity_logs {
+  id bigint [pk, increment]
+  user_id bigint [ref: > users.id]
+  action varchar [not null, note: 'LOGIN, UPDATE_GRADE']
+  description text [not null]
+  ip_address varchar
+  created_at timestamp
+  updated_at timestamp
+
+  Note: 'System-wide activity and security audit log'
+}
+
+// ==========================================
+// TABLE GROUPS FOR VISUALIZATION
+// ==========================================
+
+TableGroup authentication {
+  users
+  student_profiles
+  teacher_profiles
+}
+
+TableGroup academic_structure {
+  school_years
+  academic_periods
+  tracks
+  strands
+  sections
+}
+
+TableGroup curriculum {
+  subjects
+  strand_subjects
+  class_schedules
+  student_subject_enrollments
+  student_enrollment_history
+}
+
+TableGroup grading_system {
+  grading_components
+  grade_transmutations
+  assessments
+  student_scores
+  quarterly_grades
+  grade_audit_logs
+  student_gwa_cache
+}
+
+TableGroup operations {
+  attendances
+  document_requests
+  announcements
+  activity_logs
+}

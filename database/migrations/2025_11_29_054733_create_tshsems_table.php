@@ -296,6 +296,23 @@ return new class extends Migration
         });
 
         Schema::create('student_gwa_cache', function (Blueprint $table) {
+            $table->comment('Cached GWA calculations for performance optimization');
+            $table->id();
+            $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('academic_period_id')->constrained()->cascadeOnDelete();
+            $table->integer('quarter')->unsigned()->comment('1-4 only');
+            $table->decimal('gwa', 5, 2)->comment('General Weighted Average');
+            $table->string('honors')->nullable()->comment('With Highest Honors, With High Honors, With Honors');
+            $table->timestamp('computed_at');
+            $table->timestamps();
+            
+            $table->unique(['student_id', 'academic_period_id', 'quarter']);
+            $table->index(['student_id', 'quarter']);
+        });
+
+        // ==========================================
+        // 6. OPERATIONS & LOGS
+        // ==========================================
 
         Schema::create('attendances', function (Blueprint $table) {
             $table->comment('Daily attendance records for students in each class');

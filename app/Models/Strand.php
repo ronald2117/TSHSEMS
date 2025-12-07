@@ -18,10 +18,6 @@ class Strand extends Model
         'name',
     ];
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function track(): BelongsTo
     {
         return $this->belongsTo(Track::class);
@@ -49,10 +45,6 @@ class Strand extends Model
             ->withTimestamps();
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getFullNameAttribute(): string
     {
         return "{$this->code} - {$this->name}";
@@ -62,10 +54,6 @@ class Strand extends Model
     {
         return "{$this->track->code} - {$this->code}";
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public function getSubjectsForGradeLevel(int $gradeLevel, ?string $semester = null)
     {

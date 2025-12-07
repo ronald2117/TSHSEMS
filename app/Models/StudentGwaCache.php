@@ -30,10 +30,6 @@ class StudentGwaCache extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
@@ -43,10 +39,6 @@ class StudentGwaCache extends Model
     {
         return $this->belongsTo(AcademicPeriod::class);
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForStudent($query, $studentId)
     {
@@ -62,10 +54,6 @@ class StudentGwaCache extends Model
     {
         return $query->whereNotNull('honors');
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public static function computeAndCache(
         User $student,

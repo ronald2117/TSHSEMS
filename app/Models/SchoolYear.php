@@ -26,10 +26,6 @@ class SchoolYear extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function academicPeriods(): HasMany
     {
         return $this->hasMany(AcademicPeriod::class);
@@ -40,10 +36,6 @@ class SchoolYear extends Model
         return $this->hasMany(Section::class);
     }
 
-    // ==========================================
-    // SCOPES
-    // ==========================================
-
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -53,10 +45,6 @@ class SchoolYear extends Model
     {
         return $query->where('is_active', true)->first();
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public static function current(): ?self
     {

@@ -41,10 +41,6 @@ class User extends Authenticatable
         ];
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getFullNameAttribute(): string
     {
         $name = "{$this->first_name} ";
@@ -57,10 +53,6 @@ class User extends Authenticatable
         }
         return trim($name);
     }
-
-    // ==========================================
-    // ROLE HELPERS
-    // ==========================================
 
     public function isAdmin(): bool
     {
@@ -82,10 +74,6 @@ class User extends Authenticatable
         return $this->role === 'student';
     }
 
-    // ==========================================
-    // PROFILE RELATIONSHIPS
-    // ==========================================
-
     public function studentProfile(): HasOne
     {
         return $this->hasOne(StudentProfile::class);
@@ -96,10 +84,6 @@ class User extends Authenticatable
         return $this->hasOne(TeacherProfile::class);
     }
 
-    // ==========================================
-    // ACADEMIC RELATIONSHIPS (as Teacher)
-    // ==========================================
-
     public function advisedSections(): HasMany
     {
         return $this->hasMany(Section::class, 'adviser_id');
@@ -109,10 +93,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(ClassSchedule::class, 'teacher_id');
     }
-
-    // ==========================================
-    // STUDENT RELATIONSHIPS
-    // ==========================================
 
     public function enrollments(): HasMany
     {
@@ -149,10 +129,6 @@ class User extends Authenticatable
         return $this->hasMany(StudentGwaCache::class, 'student_id');
     }
 
-    // ==========================================
-    // AUDIT RELATIONSHIPS
-    // ==========================================
-
     public function activityLogs(): HasMany
     {
         return $this->hasMany(ActivityLog::class);
@@ -167,10 +143,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Announcement::class, 'author_id');
     }
-
-    // ==========================================
-    // WORKFLOW RELATIONSHIPS
-    // ==========================================
 
     public function submittedGrades(): HasMany
     {

@@ -23,10 +23,6 @@ class StudentScore extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function assessment(): BelongsTo
     {
         return $this->belongsTo(Assessment::class);
@@ -37,10 +33,6 @@ class StudentScore extends Model
         return $this->belongsTo(User::class, 'student_id');
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getPercentageAttribute(): float
     {
         if ($this->assessment->max_score == 0) {
@@ -48,10 +40,6 @@ class StudentScore extends Model
         }
         return ($this->score / $this->assessment->max_score) * 100;
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForStudent($query, $studentId)
     {

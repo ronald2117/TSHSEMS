@@ -31,18 +31,10 @@ class Announcement extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopePublic($query)
     {
@@ -78,10 +70,6 @@ class Announcement extends Model
         return $query->where('expires_at', '<=', now());
     }
 
-    // ==========================================
-    // HELPERS
-    // ==========================================
-
     public function isActive(): bool
     {
         $published = is_null($this->published_at) || $this->published_at <= now();
@@ -110,9 +98,7 @@ class Announcement extends Model
         $this->update(['is_pinned' => false]);
     }
 
-    /**
-     * Get announcements visible to a user
-     */
+    // Get announcements visible to a user
     public static function forUser(User $user)
     {
         return static::active()
@@ -122,9 +108,7 @@ class Announcement extends Model
             ->get();
     }
 
-    /**
-     * Get public announcements for landing page
-     */
+    // Get public announcements for landing page
     public static function getPublic()
     {
         return static::public()

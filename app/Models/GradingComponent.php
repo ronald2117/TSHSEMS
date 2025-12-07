@@ -25,18 +25,10 @@ class GradingComponent extends Model
         ];
     }
 
-    // ==========================================
-    // SCOPES
-    // ==========================================
-
     public function scopeForType($query, string $subjectType)
     {
         return $query->where('subject_type', $subjectType);
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public static function forSubjectType(string $type): ?self
     {

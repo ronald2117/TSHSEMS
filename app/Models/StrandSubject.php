@@ -26,10 +26,6 @@ class StrandSubject extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function strand(): BelongsTo
     {
         return $this->belongsTo(Strand::class);
@@ -39,10 +35,6 @@ class StrandSubject extends Model
     {
         return $this->belongsTo(Subject::class);
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForGradeLevel($query, int $gradeLevel)
     {

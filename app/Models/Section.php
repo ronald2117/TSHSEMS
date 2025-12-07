@@ -29,10 +29,6 @@ class Section extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function schoolYear(): BelongsTo
     {
         return $this->belongsTo(SchoolYear::class);
@@ -63,10 +59,6 @@ class Section extends Model
         return $this->hasMany(StudentEnrollmentHistory::class);
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getFullNameAttribute(): string
     {
         return "Grade {$this->grade_level} - {$this->name} ({$this->strand->code})";
@@ -82,10 +74,6 @@ class Section extends Model
         return max(0, $this->max_students - $this->student_count);
     }
 
-    // ==========================================
-    // SCOPES
-    // ==========================================
-
     public function scopeForSchoolYear($query, $schoolYearId)
     {
         return $query->where('school_year_id', $schoolYearId);
@@ -100,10 +88,6 @@ class Section extends Model
     {
         return $query->where('strand_id', $strandId);
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public function isFull(): bool
     {

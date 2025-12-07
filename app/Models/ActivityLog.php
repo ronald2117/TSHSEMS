@@ -17,18 +17,10 @@ class ActivityLog extends Model
         'ip_address',
     ];
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForUser($query, $userId)
     {
@@ -45,13 +37,6 @@ class ActivityLog extends Model
         return $query->where('created_at', '>=', now()->subDays($days));
     }
 
-    // ==========================================
-    // LOGGING HELPERS
-    // ==========================================
-
-    /**
-     * Log an activity
-     */
     public static function log(
         string $action,
         string $description,
@@ -66,25 +51,19 @@ class ActivityLog extends Model
         ]);
     }
 
-    /**
-     * Log a login event
-     */
+    // Log a login event
     public static function logLogin(User $user): self
     {
         return static::log('LOGIN', "User {$user->full_name} logged in", $user);
     }
 
-    /**
-     * Log a logout event
-     */
+    // Log a logout event
     public static function logLogout(User $user): self
     {
         return static::log('LOGOUT', "User {$user->full_name} logged out", $user);
     }
 
-    /**
-     * Log a grade update
-     */
+    // Log a grade update
     public static function logGradeUpdate(
         User $user,
         QuarterlyGrade $grade,
@@ -97,9 +76,7 @@ class ActivityLog extends Model
         );
     }
 
-    /**
-     * Log a grade submission
-     */
+    // Log a grade submission
     public static function logGradeSubmission(User $user, int $count): self
     {
         return static::log(
@@ -109,9 +86,7 @@ class ActivityLog extends Model
         );
     }
 
-    /**
-     * Log a grade approval
-     */
+    // Log a grade approval
     public static function logGradeApproval(User $user, int $count): self
     {
         return static::log(
@@ -121,10 +96,7 @@ class ActivityLog extends Model
         );
     }
 
-    // ==========================================
-    // ACTION CONSTANTS
-    // ==========================================
-
+    // Action constants
     public const ACTION_LOGIN = 'LOGIN';
     public const ACTION_LOGOUT = 'LOGOUT';
     public const ACTION_UPDATE_GRADE = 'UPDATE_GRADE';

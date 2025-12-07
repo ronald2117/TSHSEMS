@@ -32,10 +32,6 @@ class Assessment extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function classSchedule(): BelongsTo
     {
         return $this->belongsTo(ClassSchedule::class);
@@ -46,10 +42,6 @@ class Assessment extends Model
         return $this->hasMany(StudentScore::class);
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getTypeDisplayAttribute(): string
     {
         return match ($this->type) {
@@ -59,10 +51,6 @@ class Assessment extends Model
             default => $this->type,
         };
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopePublished($query)
     {
@@ -93,10 +81,6 @@ class Assessment extends Model
     {
         return $query->where('type', 'quarterly_assessment');
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public function publish(): void
     {

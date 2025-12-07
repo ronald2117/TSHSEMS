@@ -26,10 +26,6 @@ class Attendance extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
@@ -44,10 +40,6 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class, 'recorded_by');
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForStudent($query, $studentId)
     {
@@ -89,10 +81,6 @@ class Attendance extends Model
         return $query->whereBetween('date', [$startDate, $endDate]);
     }
 
-    // ==========================================
-    // HELPERS
-    // ==========================================
-
     public function isPresent(): bool
     {
         return $this->status === 'Present';
@@ -113,9 +101,7 @@ class Attendance extends Model
         return $this->status === 'Excused';
     }
 
-    /**
-     * Get attendance summary for a student in a class
-     */
+    // Get attendance summary for a student in a class
     public static function getSummary($studentId, $classScheduleId): array
     {
         $attendances = static::where('student_id', $studentId)

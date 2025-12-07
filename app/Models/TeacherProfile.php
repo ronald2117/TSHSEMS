@@ -16,28 +16,17 @@ class TeacherProfile extends Model
         'specialization',
     ];
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
 
     public function getFullNameAttribute(): string
     {
         return $this->user->full_name;
     }
 
-    // ==========================================
-    // DELEGATED RELATIONSHIPS (via User)
-    // ==========================================
-
+    // Delegated relationships via User
     public function advisedSections()
     {
         return $this->user->advisedSections();

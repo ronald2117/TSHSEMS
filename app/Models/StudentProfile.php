@@ -30,10 +30,6 @@ class StudentProfile extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -48,10 +44,6 @@ class StudentProfile extends Model
     {
         return $this->belongsTo(Strand::class);
     }
-
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
 
     public function getFullNameAttribute(): string
     {
@@ -68,10 +60,7 @@ class StudentProfile extends Model
         return $this->birthdate?->age;
     }
 
-    // ==========================================
-    // DELEGATED RELATIONSHIPS (via User)
-    // ==========================================
-
+    // Delegated relationships via User
     public function enrollments()
     {
         return $this->user->enrollments();

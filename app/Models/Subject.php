@@ -30,10 +30,6 @@ class Subject extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function strandSubjects(): HasMany
     {
         return $this->hasMany(StrandSubject::class);
@@ -51,18 +47,10 @@ class Subject extends Model
         return $this->hasMany(ClassSchedule::class);
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getFullNameAttribute(): string
     {
         return "{$this->code} - {$this->name}";
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeActive($query)
     {
@@ -88,10 +76,6 @@ class Subject extends Model
     {
         return $query->where('type', 'Specialized');
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public function getGradingComponent(): ?GradingComponent
     {

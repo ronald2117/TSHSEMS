@@ -28,10 +28,6 @@ class GradeAuditLog extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function quarterlyGrade(): BelongsTo
     {
         return $this->belongsTo(QuarterlyGrade::class);
@@ -42,10 +38,6 @@ class GradeAuditLog extends Model
         return $this->belongsTo(User::class);
     }
 
-    // ==========================================
-    // SCOPES
-    // ==========================================
-
     public function scopeForGrade($query, $quarterlyGradeId)
     {
         return $query->where('quarterly_grade_id', $quarterlyGradeId);
@@ -55,10 +47,6 @@ class GradeAuditLog extends Model
     {
         return $query->where('user_id', $userId);
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public static function log(
         QuarterlyGrade $grade,

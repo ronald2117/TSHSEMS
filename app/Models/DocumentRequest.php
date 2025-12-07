@@ -31,10 +31,6 @@ class DocumentRequest extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
@@ -44,10 +40,6 @@ class DocumentRequest extends Model
     {
         return $this->belongsTo(User::class, 'processed_by');
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForStudent($query, $studentId)
     {
@@ -84,10 +76,6 @@ class DocumentRequest extends Model
         return $query->where('type', $type);
     }
 
-    // ==========================================
-    // WORKFLOW METHODS
-    // ==========================================
-
     public function startProcessing(User $processor): void
     {
         $this->update([
@@ -117,10 +105,6 @@ class DocumentRequest extends Model
         ]);
     }
 
-    // ==========================================
-    // STATUS HELPERS
-    // ==========================================
-
     public function isPending(): bool
     {
         return $this->status === 'Pending';
@@ -145,10 +129,6 @@ class DocumentRequest extends Model
     {
         return $this->status === 'Rejected';
     }
-
-    // ==========================================
-    // DOCUMENT TYPES
-    // ==========================================
 
     public static function documentTypes(): array
     {

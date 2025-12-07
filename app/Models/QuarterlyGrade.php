@@ -38,10 +38,6 @@ class QuarterlyGrade extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
@@ -67,18 +63,10 @@ class QuarterlyGrade extends Model
         return $this->hasMany(GradeAuditLog::class);
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getIsPassed(): bool
     {
         return $this->final_grade >= 75;
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForStudent($query, $studentId)
     {
@@ -120,10 +108,6 @@ class QuarterlyGrade extends Model
         return $query->where('final_grade', '<', 75);
     }
 
-    // ==========================================
-    // WORKFLOW METHODS
-    // ==========================================
-
     public function submit(User $user): void
     {
         $this->update([
@@ -159,10 +143,6 @@ class QuarterlyGrade extends Model
             'submitted_by' => null,
         ]);
     }
-
-    // ==========================================
-    // STATUS HELPERS
-    // ==========================================
 
     public function isDraft(): bool
     {

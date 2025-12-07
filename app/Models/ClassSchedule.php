@@ -29,10 +29,6 @@ class ClassSchedule extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function section(): BelongsTo
     {
         return $this->belongsTo(Section::class);
@@ -73,10 +69,6 @@ class ClassSchedule extends Model
         return $this->hasMany(Attendance::class);
     }
 
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
-
     public function getDisplayNameAttribute(): string
     {
         return "{$this->subject->code} - {$this->section->full_name}";
@@ -86,10 +78,6 @@ class ClassSchedule extends Model
     {
         return $this->enrollments()->where('status', 'enrolled')->count();
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForTeacher($query, $teacherId)
     {
@@ -105,10 +93,6 @@ class ClassSchedule extends Model
     {
         return $query->where('academic_period_id', $academicPeriodId);
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public function getEnrolledStudents()
     {

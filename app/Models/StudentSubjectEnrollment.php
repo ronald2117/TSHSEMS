@@ -17,10 +17,6 @@ class StudentSubjectEnrollment extends Model
         'status',
     ];
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
@@ -30,10 +26,6 @@ class StudentSubjectEnrollment extends Model
     {
         return $this->belongsTo(ClassSchedule::class);
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeEnrolled($query)
     {
@@ -49,10 +41,6 @@ class StudentSubjectEnrollment extends Model
     {
         return $query->where('student_id', $studentId);
     }
-
-    // ==========================================
-    // HELPERS
-    // ==========================================
 
     public function isEnrolled(): bool
     {

@@ -17,8 +17,6 @@ class AcademicPeriod extends Model
         'status',
     ];
 
-    // RELATIONSHIPS
-
     public function schoolYear(): BelongsTo
     {
         return $this->belongsTo(SchoolYear::class);
@@ -39,8 +37,6 @@ class AcademicPeriod extends Model
         return $this->hasMany(StudentGwaCache::class);
     }
 
-    // SCOPES
-
     public function scopeActive($query)
     {
         return $query->where('status', 'Active');
@@ -50,8 +46,6 @@ class AcademicPeriod extends Model
     {
         return $query->where('status', 'Closed');
     }
-
-    // HELPERS
 
     public function isActive(): bool
     {

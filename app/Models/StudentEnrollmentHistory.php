@@ -27,10 +27,6 @@ class StudentEnrollmentHistory extends Model
         ];
     }
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function student(): BelongsTo
     {
         return $this->belongsTo(User::class, 'student_id');
@@ -45,10 +41,6 @@ class StudentEnrollmentHistory extends Model
     {
         return $this->belongsTo(AcademicPeriod::class);
     }
-
-    // ==========================================
-    // SCOPES
-    // ==========================================
 
     public function scopeForStudent($query, $studentId)
     {

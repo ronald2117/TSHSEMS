@@ -15,18 +15,10 @@ class Track extends Model
         'description',
     ];
 
-    // ==========================================
-    // RELATIONSHIPS
-    // ==========================================
-
     public function strands(): HasMany
     {
         return $this->hasMany(Strand::class);
     }
-
-    // ==========================================
-    // ACCESSORS
-    // ==========================================
 
     public function getDisplayNameAttribute(): string
     {

@@ -24,33 +24,23 @@ class GradeTransmutation extends Model
         ];
     }
 
-    // ==========================================
-    // HELPERS
-    // ==========================================
-
-    /**
-     * Transmute a raw percentage score to a final grade
-     */
+    // Transmute a raw percentage score to a final grade
     public static function transmute(float $rawScore): int
     {
         $transmutation = static::where('min_score', '<=', $rawScore)
             ->where('max_score', '>=', $rawScore)
             ->first();
 
-        return $transmutation?->transmuted_grade ?? 60; // Default to 60 if not found
+        return $transmutation?->transmuted_grade ?? 60;
     }
 
-    /**
-     * Get the remarks based on the transmuted grade
-     */
+    // Get the remarks based on the transmuted grade
     public static function getRemarks(int $transmutedGrade): string
     {
         return $transmutedGrade >= 75 ? 'Passed' : 'Failed';
     }
 
-    /**
-     * Get honors based on GWA
-     */
+    // Get honors based on GWA
     public static function getHonors(float $gwa): ?string
     {
         if ($gwa >= 98) {

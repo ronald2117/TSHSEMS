@@ -40,12 +40,25 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('users', UserManagementController::class);
     Route::post('users/{user}/toggle-status', [UserManagementController::class, 'toggleStatus'])->name('users.toggle-status');
 
-    // Academic Structure
+    // Academic Structure - School Years
     Route::resource('school-years', AcademicStructureController::class);
     Route::post('school-years/{schoolYear}/activate', [AcademicStructureController::class, 'activate'])->name('school-years.activate');
-    Route::resource('strands', AcademicStructureController::class);
-    Route::resource('sections', AcademicStructureController::class);
-    Route::resource('subjects', AcademicStructureController::class);
+    
+    // Academic Structure - Sections
+    Route::get('sections', [AcademicStructureController::class, 'indexSections'])->name('sections.index');
+    Route::get('sections/create', [AcademicStructureController::class, 'createSection'])->name('sections.create');
+    Route::post('sections', [AcademicStructureController::class, 'storeSection'])->name('sections.store');
+    Route::get('sections/{section}/edit', [AcademicStructureController::class, 'editSection'])->name('sections.edit');
+    Route::put('sections/{section}', [AcademicStructureController::class, 'updateSection'])->name('sections.update');
+    Route::delete('sections/{section}', [AcademicStructureController::class, 'destroySection'])->name('sections.destroy');
+    
+    // Academic Structure - Strands
+    Route::get('strands', [AcademicStructureController::class, 'indexStrands'])->name('strands.index');
+    
+    // Academic Structure - Subjects
+    Route::get('subjects', [AcademicStructureController::class, 'indexSubjects'])->name('subjects.index');
+    Route::get('subjects/create', [AcademicStructureController::class, 'createSubject'])->name('subjects.create');
+    Route::post('subjects', [AcademicStructureController::class, 'storeSubject'])->name('subjects.store');
 
     // Grade Management (Registrar Admin)
     Route::middleware('registrar-admin')->group(function () {

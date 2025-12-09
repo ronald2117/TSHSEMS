@@ -78,6 +78,42 @@ class AcademicStructureController extends Controller
         return redirect()->route('admin.sections.index')->with('success', 'Section created.');
     }
 
+    public function editSection(Section $section): View
+    {
+        $schoolYears = SchoolYear::all();
+        $strands = Strand::all();
+        return view('admin.sections.edit', compact('section', 'schoolYears', 'strands'));
+    }
+
+    public function updateSection(Request $request, Section $section): RedirectResponse
+    {
+        $validated = $request->validate([
+            'school_year_id' => 'required|exists:school_years,id',
+            'name' => 'required|string',
+            'grade_level' => 'required|in:11,12',
+            'strand_id' => 'required|exists:strands,id',
+            'max_students' => 'required|integer|min:1',
+        ]);
+
+        $section->update($validated);
+
+        return redirect()->route('admin.sections.index')->with('success', 'Section updated.');
+    }
+
+    public function destroySection(Section $section): RedirectResponse
+    {
+        $section->delete();
+
+        return redirect()->route('admin.sections.index')->with('success', 'Section deleted.');
+    }
+
+    // Strands
+    public function indexStrands(): View
+    {
+        $strands = Strand::with('track')->orderBy('code')->paginate(20);
+        return view('admin.strands.index', ['strands' => $strands]);
+    }
+
     // Subjects
     public function indexSubjects(): View
     {

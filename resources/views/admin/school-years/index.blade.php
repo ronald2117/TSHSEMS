@@ -30,7 +30,7 @@
                 @forelse($schoolYears as $schoolYear)
                 <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">{{ $schoolYear->year }}</div>
+                        <div class="text-sm font-medium text-gray-900">{{ $schoolYear->name }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-500">{{ $schoolYear->start_date->format('M d, Y') }}</div>

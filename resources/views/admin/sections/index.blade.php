@@ -24,18 +24,25 @@
                     <p class="text-sm text-gray-600">Grade {{ $section->grade_level }} - {{ $section->strand->name }}</p>
                 </div>
                 <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                    {{ $section->schoolYear->year }}
+                    {{ $section->schoolYear->name }}
                 </span>
             </div>
 
             <div class="space-y-2 mb-4">
+                <p class="text-sm text-gray-600">
+                    <span class="font-medium">School Year:</span> {{ $section->schoolYear->name }}
+                </p>
                 @if($section->adviser)
                 <p class="text-sm text-gray-600">
-                    <span class="font-medium">Adviser:</span> {{ $section->adviser->name }}
+                    <span class="font-medium">Adviser:</span> {{ $section->adviser->first_name }} {{ $section->adviser->last_name }}
+                </p>
+                @else
+                <p class="text-sm text-gray-500 italic">
+                    <span class="font-medium">Adviser:</span> Not assigned
                 </p>
                 @endif
                 <p class="text-sm text-gray-600">
-                    <span class="font-medium">Capacity:</span> {{ $section->capacity ?? 'Not set' }}
+                    <span class="font-medium">Capacity:</span> {{ $section->max_students ?? 'Not set' }}
                 </p>
             </div>
 

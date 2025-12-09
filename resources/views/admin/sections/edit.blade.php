@@ -94,6 +94,25 @@
                 @enderror
             </div>
 
+            <div>
+                <label for="adviser_id" class="block text-sm font-medium text-gray-700 mb-2">
+                    Adviser (Optional)
+                </label>
+                <select name="adviser_id" id="adviser_id"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="">No Adviser Assigned</option>
+                    @foreach($teachers as $teacher)
+                        <option value="{{ $teacher->id }}" {{ old('adviser_id', $section->adviser_id) == $teacher->id ? 'selected' : '' }}>
+                            {{ $teacher->first_name }} {{ $teacher->last_name }}
+                        </option>
+                    @endforeach
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Assign a teacher as the section adviser</p>
+                @error('adviser_id')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <!-- Current Info Box -->
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
                 <div class="flex items-start">

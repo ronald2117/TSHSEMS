@@ -8,6 +8,7 @@ use App\Models\AcademicPeriod;
 use App\Models\Section;
 use App\Models\Strand;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -50,7 +51,7 @@ class AcademicStructureController extends Controller
     // Sections
     public function indexSections(): View
     {
-        $sections = Section::with('strand', 'schoolYear')
+        $sections = Section::with('strand', 'schoolYear', 'adviser')
             ->orderByDesc('created_at')
             ->paginate(20);
         return view('admin.sections.index', ['sections' => $sections]);
@@ -60,7 +61,8 @@ class AcademicStructureController extends Controller
     {
         $schoolYears = SchoolYear::all();
         $strands = Strand::all();
-        return view('admin.sections.create', compact('schoolYears', 'strands'));
+        $teachers = User::where('role', 'teacher')->get();
+        return view('admin.sections.create', compact('schoolYears', 'strands', 'teachers'));
     }
 
     public function storeSection(Request $request): RedirectResponse
@@ -70,6 +72,7 @@ class AcademicStructureController extends Controller
             'name' => 'required|string',
             'grade_level' => 'required|in:11,12',
             'strand_id' => 'required|exists:strands,id',
+            'adviser_id' => 'nullable|exists:users,id',
             'max_students' => 'required|integer|min:1',
         ]);
 
@@ -82,7 +85,8 @@ class AcademicStructureController extends Controller
     {
         $schoolYears = SchoolYear::all();
         $strands = Strand::all();
-        return view('admin.sections.edit', compact('section', 'schoolYears', 'strands'));
+        $teachers = User::where('role', 'teacher')->get();
+        return view('admin.sections.edit', compact('section', 'schoolYears', 'strands', 'teachers'));
     }
 
     public function updateSection(Request $request, Section $section): RedirectResponse
@@ -92,6 +96,7 @@ class AcademicStructureController extends Controller
             'name' => 'required|string',
             'grade_level' => 'required|in:11,12',
             'strand_id' => 'required|exists:strands,id',
+            'adviser_id' => 'nullable|exists:users,id',
             'max_students' => 'required|integer|min:1',
         ]);
 

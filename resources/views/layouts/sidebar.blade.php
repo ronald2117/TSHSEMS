@@ -42,6 +42,12 @@
                     <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
                         Users
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.students.index') }}" :active="request()->routeIs('admin.students.*')" icon="academic-cap">
+                        Students
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.teachers.index') }}" :active="request()->routeIs('admin.teachers.*')" icon="briefcase">
+                        Teachers
+                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.school-years.index') }}" :active="request()->routeIs('admin.school-years.*')" icon="calendar">
                         School Years
                     </x-nav-link>

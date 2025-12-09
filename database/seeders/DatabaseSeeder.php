@@ -62,34 +62,54 @@ class DatabaseSeeder extends Seeder
 
         // Create Teachers
         $teachers = [];
+        $departments = ['Science Department', 'Mathematics Department', 'English Department', 'Social Studies', 'Filipino Department'];
+        $specializations = ['Biology', 'Algebra & Calculus', 'English Literature', 'Philippine History', 'Filipino Language'];
+        
         for ($i = 1; $i <= 5; $i++) {
             $teacher = User::create([
                 'first_name' => "Teacher",
-                'last_name' => "Account $i",
+                'middle_name' => "Middle",
+                'last_name' => "Surname $i",
                 'email' => "teacher{$i}@tshsems.local",
-                'login_id' => "T-2025-000{$i}",
+                'login_id' => "T-2025-" . str_pad($i, 3, '0', STR_PAD_LEFT),
                 'password' => Hash::make('password123'),
                 'role' => 'teacher',
                 'is_active' => true,
             ]);
-            $teacher->teacherProfile()->create();
+            
+            TeacherProfile::create([
+                'user_id' => $teacher->id,
+                'department' => $departments[$i - 1],
+                'specialization' => $specializations[$i - 1],
+            ]);
+            
             $teachers[] = $teacher;
         }
 
-        // Create Students
-        $students = [];
-        for ($i = 1; $i <= 20; $i++) {
-            $student = User::create([
-                'first_name' => "Student",
-                'last_name' => "Account $i",
-                'email' => "student{$i}@tshsems.local",
-                'login_id' => "LRN" . str_pad($i, 9, '0', STR_PAD_LEFT),
-                'password' => Hash::make('password123'),
-                'role' => 'student',
-                'is_active' => true,
-            ]);
-            $students[] = $student;
-        }
+        // Create Tracks (needed before strands)
+        $academicTrack = Track::create([
+            'code' => 'ACAD',
+            'description' => 'Academic Track',
+        ]);
+
+        // Create Strands (needed before students)
+        $stem = Strand::create([
+            'track_id' => $academicTrack->id,
+            'code' => 'STEM',
+            'name' => 'STEM (Science, Technology, Engineering, Mathematics)',
+        ]);
+
+        $abm = Strand::create([
+            'track_id' => $academicTrack->id,
+            'code' => 'ABM',
+            'name' => 'ABM (Accountancy, Business, Management)',
+        ]);
+
+        $humss = Strand::create([
+            'track_id' => $academicTrack->id,
+            'code' => 'HUMSS',
+            'name' => 'HUMSS (Humanities and Social Sciences)',
+        ]);
 
         // Create School Years
         $schoolYear = SchoolYear::create([
@@ -98,6 +118,91 @@ class DatabaseSeeder extends Seeder
             'end_date' => now()->addYear()->setMonth(3)->setDay(31),
             'is_active' => true,
         ]);
+
+        // Create Sections
+        $section11Diamond = Section::create([
+            'school_year_id' => $schoolYear->id,
+            'name' => 'Diamond',
+            'grade_level' => 11,
+            'strand_id' => $stem->id,
+            'adviser_id' => $teachers[0]->id,
+            'max_students' => 40,
+        ]);
+
+        $section11Ruby = Section::create([
+            'school_year_id' => $schoolYear->id,
+            'name' => 'Ruby',
+            'grade_level' => 11,
+            'strand_id' => $abm->id,
+            'adviser_id' => $teachers[1]->id,
+            'max_students' => 40,
+        ]);
+
+        $section12Diamond = Section::create([
+            'school_year_id' => $schoolYear->id,
+            'name' => 'Diamond',
+            'grade_level' => 12,
+            'strand_id' => $stem->id,
+            'adviser_id' => $teachers[2]->id,
+            'max_students' => 40,
+        ]);
+
+        $section12Ruby = Section::create([
+            'school_year_id' => $schoolYear->id,
+            'name' => 'Ruby',
+            'grade_level' => 12,
+            'strand_id' => $humss->id,
+            'adviser_id' => $teachers[3]->id,
+            'max_students' => 40,
+        ]);
+
+        // Create Students with complete profiles
+        $students = [];
+        $firstNames = ['Juan', 'Maria', 'Jose', 'Ana', 'Pedro', 'Rosa', 'Antonio', 'Carmen', 'Miguel', 'Elena', 
+                       'Carlos', 'Sofia', 'Luis', 'Isabel', 'Fernando', 'Lucia', 'Rafael', 'Paula', 'Gabriel', 'Andrea',
+                       'Diego', 'Valentina', 'Javier', 'Camila', 'Daniel'];
+        $lastNames = ['Dela Cruz', 'Santos', 'Reyes', 'Garcia', 'Ramos', 'Mendoza', 'Torres', 'Flores', 'Gonzales', 'Rivera',
+                      'Martinez', 'Lopez', 'Hernandez', 'Perez', 'Rodriguez', 'Sanchez', 'Ramirez', 'Cruz', 'Morales', 'Ortiz',
+                      'Gutierrez', 'Jimenez', 'Alvarez', 'Romero', 'Medina'];
+        $guardianNames = ['Juan Dela Cruz Sr.', 'Maria Santos', 'Jose Reyes', 'Ana Garcia', 'Pedro Ramos'];
+        $addresses = [
+            'Barangay 1, Taysan, Batangas',
+            'Barangay 2, Taysan, Batangas',
+            'Barangay 3, Taysan, Batangas',
+            'Barangay Mabayabas, Taysan, Batangas',
+            'Barangay San Isidro, Taysan, Batangas'
+        ];
+        
+        $sections = [$section11Diamond, $section11Ruby, $section12Diamond, $section12Ruby];
+        
+        for ($i = 1; $i <= 25; $i++) {
+            $section = $sections[($i - 1) % 4];
+            $lrn = '10982390' . str_pad($i, 4, '0', STR_PAD_LEFT);
+            
+            $student = User::create([
+                'first_name' => $firstNames[$i - 1],
+                'middle_name' => 'M.',
+                'last_name' => $lastNames[$i - 1],
+                'email' => "student{$i}@tshsems.local",
+                'login_id' => $lrn,
+                'password' => Hash::make('password123'),
+                'role' => 'student',
+                'is_active' => true,
+            ]);
+            
+            StudentProfile::create([
+                'user_id' => $student->id,
+                'lrn' => $lrn,
+                'strand_id' => $section->strand_id,
+                'current_section_id' => $section->id,
+                'guardian_name' => $guardianNames[$i % 5],
+                'guardian_contact' => '0912345' . str_pad($i, 4, '0', STR_PAD_LEFT),
+                'birthdate' => now()->subYears(rand(16, 18))->format('Y-m-d'),
+                'address' => $addresses[$i % 5],
+            ]);
+            
+            $students[] = $student;
+        }
 
         // Create Academic Periods
         $period1 = AcademicPeriod::create([
@@ -111,53 +216,6 @@ class DatabaseSeeder extends Seeder
             'name' => '2nd Semester',
             'status' => 'Active',
         ]);
-
-        // Create Tracks
-        $academicTrack = Track::create([
-            'code' => 'ACAD',
-            'description' => 'Academic Track',
-        ]);
-
-        // Create Strands
-        $stem = Strand::create([
-            'track_id' => $academicTrack->id,
-            'code' => 'STEM',
-            'name' => 'STEM (Science, Technology, Engineering, Mathematics)',
-        ]);
-
-        $abm = Strand::create([
-            'track_id' => $academicTrack->id,
-            'code' => 'ABM',
-            'name' => 'ABM (Accountancy, Business, Management)',
-        ]);
-
-        // Create Sections
-        $section11Diamond = Section::create([
-            'school_year_id' => $schoolYear->id,
-            'name' => 'Diamond',
-            'grade_level' => 11,
-            'strand_id' => $stem->id,
-            'adviser_id' => $teachers[0]->id,
-            'max_students' => 40,
-        ]);
-
-        $section12Diamond = Section::create([
-            'school_year_id' => $schoolYear->id,
-            'name' => 'Diamond',
-            'grade_level' => 12,
-            'strand_id' => $abm->id,
-            'adviser_id' => $teachers[1]->id,
-            'max_students' => 40,
-        ]);
-
-        // Assign students to sections
-        foreach ($students as $index => $student) {
-            $section = $index < 10 ? $section11Diamond : $section12Diamond;
-            $student->studentProfile()->update([
-                'current_section_id' => $section->id,
-                'strand_id' => $section->strand_id,
-            ]);
-        }
 
         // Create Subjects
         $math = Subject::create([
@@ -229,18 +287,18 @@ class DatabaseSeeder extends Seeder
             'room' => '102',
         ]);
 
-        // Enroll students
-        foreach ($students as $index => $student) {
-            if ($index < 10) {
+        // Enroll students in their section's schedules
+        foreach ($students as $student) {
+            $profile = $student->studentProfile;
+            $section = $profile->currentSection;
+            
+            // Get all class schedules for this section
+            $schedules = ClassSchedule::where('section_id', $section->id)->get();
+            
+            foreach ($schedules as $schedule) {
                 StudentSubjectEnrollment::create([
                     'student_id' => $student->id,
-                    'class_schedule_id' => $schedule1->id,
-                    'status' => 'enrolled',
-                ]);
-
-                StudentSubjectEnrollment::create([
-                    'student_id' => $student->id,
-                    'class_schedule_id' => $schedule2->id,
+                    'class_schedule_id' => $schedule->id,
                     'status' => 'enrolled',
                 ]);
             }
@@ -302,46 +360,57 @@ class DatabaseSeeder extends Seeder
             'is_published' => true,
         ]);
 
-        // Add scores for first 10 students
-        for ($i = 0; $i < 10; $i++) {
+        // Add scores for enrolled students in schedule1
+        $enrolledStudents = StudentSubjectEnrollment::where('class_schedule_id', $schedule1->id)->get();
+        
+        foreach ($enrolledStudents as $enrollment) {
+            $student = $enrollment->student;
+            
             StudentScore::create([
                 'assessment_id' => $assessment1->id,
-                'student_id' => $students[$i]->id,
+                'student_id' => $student->id,
                 'score' => rand(35, 50),
             ]);
 
             StudentScore::create([
                 'assessment_id' => $assessment2->id,
-                'student_id' => $students[$i]->id,
+                'student_id' => $student->id,
                 'score' => rand(70, 95),
             ]);
 
             StudentScore::create([
                 'assessment_id' => $assessment3->id,
-                'student_id' => $students[$i]->id,
+                'student_id' => $student->id,
                 'score' => rand(60, 95),
             ]);
 
             // Create quarterly grades
-            $initialGrade = (rand(35, 50) + rand(70, 95) + rand(60, 95)) / 3 * (0.25 + 0.50 + 0.25);
-            $finalGrade = GradeTransmutation::transmute($initialGrade);
+            $writtenScore = rand(35, 50);
+            $performanceScore = rand(70, 95);
+            $examScore = rand(60, 95);
+            
+            $initialGrade = ($writtenScore / 50 * 100 * 0.25) + 
+                          ($performanceScore / 100 * 100 * 0.50) + 
+                          ($examScore / 100 * 100 * 0.25);
+                          
+            $finalGrade = 75 + ($initialGrade - 60) * (100 - 75) / (100 - 60); // Simple transmutation
 
             QuarterlyGrade::create([
-                'student_id' => $students[$i]->id,
+                'student_id' => $student->id,
                 'class_schedule_id' => $schedule1->id,
                 'quarter' => 1,
                 'initial_grade' => $initialGrade,
-                'final_grade' => $finalGrade,
+                'final_grade' => round($finalGrade),
                 'remarks' => $finalGrade >= 75 ? 'Passed' : 'Failed',
-                'status' => 'Approved',
-                'approved_at' => now(),
-                'approved_by' => $registrar->id,
+                'status' => rand(0, 1) ? 'Approved' : 'Submitted',
+                'approved_at' => rand(0, 1) ? now() : null,
+                'approved_by' => rand(0, 1) ? $registrar->id : null,
             ]);
 
             // Add sample attendance
             for ($day = 1; $day <= 20; $day++) {
                 Attendance::create([
-                    'student_id' => $students[$i]->id,
+                    'student_id' => $student->id,
                     'class_schedule_id' => $schedule1->id,
                     'date' => now()->subDays(20 - $day),
                     'status' => ['Present', 'Present', 'Present', 'Late', 'Absent'][rand(0, 4)],

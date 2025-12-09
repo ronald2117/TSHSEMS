@@ -8,6 +8,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\AcademicStructureController;
 use App\Http\Controllers\Admin\GradeManagementController;
+use App\Http\Controllers\Admin\StudentManagementController;
+use App\Http\Controllers\Admin\TeacherManagementController;
 use App\Http\Controllers\Teacher\GradingController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Student\GradesController;
@@ -39,6 +41,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // User Management
     Route::resource('users', UserManagementController::class);
     Route::post('users/{user}/toggle-status', [UserManagementController::class, 'toggleStatus'])->name('users.toggle-status');
+
+    // Student Management (with Profiles)
+    Route::get('students', [StudentManagementController::class, 'index'])->name('students.index');
+    Route::get('students/create', [StudentManagementController::class, 'create'])->name('students.create');
+    Route::post('students', [StudentManagementController::class, 'store'])->name('students.store');
+    Route::get('students/{student}/edit', [StudentManagementController::class, 'edit'])->name('students.edit');
+    Route::put('students/{student}', [StudentManagementController::class, 'update'])->name('students.update');
+    Route::delete('students/{student}', [StudentManagementController::class, 'destroy'])->name('students.destroy');
+
+    // Teacher Management (with Profiles)
+    Route::get('teachers', [TeacherManagementController::class, 'index'])->name('teachers.index');
+    Route::get('teachers/create', [TeacherManagementController::class, 'create'])->name('teachers.create');
+    Route::post('teachers', [TeacherManagementController::class, 'store'])->name('teachers.store');
+    Route::get('teachers/{teacher}/edit', [TeacherManagementController::class, 'edit'])->name('teachers.edit');
+    Route::put('teachers/{teacher}', [TeacherManagementController::class, 'update'])->name('teachers.update');
+    Route::delete('teachers/{teacher}', [TeacherManagementController::class, 'destroy'])->name('teachers.destroy');
 
     // Academic Structure - School Years
     Route::resource('school-years', AcademicStructureController::class);

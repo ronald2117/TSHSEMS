@@ -145,6 +145,32 @@ class AcademicStructureController extends Controller
         return redirect()->route('admin.subjects.index')->with('success', 'Subject created.');
     }
 
+    public function editSubject(Subject $subject): View
+    {
+        return view('admin.subjects.edit', compact('subject'));
+    }
+
+    public function updateSubject(Request $request, Subject $subject): RedirectResponse
+    {
+        $validated = $request->validate([
+            'code' => 'required|string|unique:subjects,code,' . $subject->id,
+            'name' => 'required|string',
+            'type' => 'required|in:Core,Applied,Specialized',
+            'units' => 'required|integer|min:1',
+        ]);
+
+        $subject->update($validated);
+
+        return redirect()->route('admin.subjects.index')->with('success', 'Subject updated.');
+    }
+
+    public function destroySubject(Subject $subject): RedirectResponse
+    {
+        $subject->delete();
+
+        return redirect()->route('admin.subjects.index')->with('success', 'Subject deleted.');
+    }
+
     // Generic Resource Methods
     public function index(): View
     {

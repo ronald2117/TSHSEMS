@@ -59,6 +59,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('subjects', [AcademicStructureController::class, 'indexSubjects'])->name('subjects.index');
     Route::get('subjects/create', [AcademicStructureController::class, 'createSubject'])->name('subjects.create');
     Route::post('subjects', [AcademicStructureController::class, 'storeSubject'])->name('subjects.store');
+    Route::get('subjects/{subject}/edit', [AcademicStructureController::class, 'editSubject'])->name('subjects.edit');
+    Route::put('subjects/{subject}', [AcademicStructureController::class, 'updateSubject'])->name('subjects.update');
+    Route::delete('subjects/{subject}', [AcademicStructureController::class, 'destroySubject'])->name('subjects.destroy');
 
     // Grade Management (Registrar Admin)
     Route::middleware('registrar-admin')->group(function () {

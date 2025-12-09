@@ -18,10 +18,10 @@ See `app/Models/User.php` for role check methods (`isAdmin()`, `isSuperAdmin()`,
 
 ### Critical Data Flow: Academic Structure
 ```
-School Year (2025-2026)
-├── Academic Period (1st Semester)
-└── Sections (Grade 11 Diamond)
-    ├── Strand (STEM, ABM, HUMSS, etc.)
+School Year (e.g. 2025-2026)
+├── Academic Period (e.g. 1st Semester)
+└── Sections (e.g. Grade 11 Diamond)
+    ├── Strand (e.g. STEM, ABM, HUMSS, etc.)
     ├── Adviser
     └── Class Schedules (Subject + Teacher assignments)
         └── Student Subject Enrollments

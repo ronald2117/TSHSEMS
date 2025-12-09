@@ -172,7 +172,6 @@ class ActivityLog extends Model
         );
     }
 
-    // Announcement logging
     public static function logCreateAnnouncement(User $admin, Announcement $announcement): self
     {
         return static::log(
@@ -209,7 +208,6 @@ class ActivityLog extends Model
         );
     }
 
-    // Assessment logging
     public static function logCreateAssessment(User $teacher, Assessment $assessment): self
     {
         return static::log(
@@ -273,7 +271,6 @@ class ActivityLog extends Model
         );
     }
 
-    // Section logging
     public static function logUpdateSection(User $admin, Section $section): self
     {
         return static::log(
@@ -292,7 +289,6 @@ class ActivityLog extends Model
         );
     }
 
-    // Schedule logging
     public static function logUpdateSchedule(User $admin, ClassSchedule $schedule): self
     {
         return static::log(

@@ -6,12 +6,37 @@
     <title>Login - TSHSEMS</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen flex items-center justify-center">
-    <div class="w-full max-w-md">
+<body class="min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('tshsems_school_bg.png') }}');">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="{{ asset('tshs_logo.png') }}" alt="TSHS Logo" class="h-12 w-12">
+                    <span class="ml-2 text-xl font-bold text-gray-800">Taysan Senior Highschool</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="{{ url('/') }}" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
+                        Home
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
+                        Help & Support
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
+                        Privacy Policy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Container -->
+    <div class="flex items-center justify-center min-h-[calc(100vh-4rem)] py-12">
+        <div class="w-full max-w-md">
         <div class="bg-white rounded-2xl shadow-lg p-8">
             <!-- Logo -->
             <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">TSHSEMS</h1>
+                <h1 class="text-3xl font-bold text-gray-900">Taysan SHS</h1>
                 <p class="text-gray-600 mt-2">Evaluation Management System</p>
             </div>
 
@@ -68,6 +93,7 @@
                     New user accounts must be created by system administrators.
                 </p>
             </div>
+        </div>
         </div>
     </div>
 </body>

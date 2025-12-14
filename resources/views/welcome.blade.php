@@ -15,18 +15,18 @@
                     <img src="{{ asset('tshs_logo.png') }}" alt="TSHS Logo" class="h-12 w-12">
                     <span class="ml-2 text-xl font-bold text-gray-800">Taysan Senior Highschool</span>
                 </div>
-                <div class="flex items-center">
+                <!-- <div class="flex items-center">
                     <a href="{{ route('login') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                         Login
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <div class="relative bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('tshsems_school_bg.png') }}');">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
             <div class="text-center">
                 <h1 class="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl">
                     <span class="block">Taysan Senior High School</span>
@@ -36,7 +36,7 @@
                     A comprehensive digital platform for managing academic evaluations, grading, attendance, and student records in compliance with DepEd standards.
                 </p>
                 <div class="flex justify-center">
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center mt-5 px-10 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
                         Access System
                         <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>

@@ -25,9 +25,9 @@
                     <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
                         Privacy Policy
                     </a>
-                    <a href="{{ route('login') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <!-- <a href="{{ route('login') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                         Login
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </div>

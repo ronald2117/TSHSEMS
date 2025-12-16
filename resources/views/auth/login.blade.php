@@ -34,7 +34,7 @@
     <div class="flex items-center justify-center min-h-[calc(100vh-4rem)] py-12">
         <div class="w-full max-w-md">
         <div class="bg-white rounded-2xl shadow-lg p-8">
-            <!-- Logo -->
+            <img src="{{ asset('tshs_logo.png') }}" alt="TSHS Logo" class="h-15 w-15 mb-5 mx-auto">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Taysan SHS</h1>
                 <p class="text-gray-600 mt-2">Evaluation Management System</p>

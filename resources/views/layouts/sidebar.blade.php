@@ -1,9 +1,12 @@
 <!-- Sidebar Navigation -->
 <div class="w-64 bg-white shadow-sm flex flex-col">
     <!-- Logo Section -->
-    <div class="p-6 border-b border-gray-100">
-        <h1 class="text-xl font-bold text-gray-900">TSHSEMS</h1>
-        <p class="text-xs text-gray-500">Evaluation System</p>
+    <div class="flex p-6 border-b border-gray-100">
+        <img src="{{ asset('tshs_logo.png') }}" alt="tshs_logo" class="mr-2">
+        <div>
+            <h1 class="text-xl font-bold text-gray-900">TSHSEMS</h1>
+            <p class="text-xs text-gray-500 capitalize">{{ str_replace('_', ' ', auth()->user()->role) }}</p>
+        </div>
     </div>
 
     <!-- Navigation Menu -->
@@ -36,12 +39,12 @@
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
                     Dashboard
                 </x-nav-link>
+                <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
+                    Users
+                </x-nav-link>
                 
                 @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'academic_admin')
                     <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Academic</div>
-                    <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
-                        Users
-                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.students.index') }}" :active="request()->routeIs('admin.students.*')" icon="academic-cap">
                         Students
                     </x-nav-link>

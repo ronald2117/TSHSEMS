@@ -120,7 +120,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg transition">
+                <button type="submit" class="cursor-pointer w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg transition">
                     Sign In
                 </button>
             </form>

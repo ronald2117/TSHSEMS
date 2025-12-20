@@ -78,16 +78,4 @@
             @endif
         </div>
     </nav>
-
-    <!-- User Profile Footer -->
-    <div class="border-t border-gray-100 p-4">
-        <div class="flex items-center space-x-3">
-            <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->full_name) }}&background=22c55e&color=fff" 
-                 alt="" class="w-10 h-10 rounded-full">
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->full_name }}</p>
-                <p class="text-xs text-gray-500 capitalize">{{ auth()->user()->role }}</p>
-            </div>
-        </div>
-    </div>
 </div>

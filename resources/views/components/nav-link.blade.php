@@ -1,7 +1,7 @@
 @props(['href', 'active' => false, 'icon' => null])
 
 <a href="{{ $href }}" 
-   class="flex items-center space-x-3 px-4 py-3 rounded-lg transition {{ $active ? 'bg-green-500 text-white' : 'text-gray-600 hover:bg-gray-50' }}">
+   class="flex items-center space-x-3 px-4 py-3 rounded-lg transition {{ $active ? 'bg-green-600 text-white' : 'text-gray-600 hover:bg-gray-50' }}">
     @if($icon)
         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             @if($icon === 'home')

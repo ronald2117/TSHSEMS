@@ -11,11 +11,32 @@ use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $users = User::where('role', '!=', 'student')
-            ->orderByDesc('created_at')
-            ->paginate(20);
+        $query = User::where('role', '!=', 'student');
+
+        // Filter by role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status === 'active');
+        }
+
+        // Search by name, email, or login_id
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('login_id', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->orderByDesc('created_at')->paginate(20)->withQueryString();
 
         return view('admin.users.index', ['users' => $users]);
     }
@@ -34,16 +55,24 @@ class UserManagementController extends Controller
             'login_id' => 'nullable|string|unique:users',
             'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher',
             'password' => 'required|string|min:8',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
-        User::create([
+        // Handle avatar upload
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        $user = User::create([
             ...$validated,
             'password' => Hash::make($validated['password']),
+            'avatar_path' => $avatarPath,
             'is_active' => true,
         ]);
 
         if (in_array($validated['role'], ['teacher'])) {
-            User::latest()->first()->teacherProfile()->create();
+            $user->teacherProfile()->create();
         }
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
@@ -61,7 +90,25 @@ class UserManagementController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email,' . $user->id,
             'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
+
+        // Handle avatar removal
+        if ($request->has('remove_avatar') && $request->remove_avatar) {
+            if ($user->avatar_path && file_exists(public_path('storage/' . $user->avatar_path))) {
+                unlink(public_path('storage/' . $user->avatar_path));
+            }
+            $validated['avatar_path'] = null;
+        }
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($user->avatar_path && file_exists(public_path('storage/' . $user->avatar_path))) {
+                unlink(public_path('storage/' . $user->avatar_path));
+            }
+            $validated['avatar_path'] = $request->file('avatar')->store('avatars', 'public');
+        }
 
         $user->update($validated);
 

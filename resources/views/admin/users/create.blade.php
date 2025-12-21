@@ -6,8 +6,29 @@
 @section('content')
 <div class="p-6">
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8">
-        <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.users.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
+
+            <!-- Avatar Upload -->
+            <div class="flex flex-col items-center pb-6 border-b border-gray-100">
+                <div class="mb-4">
+                    <div id="avatar-preview" class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                        <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <label for="avatar" class="cursor-pointer bg-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                        Choose Avatar
+                        <input type="file" id="avatar" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(event)">
+                    </label>
+                    <p class="text-xs text-gray-500">JPG, PNG or GIF (Max 2MB)</p>
+                </div>
+                @error('avatar')
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="grid grid-cols-2 gap-6">
                 <!-- First Name -->
@@ -108,4 +129,19 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewAvatar(event) {
+    const preview = document.getElementById('avatar-preview');
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Avatar preview">`;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 @endsection

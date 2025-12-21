@@ -15,24 +15,23 @@ class UserManagementController extends Controller
     {
         $query = User::where('role', '!=', 'student');
 
-        // Filter by role
-        if ($request->filled('role')) {
-            $query->where('role', $request->role);
-        }
-
-        // Filter by status
-        if ($request->filled('status')) {
-            $query->where('is_active', $request->status === 'active');
-        }
-
-        // Search by name, email, or login_id
+        // Smart search across multiple fields including role and status
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = strtolower($request->search);
             $query->where(function($q) use ($search) {
                 $q->where('first_name', 'like', "%{$search}%")
                   ->orWhere('last_name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('login_id', 'like', "%{$search}%");
+                  ->orWhere('login_id', 'like', "%{$search}%")
+                  ->orWhere('role', 'like', "%{$search}%");
+                  
+                // Handle status keywords
+                if (str_contains($search, 'active')) {
+                    $q->orWhere('is_active', true);
+                }
+                if (str_contains($search, 'inactive') || str_contains($search, 'disabled')) {
+                    $q->orWhere('is_active', false);
+                }
             });
         }
 

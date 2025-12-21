@@ -4,40 +4,56 @@
 @section('page_subtitle', 'Manage system users, teachers, and admin accounts.')
 
 @section('toolbar')
-    <div class="flex items-center space-x-4">
-        <form method="GET" action="{{ route('admin.users.index') }}" class="flex items-center space-x-3">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users..." class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-            
-            <select name="role" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="">All Roles</option>
-                <option value="super_admin" {{ request('role') === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
-                <option value="academic_admin" {{ request('role') === 'academic_admin' ? 'selected' : '' }}>Academic Admin</option>
-                <option value="registrar_admin" {{ request('role') === 'registrar_admin' ? 'selected' : '' }}>Registrar Admin</option>
-                <option value="technical_admin" {{ request('role') === 'technical_admin' ? 'selected' : '' }}>Technical Admin</option>
-                <option value="teacher" {{ request('role') === 'teacher' ? 'selected' : '' }}>Teacher</option>
-            </select>
-            
-            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                <option value="">All Status</option>
-                <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
-            </select>
-            
-            <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition">
-                Filter
-            </button>
-            
-            @if(request()->hasAny(['search', 'role', 'status']))
-                <a href="{{ route('admin.users.index') }}" class="text-gray-600 hover:text-gray-800 px-4 py-2 font-medium transition">
-                    Clear
+    <div class="flex items-center justify-between gap-4 w-full">
+        <!-- Smart Search -->
+        <div class="relative flex-1">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" 
+                   id="smart-search" 
+                   value="{{ request('search') }}" 
+                   placeholder="Search by name, email, role, or status..." 
+                   class="w-full pl-10 pr-10 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            @if(request('search'))
+                <a href="{{ route('admin.users.index') }}" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                 </a>
             @endif
-        </form>
+        </div>
         
-        <a href="{{ route('admin.users.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition">
-            + Add User
+        <!-- Add User Button -->
+        <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add User
         </a>
     </div>
+
+    <script>
+        // Smart search with debounce
+        const searchInput = document.getElementById('smart-search');
+        let debounceTimer;
+        
+        searchInput.addEventListener('input', function(e) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const searchValue = e.target.value;
+                const url = new URL(window.location.href);
+                
+                if (searchValue) {
+                    url.searchParams.set('search', searchValue);
+                } else {
+                    url.searchParams.delete('search');
+                }
+                
+                window.location.href = url.toString();
+            }, 500); // 500ms delay
+        });
+    </script>
 @endsection
 
 @section('content')

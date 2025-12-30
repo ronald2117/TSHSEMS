@@ -85,8 +85,8 @@
                                 @if($user->avatar_path && file_exists(public_path('storage/' . $user->avatar_path)))
                                     <img src="{{ asset('storage/' . $user->avatar_path) }}" alt="{{ $user->full_name }}" class="w-10 h-10 rounded-full object-cover">
                                 @else
-                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                                        <span class="text-green-600 font-semibold text-sm">{{ strtoupper(substr($user->first_name, 0, 1)) }}{{ strtoupper(substr($user->last_name, 0, 1)) }}</span>
+                                    <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                        <span class="text-white text-sm">{{ strtoupper(substr($user->first_name, 0, 1)) }}{{ strtoupper(substr($user->last_name, 0, 1)) }}</span>
                                     </div>
                                 @endif
                                 <div>
@@ -112,7 +112,7 @@
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center space-x-3">
                                 <a href="{{ route('admin.users.edit', $user) }}" 
-                                   class="text-blue-600 hover:text-blue-700 transition" 
+                                   class="text-blue-600 hover:text-blue-700 transition mb-1" 
                                    title="Edit">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />

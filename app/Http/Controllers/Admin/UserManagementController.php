@@ -13,7 +13,7 @@ class UserManagementController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = User::where('role', '!=', 'student');
+        $query = User::query();
 
         // Smart search across multiple fields including role and status
         if ($request->filled('search')) {

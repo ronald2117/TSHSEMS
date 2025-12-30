@@ -1,13 +1,10 @@
 @extends('layouts.app')
 
+@section('page_title', 'Student Profile Management')
 @section('content')
 <div class="p-6">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Students</h1>
-            <p class="text-sm text-gray-600 mt-1">Manage student profiles and information</p>
-        </div>
+    <div class="flex justify-end items-center mb-6">
         <a href="{{ route('admin.students.create') }}" 
            class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

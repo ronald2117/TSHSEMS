@@ -13,12 +13,37 @@ use Illuminate\Validation\Rule;
 
 class StudentManagementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = User::where('role', 'student')
-            ->with('studentProfile.strand', 'studentProfile.currentSection')
-            ->latest()
-            ->paginate(20);
+        $query = User::where('role', 'student')
+            ->with('studentProfile.strand', 'studentProfile.currentSection');
+
+        // Smart search across multiple fields
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('middle_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('login_id', 'like', "%{$search}%")
+                  ->orWhereHas('studentProfile', function($q) use ($search) {
+                      $q->where('lrn', 'like', "%{$search}%")
+                        ->orWhere('guardian_name', 'like', "%{$search}%")
+                        ->orWhere('guardian_contact', 'like', "%{$search}%")
+                        ->orWhereHas('strand', function($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%")
+                              ->orWhere('code', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('currentSection', function($q) use ($search) {
+                            $q->where('name', 'like', "%{$search}%")
+                              ->orWhere('grade_level', 'like', "%{$search}%");
+                        });
+                  });
+            });
+        }
+
+        $students = $query->latest()->paginate(20)->withQueryString();
 
         return view('admin.students.index', compact('students'));
     }

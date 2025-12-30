@@ -1,18 +1,63 @@
 @extends('layouts.app')
 
 @section('page_title', 'Student Profile Management')
-@section('content')
-<div class="p-6">
-    <!-- Header -->
-    <div class="flex justify-end items-center mb-6">
-        <a href="{{ route('admin.students.create') }}" 
-           class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+@section('page_subtitle', 'Manage student profiles, enrollment, and information.')
+
+@section('toolbar')
+    <div class="flex items-center justify-between gap-4 w-full">
+        <!-- Smart Search -->
+        <div class="relative flex-1">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            New Student
+            <input type="text" 
+                   id="smart-search" 
+                   value="{{ request('search') }}" 
+                   placeholder="Search by name, LRN, email, strand, section, or guardian..." 
+                   class="w-full pl-10 pr-10 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            @if(request('search'))
+                <a href="{{ route('admin.students.index') }}" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </a>
+            @endif
+        </div>
+        
+        <!-- Add Student Button -->
+        <a href="{{ route('admin.students.create') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Student
         </a>
     </div>
+
+    <script>
+        // Smart search with debounce
+        const searchInput = document.getElementById('smart-search');
+        let debounceTimer;
+        
+        searchInput.addEventListener('input', function(e) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const searchValue = e.target.value;
+                const url = new URL(window.location.href);
+                
+                if (searchValue) {
+                    url.searchParams.set('search', searchValue);
+                } else {
+                    url.searchParams.delete('search');
+                }
+                
+                window.location.href = url.toString();
+            }, 500); // 500ms delay
+        });
+    </script>
+@endsection
+
+@section('content')
+<div class="p-6">
 
     <!-- Success Message -->
     @if(session('success'))

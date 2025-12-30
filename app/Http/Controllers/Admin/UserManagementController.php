@@ -52,7 +52,7 @@ class UserManagementController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
             'login_id' => 'nullable|string|unique:users',
-            'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher',
+            'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher,student',
             'password' => 'required|string|min:8',
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
@@ -88,7 +88,7 @@ class UserManagementController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email,' . $user->id,
-            'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher',
+            'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher,student',
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 

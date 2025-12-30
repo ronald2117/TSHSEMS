@@ -109,6 +109,7 @@
                     <option value="registrar_admin" {{ old('role', $user->role) === 'registrar_admin' ? 'selected' : '' }}>Registrar Admin</option>
                     <option value="technical_admin" {{ old('role', $user->role) === 'technical_admin' ? 'selected' : '' }}>Technical Admin</option>
                     <option value="teacher" {{ old('role', $user->role) === 'teacher' ? 'selected' : '' }}>Teacher</option>
+                    <option value="student" {{ old('role', $user->role) === 'student' ? 'selected' : '' }}>Student</option>
                 </select>
                 @error('role')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

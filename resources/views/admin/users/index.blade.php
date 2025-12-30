@@ -95,14 +95,14 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-gray-600">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">{{ $user->email }}</td>
                         <td class="px-6 py-4">
-                            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 capitalize">
+                            <span class="text-center text-sm text-gray-600 capitalize">
                                 {{ str_replace('_', ' ', $user->role) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                            <span class="text-center text-sm text-gray-600">
                                 {{ $user->is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </td>

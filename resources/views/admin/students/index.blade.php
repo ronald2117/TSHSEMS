@@ -72,36 +72,29 @@
             <table class="w-full">
                 <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Student Info
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            LRN
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Strand
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Section
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Guardian
-                        </th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                            Actions
-                        </th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Student Info</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">LRN</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Strand</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Section</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Guardian</th>
+                        <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     @forelse($students as $student)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <img src="https://ui-avatars.com/api/?name={{ urlencode($student->full_name) }}&background=22c55e&color=fff" 
-                                         alt="" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex items-center space-x-3">
+                                    @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
+                                        <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="w-10 h-10 rounded-full object-cover">
+                                    @else
+                                        <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                            <span class="text-white text-sm">{{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}</span>
+                                        </div>
+                                    @endif
                                     <div>
-                                        <div class="font-medium text-gray-900">{{ $student->full_name }}</div>
-                                        <div class="text-sm text-gray-500">{{ $student->email }}</div>
+                                        <p class="font-medium text-gray-900">{{ $student->full_name }}</p>
+                                        <p class="text-sm text-gray-600">{{ $student->login_id }}</p>
                                     </div>
                                 </div>
                             </td>
@@ -113,11 +106,8 @@
                             <td class="px-6 py-4">
                                 @if($student->studentProfile && $student->studentProfile->strand)
                                     <span class="text-sm text-gray-900">
-                                        {{ $student->studentProfile->strand->name }}
-                                    </span>
-                                    <div class="text-xs text-gray-500">
                                         {{ $student->studentProfile->strand->code }}
-                                    </div>
+                                    </span>
                                 @else
                                     <span class="text-sm text-gray-400">N/A</span>
                                 @endif
@@ -143,20 +133,24 @@
                                     <span class="text-sm text-gray-400">N/A</span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-right">
-                                <div class="flex items-center justify-end gap-2">
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex items-center justify-center space-x-3">
                                     <a href="{{ route('admin.students.edit', $student) }}" 
-                                       class="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                                        Edit
+                                       class="text-gray-600 hover:text-gray-700 transition mb-1" 
+                                       title="Edit">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
                                     </a>
-                                    <form action="{{ route('admin.students.destroy', $student) }}" 
-                                          method="POST" 
-                                          onsubmit="return confirm('Are you sure you want to delete this student?')"
-                                          class="inline">
+                                    <form method="POST" action="{{ route('admin.students.destroy', $student) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete this student?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm">
-                                            Delete
+                                        <button type="submit" 
+                                                class="text-gray-600 hover:text-gray-700 transition" 
+                                                title="Delete">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
                                         </button>
                                     </form>
                                 </div>

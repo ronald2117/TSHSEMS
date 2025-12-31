@@ -8,27 +8,7 @@
 </head>
 <body class="min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('tshsems_school_bg.png') }}');">
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <img src="{{ asset('tshs_logo.png') }}" alt="TSHS Logo" class="h-12 w-12">
-                    <span class="ml-2 text-xl font-bold text-gray-800">Taysan Senior Highschool</span>
-                </div>
-                <div class="flex items-center space-x-6">
-                    <a href="{{ url('/') }}" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
-                        Home
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
-                        Help & Support
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
-                        Privacy Policy
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <x-header />
 
     <!-- Login Container -->
     <div class="flex items-center justify-center min-h-[calc(100vh-4rem)] py-12">

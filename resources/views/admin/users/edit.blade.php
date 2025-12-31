@@ -17,8 +17,8 @@
                         @if($user->avatar_path && file_exists(public_path('storage/' . $user->avatar_path)))
                             <img src="{{ asset('storage/' . $user->avatar_path) }}" class="w-full h-full object-cover" alt="{{ $user->full_name }}">
                         @else
-                            <div class="w-full h-full bg-green-100 flex items-center justify-center">
-                                <span class="text-green-600 font-semibold text-xl">{{ strtoupper(substr($user->first_name, 0, 1)) }}{{ strtoupper(substr($user->last_name, 0, 1)) }}</span>
+                            <div class="w-full h-full bg-green-600 flex items-center justify-center">
+                                <span class="text-white font-semibold text-4xl">{{ strtoupper(substr($user->first_name, 0, 1)) }}{{ strtoupper(substr($user->last_name, 0, 1)) }}</span>
                             </div>
                         @endif
                     </div>

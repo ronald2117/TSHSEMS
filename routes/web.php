@@ -20,6 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/help-support', function () {
+    return view('help-support');
+})->name('help-support');
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');
+
 // Authentication Routes (NO PUBLIC REGISTRATION - Admin-only user creation)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');

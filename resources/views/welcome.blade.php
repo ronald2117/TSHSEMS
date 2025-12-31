@@ -16,18 +16,18 @@
                     <span class="ml-2 text-xl font-bold text-gray-800">Taysan Senior Highschool</span>
                 </div>
                 <div class="flex items-center space-x-6">
-                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
+                    <a href="{{ route('welcome') }}" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
                         Home
                     </a>
-                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
+                    <a href="{{ route('help-support') }}" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
                         Help & Support
                     </a>
-                    <a href="#" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
+                    <a href="{{ route('privacy-policy') }}" class="text-gray-600 hover:text-green-600 text-sm font-medium transition">
                         Privacy Policy
                     </a>
-                    <!-- <a href="{{ route('login') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <a href="{{ route('login') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                         Login
-                    </a> -->
+                    </a>
                 </div>
             </div>
         </div>
@@ -212,12 +212,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center text-gray-400 hover:text-green-400 transition-colors text-sm">
+                            <a href="{{ route('help-support') }}" class="flex items-center text-gray-400 hover:text-green-400 transition-colors text-sm">
                                 Help & Support
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center text-gray-400 hover:text-green-400 transition-colors text-sm">
+                            <a href="{{ route('privacy-policy') }}" class="flex items-center text-gray-400 hover:text-green-400 transition-colors text-sm">
                                 Privacy Policy
                             </a>
                         </li>

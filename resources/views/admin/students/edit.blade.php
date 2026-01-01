@@ -3,30 +3,13 @@
 @section('content')
 <div class="p-6">
     <!-- Header -->
-    <div class="mb-6">
+    <div class="mb-2">
         <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <a href="{{ route('admin.students.index') }}" class="hover:text-green-600">Students</a>
             <span>/</span>
             <span class="text-gray-900">Edit Student</span>
         </div>
         <h1 class="text-2xl font-bold text-gray-900">Edit Student: {{ $student->full_name }}</h1>
-    </div>
-
-    <!-- Current Info Box -->
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-3xl">
-        <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-            </svg>
-            <div class="flex-1">
-                <h3 class="text-sm font-semibold text-blue-900 mb-1">Current Information</h3>
-                <div class="text-xs text-blue-800 space-y-1">
-                    <p><strong>LRN:</strong> {{ $student->studentProfile->lrn }}</p>
-                    <p><strong>Strand:</strong> {{ $student->studentProfile->strand->name }} ({{ $student->studentProfile->strand->code }})</p>
-                    <p><strong>Created:</strong> {{ $student->created_at->format('M d, Y') }}</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Form Card -->
@@ -174,7 +157,7 @@
                             <option value="">Select a strand</option>
                             @foreach($strands as $strand)
                                 <option value="{{ $strand->id }}" {{ old('strand_id', $student->studentProfile->strand_id) == $strand->id ? 'selected' : '' }}>
-                                    {{ $strand->code }} - {{ $strand->name }}
+                                    {{ $strand->name }}
                                 </option>
                             @endforeach
                         </select>

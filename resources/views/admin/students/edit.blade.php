@@ -1,22 +1,45 @@
 @extends('layouts.app')
 
+@section('page_title', 'Edit Student')
+@section('page_subtitle', 'Update student profile and academic information.')
+
 @section('content')
 <div class="p-6">
-    <!-- Header -->
-    <div class="mb-2">
-        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
-            <a href="{{ route('admin.students.index') }}" class="hover:text-green-600">Students</a>
-            <span>/</span>
-            <span class="text-gray-900">Edit Student</span>
-        </div>
-        <h1 class="text-2xl font-bold text-gray-900">Edit Student: {{ $student->full_name }}</h1>
-    </div>
-
-    <!-- Form Card -->
-    <div class="bg-white rounded-xl shadow-sm p-6 max-w-3xl">
-        <form action="{{ route('admin.students.update', $student) }}" method="POST">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8">
+        <form method="POST" action="{{ route('admin.students.update', $student) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
+
+            <!-- Avatar Upload -->
+            <div class="flex flex-col items-center pb-6 border-b border-gray-100">
+                <div class="mb-4">
+                    <div id="avatar-preview" class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                        @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
+                            <img src="{{ asset('storage/' . $student->avatar_path) }}" class="w-full h-full object-cover" alt="{{ $student->full_name }}">
+                        @else
+                            <div class="w-full h-full bg-green-600 flex items-center justify-center">
+                                <span class="text-white font-semibold text-4xl">{{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <label for="avatar" class="cursor-pointer bg-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                        Change Avatar
+                        <input type="file" id="avatar" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(event)">
+                    </label>
+                    @if($student->avatar_path)
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                            <span class="text-sm text-gray-600">Remove avatar</span>
+                        </label>
+                    @endif
+                </div>
+                <p class="text-xs text-gray-500 mt-2">JPG, PNG or GIF (Max 2MB)</p>
+                @error('avatar')
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
+            </div>
 
             <!-- Personal Information Section -->
             <div class="mb-6">
@@ -25,64 +48,65 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- First Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="first_name" value="{{ old('first_name', $student->first_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('first_name')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Middle Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Middle Name
                         </label>
                         <input type="text" name="middle_name" value="{{ old('middle_name', $student->middle_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Last Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="last_name" value="{{ old('last_name', $student->last_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('last_name')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Suffix -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Suffix (Jr., Sr., III, etc.)
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Suffix
                         </label>
                         <input type="text" name="suffix" value="{{ old('suffix', $student->suffix) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Jr., Sr., III, etc.">
                     </div>
 
                     <!-- Birthdate -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Birthdate
                         </label>
                         <input type="date" name="birthdate" value="{{ old('birthdate', $student->studentProfile->birthdate) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Address -->
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Address
                         </label>
                         <textarea name="address" rows="2" 
-                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('address', $student->studentProfile->address) }}</textarea>
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">{{ old('address', $student->studentProfile->address) }}</textarea>
                     </div>
                 </div>
             </div>
@@ -94,49 +118,51 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- LRN -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             LRN (Learner Reference Number) <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="lrn" value="{{ old('lrn', $student->studentProfile->lrn) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
                                required>
                         @error('lrn')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" value="{{ old('email', $student->email) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('email')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Password -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            New Password <span class="text-gray-500 text-xs">(leave blank to keep current)</span>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            New Password
                         </label>
                         <input type="password" name="password" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Leave blank to keep current">
+                        <p class="text-xs text-gray-500 mt-1">Minimum 8 characters if changing</p>
                         @error('password')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Confirm Password -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Confirm New Password
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Confirm Password
                         </label>
                         <input type="password" name="password_confirmation" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                 </div>
             </div>
@@ -148,11 +174,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Strand -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Strand <span class="text-red-500">*</span>
                         </label>
                         <select name="strand_id" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                 required>
                             <option value="">Select a strand</option>
                             @foreach($strands as $strand)
@@ -162,17 +188,17 @@
                             @endforeach
                         </select>
                         @error('strand_id')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Current Section -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Current Section
                         </label>
                         <select name="current_section_id" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                             <option value="">No section assigned</option>
                             @foreach($sections as $section)
                                 <option value="{{ $section->id }}" {{ old('current_section_id', $student->studentProfile->current_section_id) == $section->id ? 'selected' : '' }}>
@@ -181,7 +207,7 @@
                             @endforeach
                         </select>
                         @error('current_section_id')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -194,37 +220,52 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Guardian Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Guardian Name
                         </label>
                         <input type="text" name="guardian_name" value="{{ old('guardian_name', $student->studentProfile->guardian_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Guardian Contact -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Guardian Contact
                         </label>
                         <input type="text" name="guardian_contact" value="{{ old('guardian_contact', $student->studentProfile->guardian_contact) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                placeholder="e.g., 09123456789">
                     </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-3">
-                <button type="submit" 
-                        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
-                    Update Student
-                </button>
+            <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                 <a href="{{ route('admin.students.index') }}" 
-                   class="px-6 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">
+                   class="text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
+                <button type="submit" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                    Update Student
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+function previewAvatar(event) {
+    const preview = document.getElementById('avatar-preview');
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Avatar preview">`;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 @endsection

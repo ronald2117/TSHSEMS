@@ -143,7 +143,31 @@ class StudentManagementController extends Controller
             'guardian_contact' => 'nullable|string|max:255',
             'birthdate' => 'nullable|date',
             'address' => 'nullable|string',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_avatar' => 'nullable|boolean',
         ]);
+
+        // Handle avatar removal
+        if ($request->has('remove_avatar') && $request->remove_avatar) {
+            if ($student->avatar_path && \Storage::disk('public')->exists($student->avatar_path)) {
+                \Storage::disk('public')->delete($student->avatar_path);
+            }
+            $student->avatar_path = null;
+            $student->save();
+        }
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($student->avatar_path && \Storage::disk('public')->exists($student->avatar_path)) {
+                \Storage::disk('public')->delete($student->avatar_path);
+            }
+
+            // Store new avatar
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $student->avatar_path = $avatarPath;
+            $student->save();
+        }
 
         // Update user account
         $userData = [

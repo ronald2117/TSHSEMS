@@ -49,7 +49,9 @@ class UserManagementController extends Controller
     {
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
+            'suffix' => 'nullable|string|max:50',
             'email' => 'required|string|email|unique:users',
             'login_id' => 'nullable|string|unique:users',
             'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher,student',
@@ -86,10 +88,15 @@ class UserManagementController extends Controller
     {
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
+            'suffix' => 'nullable|string|max:50',
             'email' => 'required|string|email|unique:users,email,' . $user->id,
+            'login_id' => 'nullable|string|unique:users,login_id,' . $user->id,
             'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher,student',
+            'password' => 'nullable|string|min:8',
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'remove_avatar' => 'nullable|boolean',
         ]);
 
         // Handle avatar removal
@@ -107,6 +114,13 @@ class UserManagementController extends Controller
                 unlink(public_path('storage/' . $user->avatar_path));
             }
             $validated['avatar_path'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        // Handle password update
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
         }
 
         $user->update($validated);

@@ -55,6 +55,19 @@
                     @enderror
                 </div>
 
+                <!-- Middle Name -->
+                <div>
+                    <label for="middle_name" class="block text-sm font-medium text-gray-700 mb-2">
+                        Middle Name
+                    </label>
+                    <input type="text" name="middle_name" id="middle_name"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           value="{{ old('middle_name', $user->middle_name) }}">
+                    @error('middle_name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Last Name -->
                 <div>
                     <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">
@@ -64,6 +77,20 @@
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('last_name', $user->last_name) }}">
                     @error('last_name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Suffix -->
+                <div>
+                    <label for="suffix" class="block text-sm font-medium text-gray-700 mb-2">
+                        Suffix
+                    </label>
+                    <input type="text" name="suffix" id="suffix"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           value="{{ old('suffix', $user->suffix) }}"
+                           placeholder="Jr., Sr., III, etc.">
+                    @error('suffix')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>

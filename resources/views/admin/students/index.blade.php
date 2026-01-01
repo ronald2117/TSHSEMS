@@ -94,7 +94,7 @@
                                     @endif
                                     <div>
                                         <p class="font-medium text-gray-900">{{ $student->full_name }}</p>
-                                        <p class="text-sm text-gray-600">{{ $student->login_id }}</p>
+                                        <p class="text-sm text-gray-600">{{ $student->email }}</p>
                                     </div>
                                 </div>
                             </td>

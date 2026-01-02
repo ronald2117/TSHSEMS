@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\TeacherProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class TeacherManagementController extends Controller
@@ -90,7 +91,30 @@ class TeacherManagementController extends Controller
             'employee_id' => ['required', 'string', Rule::unique('users', 'login_id')->ignore($teacher->id)],
             'department' => 'nullable|string|max:255',
             'specialization' => 'nullable|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_avatar' => 'nullable|boolean',
         ]);
+
+        // Handle avatar removal
+        if ($request->has('remove_avatar') && $request->remove_avatar) {
+            if ($teacher->avatar_path && Storage::disk('public')->exists($teacher->avatar_path)) {
+                Storage::disk('public')->delete($teacher->avatar_path);
+            }
+            $teacher->avatar_path = null;
+            $teacher->save();
+        }
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($teacher->avatar_path && Storage::disk('public')->exists($teacher->avatar_path)) {
+                Storage::disk('public')->delete($teacher->avatar_path);
+            }
+            // Store new avatar
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $teacher->avatar_path = $avatarPath;
+            $teacher->save();
+        }
 
         // Update user account
         $userData = [

@@ -1,39 +1,45 @@
 @extends('layouts.app')
 
+@section('page_title', 'Edit Teacher')
+@section('page_subtitle', 'Update teacher profile and professional information.')
+
 @section('content')
 <div class="p-6">
-    <!-- Header -->
-    <div class="mb-6">
-        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
-            <a href="{{ route('admin.teachers.index') }}" class="hover:text-green-600">Teachers</a>
-            <span>/</span>
-            <span class="text-gray-900">Edit Teacher</span>
-        </div>
-        <h1 class="text-2xl font-bold text-gray-900">Edit Teacher: {{ $teacher->full_name }}</h1>
-    </div>
-
-    <!-- Current Info Box -->
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-3xl">
-        <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-blue-600 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-            </svg>
-            <div class="flex-1">
-                <h3 class="text-sm font-semibold text-blue-900 mb-1">Current Information</h3>
-                <div class="text-xs text-blue-800 space-y-1">
-                    <p><strong>Employee ID:</strong> {{ $teacher->login_id ?? 'Not set' }}</p>
-                    <p><strong>Department:</strong> {{ $teacher->teacherProfile->department ?? 'Not specified' }}</p>
-                    <p><strong>Created:</strong> {{ $teacher->created_at->format('M d, Y') }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Form Card -->
-    <div class="bg-white rounded-xl shadow-sm p-6 max-w-3xl">
-        <form action="{{ route('admin.teachers.update', $teacher) }}" method="POST">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm p-8">
+        <form method="POST" action="{{ route('admin.teachers.update', $teacher) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
+
+            <!-- Avatar Upload -->
+            <div class="flex flex-col items-center pb-6 border-b border-gray-100">
+                <div class="mb-4">
+                    <div id="avatar-preview" class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                        @if($teacher->avatar_path && file_exists(public_path('storage/' . $teacher->avatar_path)))
+                            <img src="{{ asset('storage/' . $teacher->avatar_path) }}" class="w-full h-full object-cover" alt="{{ $teacher->full_name }}">
+                        @else
+                            <div class="w-full h-full bg-green-600 flex items-center justify-center">
+                                <span class="text-white font-semibold text-4xl">{{ strtoupper(substr($teacher->first_name, 0, 1)) }}{{ strtoupper(substr($teacher->last_name, 0, 1)) }}</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <label for="avatar" class="cursor-pointer bg-white px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
+                        Change Avatar
+                        <input type="file" id="avatar" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(event)">
+                    </label>
+                    @if($teacher->avatar_path)
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                            <span class="text-sm text-gray-600">Remove avatar</span>
+                        </label>
+                    @endif
+                </div>
+                <p class="text-xs text-gray-500 mt-2">JPG, PNG or GIF (Max 2MB)</p>
+                @error('avatar')
+                    <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                @enderror
+            </div>
 
             <!-- Personal Information Section -->
             <div class="mb-6">
@@ -42,46 +48,47 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- First Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="first_name" value="{{ old('first_name', $teacher->first_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('first_name')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Middle Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Middle Name
                         </label>
                         <input type="text" name="middle_name" value="{{ old('middle_name', $teacher->middle_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Last Name -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="last_name" value="{{ old('last_name', $teacher->last_name) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('last_name')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Suffix -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Suffix (Jr., Sr., III, etc.)
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Suffix
                         </label>
                         <input type="text" name="suffix" value="{{ old('suffix', $teacher->suffix) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Jr., Sr., III, etc.">
                     </div>
                 </div>
             </div>
@@ -93,50 +100,52 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Employee ID -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Employee ID <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="employee_id" value="{{ old('employee_id', $teacher->login_id) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
                                placeholder="e.g., T-2025-001"
                                required>
                         @error('employee_id')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Email -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" value="{{ old('email', $teacher->email) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('email')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Password -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            New Password <span class="text-gray-500 text-xs">(leave blank to keep current)</span>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            New Password
                         </label>
                         <input type="password" name="password" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Leave blank to keep current">
+                        <p class="text-xs text-gray-500 mt-1">Minimum 8 characters if changing</p>
                         @error('password')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Confirm Password -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
-                            Confirm New Password
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Confirm Password
                         </label>
                         <input type="password" name="password_confirmation" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                 </div>
             </div>
@@ -148,44 +157,59 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Department -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Department
                         </label>
                         <input type="text" name="department" value="{{ old('department', $teacher->teacherProfile->department) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                placeholder="e.g., Science Department, Mathematics">
                         @error('department')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Specialization -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
                             Specialization
                         </label>
                         <input type="text" name="specialization" value="{{ old('specialization', $teacher->teacherProfile->specialization) }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                placeholder="e.g., Biology, Calculus, English Literature">
                         @error('specialization')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-3">
-                <button type="submit" 
-                        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
-                    Update Teacher
-                </button>
+            <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                 <a href="{{ route('admin.teachers.index') }}" 
-                   class="px-6 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">
+                   class="text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
+                <button type="submit" 
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                    Update Teacher
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+function previewAvatar(event) {
+    const preview = document.getElementById('avatar-preview');
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Avatar preview">`;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 @endsection

@@ -76,6 +76,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('sections', [AcademicStructureController::class, 'indexSections'])->name('sections.index');
     Route::get('sections/create', [AcademicStructureController::class, 'createSection'])->name('sections.create');
     Route::post('sections', [AcademicStructureController::class, 'storeSection'])->name('sections.store');
+    Route::get('sections/{section}', [AcademicStructureController::class, 'showSection'])->name('sections.show');
     Route::get('sections/{section}/edit', [AcademicStructureController::class, 'editSection'])->name('sections.edit');
     Route::put('sections/{section}', [AcademicStructureController::class, 'updateSection'])->name('sections.update');
     Route::delete('sections/{section}', [AcademicStructureController::class, 'destroySection'])->name('sections.destroy');

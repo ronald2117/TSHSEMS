@@ -113,41 +113,6 @@
                 @enderror
             </div>
 
-            <!-- Current Info Box -->
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <div class="flex items-start">
-                    <svg class="h-5 w-5 text-gray-400 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <div class="text-sm text-gray-700">
-                        <p class="font-medium mb-1">Current Section Info:</p>
-                        <p>Created: {{ $section->created_at->format('M d, Y') }}</p>
-                        @if($section->adviser_id)
-                            <p>Adviser: {{ $section->adviser->first_name }} {{ $section->adviser->last_name }}</p>
-                        @else
-                            <p class="text-gray-500">No adviser assigned yet</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            <!-- Info Box -->
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div class="flex">
-                    <svg class="h-5 w-5 text-blue-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <div class="text-sm text-blue-700">
-                        <p class="font-medium mb-1">Important Notes:</p>
-                        <ul class="list-disc list-inside space-y-1">
-                            <li>Section name should be unique within the school year</li>
-                            <li>Maximum students helps prevent over-enrollment</li>
-                            <li>Changing strand may affect subject enrollments</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
             <!-- Buttons -->
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                 <a href="{{ route('admin.sections.index') }}" class="text-gray-600 hover:text-gray-700 font-medium">

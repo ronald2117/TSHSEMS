@@ -65,6 +65,12 @@ class AcademicStructureController extends Controller
         return view('admin.sections.create', compact('schoolYears', 'strands', 'teachers'));
     }
 
+    public function showSection(Section $section): View
+    {
+        $section->load('strand', 'schoolYear', 'adviser', 'studentProfiles.user', 'classSchedules.subject', 'classSchedules.teacher');
+        return view('admin.sections.show', compact('section'));
+    }
+
     public function storeSection(Request $request): RedirectResponse
     {
         $validated = $request->validate([

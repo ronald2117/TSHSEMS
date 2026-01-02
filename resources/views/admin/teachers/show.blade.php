@@ -171,6 +171,38 @@
                 </div>
             </div>
         </div>
+
+        <!-- Advised Sections -->
+        @if($teacher->advisedSections && count($teacher->advisedSections) > 0)
+        <div class="px-8 py-6 border-t border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Advised Sections</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($teacher->advisedSections as $section)
+                    <div class="border border-gray-200 rounded-lg p-4 hover:border-green-300 hover:shadow-sm transition">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">{{ $section->name }}</h4>
+                                <p class="text-sm text-gray-600">Grade {{ $section->grade_level }}</p>
+                            </div>
+                        </div>
+                        @if($section->strand)
+                        <p class="text-xs text-gray-600 mb-2">{{ $section->strand->name }} ({{ $section->strand->code }})</p>
+                        @endif
+                        @if($section->schoolYear)
+                        <p class="text-xs text-gray-500">{{ $section->schoolYear->year }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        @if((!$teacher->advisedSections || count($teacher->advisedSections) === 0) && (!$teacher->classSchedules || count($teacher->classSchedules) === 0))
+        <div class="px-8 py-6 border-t border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Teaching Assignments</h3>
+            <p class="text-gray-600">No sections or classes assigned yet.</p>
+        </div>
+        @endif
     </div>
 </div>
 @endsection

@@ -33,7 +33,7 @@ class TeacherManagementController extends Controller
             abort(404);
         }
 
-        $teacher->load('teacherProfile');
+        $teacher->load('teacherProfile', 'classSchedules.section.schoolYear', 'classSchedules.subject', 'classSchedules.academicPeriod', 'advisedSections.schoolYear', 'advisedSections.strand');
 
         return view('admin.teachers.show', compact('teacher'));
     }

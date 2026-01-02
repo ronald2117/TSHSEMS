@@ -45,6 +45,11 @@ class UserManagementController extends Controller
         return view('admin.users.create');
     }
 
+    public function show(User $user): View
+    {
+        return view('admin.users.show', ['user' => $user]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([

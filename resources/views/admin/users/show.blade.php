@@ -139,15 +139,6 @@
                         <label class="text-sm font-medium text-gray-600">Role</label>
                         <p class="text-gray-900 mt-1">{{ str_replace('_', ' ', ucwords($user->role)) }}</p>
                     </div>
-
-                    <div>
-                        <label class="text-sm font-medium text-gray-600">Account Status</label>
-                        <p class="text-gray-900 mt-1">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ $user->is_active ? 'Active' : 'Inactive' }}
-                            </span>
-                        </p>
-                    </div>
                 </div>
 
                 <!-- Activity Information -->

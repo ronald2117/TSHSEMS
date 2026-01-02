@@ -27,6 +27,17 @@ class TeacherManagementController extends Controller
         return view('admin.teachers.create');
     }
 
+    public function show(User $teacher)
+    {
+        if ($teacher->role !== 'teacher') {
+            abort(404);
+        }
+
+        $teacher->load('teacherProfile');
+
+        return view('admin.teachers.show', compact('teacher'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

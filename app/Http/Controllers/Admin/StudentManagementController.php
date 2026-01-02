@@ -60,6 +60,17 @@ class StudentManagementController extends Controller
         return view('admin.students.create', compact('strands', 'sections'));
     }
 
+    public function show(User $student)
+    {
+        if ($student->role !== 'student') {
+            abort(404);
+        }
+
+        $student->load('studentProfile.strand', 'studentProfile.currentSection.schoolYear');
+
+        return view('admin.students.show', compact('student'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

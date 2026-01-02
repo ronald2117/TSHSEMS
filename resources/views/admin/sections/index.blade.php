@@ -1,9 +1,8 @@
 @extends('layouts.app')
-
+@section('page_title', 'Sections')
 @section('content')
 <div class="p-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Sections</h1>
+    <div class="flex justify-end items-center mb-6">
         <a href="{{ route('admin.sections.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
             + New Section
         </a>
@@ -23,9 +22,6 @@
                     <h3 class="text-lg font-bold text-gray-900">{{ $section->name }}</h3>
                     <p class="text-sm text-gray-600">Grade {{ $section->grade_level }} - {{ $section->strand->name }}</p>
                 </div>
-                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                    {{ $section->schoolYear->name }}
-                </span>
             </div>
 
             <div class="space-y-2 mb-4">

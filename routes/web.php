@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\StudentManagementController;
 use App\Http\Controllers\Admin\TeacherManagementController;
 use App\Http\Controllers\Admin\TracksController;
 use App\Http\Controllers\Admin\StrandsController;
+use App\Http\Controllers\Admin\ClassSchedulesController;
 use App\Http\Controllers\Teacher\GradingController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Student\GradesController;
@@ -89,10 +90,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Academic Structure - Strands
     Route::resource('strands', StrandsController::class);
     
+    // Academic Structure - Class Schedules
+    Route::resource('class-schedules', ClassSchedulesController::class);
+    Route::get('class-schedules/periods/{school_year_id}', [ClassSchedulesController::class, 'getAcademicPeriods'])->name('class-schedules.periods');
+    
     // Academic Structure - Subjects
     Route::get('subjects', [AcademicStructureController::class, 'indexSubjects'])->name('subjects.index');
     Route::get('subjects/create', [AcademicStructureController::class, 'createSubject'])->name('subjects.create');
     Route::post('subjects', [AcademicStructureController::class, 'storeSubject'])->name('subjects.store');
+    Route::get('subjects/{subject}', [AcademicStructureController::class, 'showSubject'])->name('subjects.show');
     Route::get('subjects/{subject}/edit', [AcademicStructureController::class, 'editSubject'])->name('subjects.edit');
     Route::put('subjects/{subject}', [AcademicStructureController::class, 'updateSubject'])->name('subjects.update');
     Route::delete('subjects/{subject}', [AcademicStructureController::class, 'destroySubject'])->name('subjects.destroy');

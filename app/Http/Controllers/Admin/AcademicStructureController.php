@@ -151,6 +151,16 @@ class AcademicStructureController extends Controller
         return redirect()->route('admin.subjects.index')->with('success', 'Subject created.');
     }
 
+    public function showSubject(Subject $subject): View
+    {
+        $subject->load(['classSchedules' => function ($query) {
+            $query->with(['section.strand', 'teacher', 'academicPeriod.schoolYear'])
+                  ->latest();
+        }]);
+        
+        return view('admin.subjects.show', compact('subject'));
+    }
+
     public function editSubject(Subject $subject): View
     {
         return view('admin.subjects.edit', compact('subject'));

@@ -66,6 +66,9 @@
                     <x-nav-link href="{{ route('admin.subjects.index') }}" :active="request()->routeIs('admin.subjects.*')" icon="book-open">
                         Subjects
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.class-schedules.index') }}" :active="request()->routeIs('admin.class-schedules.*')" icon="calendar">
+                        Class Schedules
+                    </x-nav-link>
                 @endif
 
                 @if(auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin())

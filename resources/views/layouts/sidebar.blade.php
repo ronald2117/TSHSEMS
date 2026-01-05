@@ -54,6 +54,12 @@
                     <x-nav-link href="{{ route('admin.school-years.index') }}" :active="request()->routeIs('admin.school-years.*')" icon="calendar">
                         School Years
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.tracks.index') }}" :active="request()->routeIs('admin.tracks.*')" icon="book-open">
+                        Tracks
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.strands.index') }}" :active="request()->routeIs('admin.strands.*')" icon="book-open">
+                        Strands
+                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.sections.index') }}" :active="request()->routeIs('admin.sections.*')" icon="building">
                         Sections
                     </x-nav-link>

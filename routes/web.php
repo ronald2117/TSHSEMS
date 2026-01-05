@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\AcademicStructureController;
 use App\Http\Controllers\Admin\GradeManagementController;
 use App\Http\Controllers\Admin\StudentManagementController;
 use App\Http\Controllers\Admin\TeacherManagementController;
+use App\Http\Controllers\Admin\TracksController;
+use App\Http\Controllers\Admin\StrandsController;
 use App\Http\Controllers\Teacher\GradingController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Student\GradesController;
@@ -81,8 +83,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('sections/{section}', [AcademicStructureController::class, 'updateSection'])->name('sections.update');
     Route::delete('sections/{section}', [AcademicStructureController::class, 'destroySection'])->name('sections.destroy');
     
+    // Academic Structure - Tracks
+    Route::resource('tracks', TracksController::class);
+    
     // Academic Structure - Strands
-    Route::get('strands', [AcademicStructureController::class, 'indexStrands'])->name('strands.index');
+    Route::resource('strands', StrandsController::class);
     
     // Academic Structure - Subjects
     Route::get('subjects', [AcademicStructureController::class, 'indexSubjects'])->name('subjects.index');

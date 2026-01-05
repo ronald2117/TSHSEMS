@@ -132,28 +132,6 @@
             </div>
         </div>
 
-        <!-- Academic Periods -->
-        @if($schoolYear->academicPeriods && count($schoolYear->academicPeriods) > 0)
-        <div class="px-8 py-6 border-t border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Academic Periods ({{ count($schoolYear->academicPeriods) }})</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                @foreach($schoolYear->academicPeriods as $period)
-                    <div class="border border-gray-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition">
-                        <h4 class="font-semibold text-gray-900 mb-2">{{ $period->name }}</h4>
-                        <div class="space-y-1">
-                            <p class="text-xs text-gray-600">
-                                <span class="font-medium">Start:</span> {{ \Carbon\Carbon::parse($period->start_date)->format('M d, Y') }}
-                            </p>
-                            <p class="text-xs text-gray-600">
-                                <span class="font-medium">End:</span> {{ \Carbon\Carbon::parse($period->end_date)->format('M d, Y') }}
-                            </p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
         <!-- Sections -->
         @if($schoolYear->sections && count($schoolYear->sections) > 0)
         <div class="px-8 py-6 border-t border-gray-200">

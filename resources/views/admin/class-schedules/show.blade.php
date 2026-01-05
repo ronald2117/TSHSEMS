@@ -29,8 +29,13 @@
                     <h2 class="text-gray-900 text-2xl font-bold">{{ $classSchedule->subject->code }}</h2>
                     <p class="text-gray-600 text-lg mt-1">{{ $classSchedule->subject->name }}</p>
                     <div class="flex items-center gap-4 mt-3">
-                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                            {{ $classSchedule->subject->subject_type }}
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full 
+                            @if(strtolower($classSchedule->subject->type) === 'core') bg-blue-100 text-blue-800
+                            @elseif(strtolower($classSchedule->subject->type) === 'applied') bg-green-100 text-green-800
+                            @elseif(strtolower($classSchedule->subject->type) === 'specialized') bg-purple-100 text-purple-800
+                            @else bg-gray-100 text-gray-800
+                            @endif">
+                            {{ $classSchedule->subject->type }}
                         </span>
                         <span class="text-sm text-gray-600">
                             {{ $classSchedule->academicPeriod->name }} - {{ $classSchedule->academicPeriod->schoolYear->name }}

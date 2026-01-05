@@ -49,12 +49,12 @@
                         </td>
                         <td class="px-6 py-4">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                @if($subject->subject_type === 'core') bg-blue-100 text-blue-800
-                                @elseif($subject->subject_type === 'applied') bg-green-100 text-green-800
-                                @elseif($subject->subject_type === 'specialized') bg-purple-100 text-purple-800
+                                @if($subject->type === 'core') bg-blue-100 text-blue-800
+                                @elseif($subject->type === 'applied') bg-green-100 text-green-800
+                                @elseif($subject->type === 'specialized') bg-purple-100 text-purple-800
                                 @else bg-gray-100 text-gray-800
                                 @endif">
-                                {{ ucfirst($subject->subject_type) }}
+                                {{ ucfirst($subject->type) }}
                             </span>
                         </td>
                         <td class="px-6 py-4 text-center">

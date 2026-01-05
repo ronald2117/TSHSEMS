@@ -31,12 +31,12 @@
                     <p class="text-gray-600 text-lg mt-1">{{ $subject->name }}</p>
                     <div class="flex items-center gap-3 mt-3">
                         <span class="px-3 py-1 text-xs font-semibold rounded-full 
-                            @if($subject->subject_type === 'core') bg-blue-100 text-blue-800
-                            @elseif($subject->subject_type === 'applied') bg-green-100 text-green-800
-                            @elseif($subject->subject_type === 'specialized') bg-purple-100 text-purple-800
+                            @if(strtolower($subject->type) === 'core') bg-blue-100 text-blue-800
+                            @elseif(strtolower($subject->type) === 'applied') bg-green-100 text-green-800
+                            @elseif(strtolower($subject->type) === 'specialized') bg-purple-100 text-purple-800
                             @else bg-gray-100 text-gray-800
                             @endif">
-                            {{ ucfirst($subject->subject_type) }}
+                            {{ $subject->type }}
                         </span>
                         <span class="text-sm text-gray-600">{{ $subject->units }} {{ Str::plural('unit', $subject->units) }}</span>
                     </div>

@@ -1,9 +1,9 @@
 @extends('layouts.app')
+@section('page_title', 'School Years')
 
 @section('content')
 <div class="p-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">School Years</h1>
+    <div class="flex justify-end items-center mb-6">
         <a href="{{ route('admin.school-years.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
             + New School Year
         </a>
@@ -17,13 +17,13 @@
 
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+            <thead class="bg-gray-50 border-b border-gray-200">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Year</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Academic Year</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">Start Date</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">End Date</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900">Status</th>
+                    <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900">Actions</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -38,30 +38,22 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-500">{{ $schoolYear->end_date->format('M d, Y') }}</div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        @if($schoolYear->is_active)
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Active
-                            </span>
-                        @else
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                Inactive
-                            </span>
-                        @endif
+                    <td class="px-6 py-4 text-center">
+                        <span class="text-center text-sm text-gray-600">
+                            {{ $schoolYear->is_active ? 'Active' : 'Inactive' }}
+                        </span>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        @if(!$schoolYear->is_active)
-                            <form action="{{ route('admin.school-years.activate', $schoolYear) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" class="text-green-600 hover:text-green-900 mr-3">Activate</button>
-                            </form>
-                        @endif
-                        <a href="{{ route('admin.school-years.edit', $schoolYear) }}" class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
-                        <form action="{{ route('admin.school-years.destroy', $schoolYear) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex items-center justify-center space-x-3">
+                            <a href="{{ route('admin.school-years.show', $schoolYear) }}" 
+                               class="text-gray-600 hover:text-gray-700 transition mb-1" 
+                               title="View Details">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </a>
+                        </div>
                     </td>
                 </tr>
                 @empty

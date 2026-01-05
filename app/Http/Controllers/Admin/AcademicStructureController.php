@@ -188,6 +188,12 @@ class AcademicStructureController extends Controller
         return $this->createSchoolYear();
     }
 
+    public function show($id): View
+    {
+        $schoolYear = SchoolYear::with('sections.strand', 'sections.adviser', 'academicPeriods')->findOrFail($id);
+        return view('admin.school-years.show', ['schoolYear' => $schoolYear]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         return $this->storeSchoolYear($request);

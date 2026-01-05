@@ -28,11 +28,6 @@
         <div class="px-8 py-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    <div class="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center border-4 border-white shadow-lg">
-                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
                     <div>
                         <h2 class="text-gray-900 text-2xl font-bold">{{ $schoolYear->name }}</h2>
                         <p class="text-gray-600 mt-1">{{ $schoolYear->year }}</p>
@@ -113,15 +108,6 @@
                 <!-- Statistics -->
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Statistics</h3>
-                    
-                    <div>
-                        <label class="text-sm font-medium text-gray-600">Status</label>
-                        <p class="text-gray-900 mt-1">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm {{ $schoolYear->is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                {{ $schoolYear->is_active ? 'Active' : 'Inactive' }}
-                            </span>
-                        </p>
-                    </div>
 
                     <div>
                         <label class="text-sm font-medium text-gray-600">Total Sections</label>

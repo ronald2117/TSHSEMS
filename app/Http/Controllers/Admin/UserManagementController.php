@@ -15,6 +15,9 @@ class UserManagementController extends Controller
     {
         $query = User::query();
 
+        // Filter only admin roles (exclude teachers and students)
+        $query->whereIn('role', ['super_admin', 'academic_admin', 'registrar_admin', 'technical_admin']);
+
         // Smart search across multiple fields including role and status
         if ($request->filled('search')) {
             $search = strtolower($request->search);

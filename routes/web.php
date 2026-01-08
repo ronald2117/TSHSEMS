@@ -13,10 +13,17 @@ use App\Http\Controllers\Admin\TeacherManagementController;
 use App\Http\Controllers\Admin\TracksController;
 use App\Http\Controllers\Admin\StrandsController;
 use App\Http\Controllers\Admin\ClassSchedulesController;
+use App\Http\Controllers\Admin\DocumentRequestController;
+use App\Http\Controllers\Admin\EnrollmentController;
+use App\Http\Controllers\Admin\TechnicalAdminController;
 use App\Http\Controllers\Teacher\GradingController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Student\GradesController;
 use App\Http\Controllers\Student\AttendanceViewController;
+use App\Http\Controllers\Student\AnnouncementController as StudentAnnouncementController;
+use App\Http\Controllers\Student\ProfileController;
+use App\Http\Controllers\Student\ScheduleController;
+use App\Http\Controllers\Teacher\ClassesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -109,23 +116,74 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('grade-approval/{quarterlyGrade}/approve', [GradeManagementController::class, 'approve'])->name('grade-approval.approve');
         Route::post('grade-approval/{quarterlyGrade}/return', [GradeManagementController::class, 'return'])->name('grade-approval.return');
         Route::post('grade-approval/{quarterlyGrade}/override', [GradeManagementController::class, 'override'])->name('grade-approval.override');
+        
+        // Document Requests
+        Route::get('documents', [DocumentRequestController::class, 'index'])->name('documents.index');
+        Route::get('documents/{documentRequest}', [DocumentRequestController::class, 'show'])->name('documents.show');
+        Route::put('documents/{documentRequest}/status', [DocumentRequestController::class, 'updateStatus'])->name('documents.update-status');
+        
+        // Enrollment Management
+        Route::get('enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
+        Route::get('enrollment/{student}/enroll', [EnrollmentController::class, 'enroll'])->name('enrollment.enroll');
+        Route::post('enrollment/{student}', [EnrollmentController::class, 'processEnrollment'])->name('enrollment.process');
+        Route::get('enrollment/history', [EnrollmentController::class, 'history'])->name('enrollment.history');
+    });
+    
+    // Technical Admin Routes
+    Route::middleware('technical-admin')->group(function () {
+        // Database Backups
+        Route::get('backups', [TechnicalAdminController::class, 'backupsIndex'])->name('backups.index');
+        Route::post('backups', [TechnicalAdminController::class, 'createBackup'])->name('backups.create');
+        Route::get('backups/{filename}/download', [TechnicalAdminController::class, 'downloadBackup'])->name('backups.download');
+        Route::delete('backups/{filename}', [TechnicalAdminController::class, 'deleteBackup'])->name('backups.delete');
+        
+        // Activity Logs
+        Route::get('logs/activity', [TechnicalAdminController::class, 'activityLogs'])->name('logs.activity');
+        Route::get('logs/grades', [TechnicalAdminController::class, 'gradeAuditLogs'])->name('logs.grades');
+        
+        // User Management Tools
+        Route::get('users/{user}/reset-password', [TechnicalAdminController::class, 'passwordResetForm'])->name('users.reset-password');
+        Route::post('users/{user}/reset-password', [TechnicalAdminController::class, 'resetPassword'])->name('users.reset-password.process');
+        
+        // System Stats
+        Route::get('system/stats', [TechnicalAdminController::class, 'systemStats'])->name('system.stats');
     });
 });
 
 // Teacher Routes
 Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+    // Classes Management
+    Route::get('classes', [ClassesController::class, 'index'])->name('classes.index');
+    Route::get('classes/{classSchedule}', [ClassesController::class, 'show'])->name('classes.show');
+    Route::get('classes/{classSchedule}/roster', [ClassesController::class, 'roster'])->name('classes.roster');
+    
+    // Grading
     Route::resource('grading', GradingController::class)->only(['index', 'show', 'edit', 'update']);
     Route::post('grading/{classSchedule}/submit-grades', [GradingController::class, 'submitGrades'])->name('grading.submit');
+    
+    // Attendance
     Route::resource('attendance', AttendanceController::class)->only(['index', 'create', 'store']);
     Route::get('class-roster/{classSchedule}', [AttendanceController::class, 'roster'])->name('attendance.roster');
 });
 
 // Student Routes
 Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->group(function () {
+    // Profile
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    
+    // Grades
     Route::resource('grades', GradesController::class)->only(['index', 'show']);
+    
+    // Attendance
     Route::resource('attendance', AttendanceViewController::class)->only(['index']);
-    Route::get('announcements', function () {
-        return view('student.announcements.index');
-    })->name('announcements.index');
+    
+    // Schedule
+    Route::get('schedule', [ScheduleController::class, 'index'])->name('schedule.index');
+    
+    // Announcements
+    Route::get('announcements', [StudentAnnouncementController::class, 'index'])->name('announcements.index');
 });
 

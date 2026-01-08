@@ -16,18 +16,28 @@
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
                     Dashboard
                 </x-nav-link>
+                <x-nav-link href="{{ route('student.profile.index') }}" :active="request()->routeIs('student.profile.*')" icon="user">
+                    My Profile
+                </x-nav-link>
                 <x-nav-link href="{{ route('student.grades.index') }}" :active="request()->routeIs('student.grades.*')" icon="academic-cap">
                     My Grades
                 </x-nav-link>
                 <x-nav-link href="{{ route('student.attendance.index') }}" :active="request()->routeIs('student.attendance.*')" icon="calendar">
                     Attendance
                 </x-nav-link>
+                <x-nav-link href="{{ route('student.schedule.index') }}" :active="request()->routeIs('student.schedule.*')" icon="clock">
+                    My Schedule
+                </x-nav-link>
                 <x-nav-link href="{{ route('student.announcements.index') }}" :active="request()->routeIs('student.announcements.*')" icon="bell">
                     Announcements
                 </x-nav-link>
+
             @elseif(auth()->user()->isTeacher())
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
                     Dashboard
+                </x-nav-link>
+                <x-nav-link href="{{ route('teacher.classes.index') }}" :active="request()->routeIs('teacher.classes.*')" icon="book-open">
+                    My Classes
                 </x-nav-link>
                 <x-nav-link href="{{ route('teacher.grading.index') }}" :active="request()->routeIs('teacher.grading.*')" icon="pencil">
                     Grading
@@ -35,12 +45,10 @@
                 <x-nav-link href="{{ route('teacher.attendance.index') }}" :active="request()->routeIs('teacher.attendance.*')" icon="calendar">
                     Attendance
                 </x-nav-link>
+
             @elseif(auth()->user()->isAdmin())
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
                     Dashboard
-                </x-nav-link>
-                <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
-                    Users
                 </x-nav-link>
                 
                 @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'academic_admin')
@@ -73,15 +81,40 @@
 
                 @if(auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin())
                     <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Registrar</div>
+                    <x-nav-link href="{{ route('admin.students.index') }}" :active="request()->routeIs('admin.students.*')" icon="academic-cap">
+                        Students
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.enrollment.index') }}" :active="request()->routeIs('admin.enrollment.*')" icon="clipboard-check">
+                        Enrollment
+                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.grade-approval.index') }}" :active="request()->routeIs('admin.grade-approval.*')" icon="check-circle">
                         Grade Approval
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.documents.index') }}" :active="request()->routeIs('admin.documents.*')" icon="document">
+                        Document Requests
+                    </x-nav-link>
+                @endif
+
+                @if(auth()->user()->role === 'technical_admin' || auth()->user()->isSuperAdmin())
+                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Technical</div>
+                    <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
+                        User Management
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.backups.index') }}" :active="request()->routeIs('admin.backups.*')" icon="database">
+                        Database Backups
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.logs.activity') }}" :active="request()->routeIs('admin.logs.activity')" icon="clipboard-list">
+                        Activity Logs
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.logs.grades') }}" :active="request()->routeIs('admin.logs.grades')" icon="chart-bar">
+                        Grade Audit Logs
                     </x-nav-link>
                 @endif
 
                 @if(auth()->user()->isSuperAdmin())
-                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">System</div>
-                    <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="cog">
-                        System Settings
+                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Super Admin</div>
+                    <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
+                        System Statistics
                     </x-nav-link>
                 @endif
             @endif

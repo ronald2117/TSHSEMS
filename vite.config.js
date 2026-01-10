@@ -10,4 +10,16 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    server: {
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: true,
+        cors: true,
+        hmr: {
+            host: 'ubiquitous-bassoon-5pj95qgq97ghpwq-5173.app.github.dev',
+            protocol: 'wss',
+            clientPort: 443,
+        },
+        origin: 'https://ubiquitous-bassoon-5pj95qgq97ghpwq-5173.app.github.dev',
+    },
 });

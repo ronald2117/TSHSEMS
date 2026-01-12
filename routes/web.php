@@ -16,13 +16,18 @@ use App\Http\Controllers\Admin\ClassSchedulesController;
 use App\Http\Controllers\Admin\DocumentRequestController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\TechnicalAdminController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\AcademicPeriodController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Teacher\GradingController;
 use App\Http\Controllers\Teacher\AttendanceController;
+use App\Http\Controllers\Teacher\AssessmentController as TeacherAssessmentController;
 use App\Http\Controllers\Student\GradesController;
 use App\Http\Controllers\Student\AttendanceViewController;
 use App\Http\Controllers\Student\AnnouncementController as StudentAnnouncementController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\ScheduleController;
+use App\Http\Controllers\Student\DocumentRequestController as StudentDocumentRequestController;
 use App\Http\Controllers\Teacher\ClassesController;
 use Illuminate\Support\Facades\Route;
 
@@ -110,6 +115,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('subjects/{subject}', [AcademicStructureController::class, 'updateSubject'])->name('subjects.update');
     Route::delete('subjects/{subject}', [AcademicStructureController::class, 'destroySubject'])->name('subjects.destroy');
 
+    // Announcements Management (Super Admin & Academic Admin)
+    Route::resource('announcements', AdminAnnouncementController::class);
+
+    // Academic Periods Management
+    Route::resource('academic-periods', AcademicPeriodController::class);
+    Route::post('academic-periods/{academicPeriod}/toggle-status', [AcademicPeriodController::class, 'toggleStatus'])->name('academic-periods.toggle-status');
+
+    // Reports & Analytics
+    Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::get('reports/students', [ReportsController::class, 'studentList'])->name('reports.students');
+    Route::get('reports/grades', [ReportsController::class, 'gradesSummary'])->name('reports.grades');
+    Route::get('reports/attendance', [ReportsController::class, 'attendanceSummary'])->name('reports.attendance');
+    Route::get('reports/form137/{student}', [ReportsController::class, 'form137'])->name('reports.form137');
+    Route::get('reports/form138/{student}', [ReportsController::class, 'form138'])->name('reports.form138');
+    Route::get('reports/master-list/{section}', [ReportsController::class, 'masterList'])->name('reports.master-list');
+
     // Grade Management (Registrar Admin)
     Route::middleware('registrar-admin')->group(function () {
         Route::resource('grade-approval', GradeManagementController::class)->only(['index', 'show']);
@@ -161,6 +182,10 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->gro
     Route::resource('grading', GradingController::class)->only(['index', 'show', 'edit', 'update']);
     Route::post('grading/{classSchedule}/submit-grades', [GradingController::class, 'submitGrades'])->name('grading.submit');
     
+    // Assessments Management
+    Route::resource('assessments', TeacherAssessmentController::class);
+    Route::post('assessments/{assessment}/toggle-publish', [TeacherAssessmentController::class, 'togglePublish'])->name('assessments.toggle-publish');
+    
     // Attendance
     Route::resource('attendance', AttendanceController::class)->only(['index', 'create', 'store']);
     Route::get('class-roster/{classSchedule}', [AttendanceController::class, 'roster'])->name('attendance.roster');
@@ -185,5 +210,9 @@ Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->gro
     
     // Announcements
     Route::get('announcements', [StudentAnnouncementController::class, 'index'])->name('announcements.index');
+    
+    // Document Requests
+    Route::resource('documents', StudentDocumentRequestController::class)->only(['index', 'create', 'store', 'show']);
+    Route::post('documents/{document}/cancel', [StudentDocumentRequestController::class, 'cancel'])->name('documents.cancel');
 });
 

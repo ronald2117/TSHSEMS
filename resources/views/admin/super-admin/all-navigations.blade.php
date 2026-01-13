@@ -17,13 +17,17 @@
                 <div class="p-6 border-b border-gray-200 
                     @if($group['color'] === 'blue') bg-gradient-to-r from-blue-50 to-blue-100 @endif
                     @if($group['color'] === 'green') bg-gradient-to-r from-green-50 to-green-100 @endif
-                    @if($group['color'] === 'purple') bg-gradient-to-r from-purple-50 to-purple-100 @endif">
+                    @if($group['color'] === 'purple') bg-gradient-to-r from-purple-50 to-purple-100 @endif
+                    @if($group['color'] === 'red') bg-gradient-to-r from-red-50 to-red-100 @endif
+                    @if($group['color'] === 'orange') bg-gradient-to-r from-orange-50 to-orange-100 @endif">
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <div class="w-12 h-12 rounded-lg flex items-center justify-center
                                 @if($group['color'] === 'blue') bg-blue-500 @endif
                                 @if($group['color'] === 'green') bg-green-500 @endif
-                                @if($group['color'] === 'purple') bg-purple-500 @endif">
+                                @if($group['color'] === 'purple') bg-purple-500 @endif
+                                @if($group['color'] === 'red') bg-red-500 @endif
+                                @if($group['color'] === 'orange') bg-orange-500 @endif">
                                 <x-icon name="{{ $group['icon'] }}" class="w-6 h-6 text-white" />
                             </div>
                         </div>
@@ -43,24 +47,32 @@
                                 'blue' => 'hover:border-blue-300 hover:bg-blue-50',
                                 'green' => 'hover:border-green-300 hover:bg-green-50',
                                 'purple' => 'hover:border-purple-300 hover:bg-purple-50',
+                                'red' => 'hover:border-red-300 hover:bg-red-50',
+                                'orange' => 'hover:border-orange-300 hover:bg-orange-50',
                                 default => ''
                             };
                             $iconBg = match($group['color']) {
                                 'blue' => 'group-hover:bg-blue-100',
                                 'green' => 'group-hover:bg-green-100',
                                 'purple' => 'group-hover:bg-purple-100',
+                                'red' => 'group-hover:bg-red-100',
+                                'orange' => 'group-hover:bg-orange-100',
                                 default => ''
                             };
                             $iconColor = match($group['color']) {
                                 'blue' => 'group-hover:text-blue-600',
                                 'green' => 'group-hover:text-green-600',
                                 'purple' => 'group-hover:text-purple-600',
+                                'red' => 'group-hover:text-red-600',
+                                'orange' => 'group-hover:text-orange-600',
                                 default => ''
                             };
                             $textColor = match($group['color']) {
                                 'blue' => 'group-hover:text-blue-700',
                                 'green' => 'group-hover:text-green-700',
                                 'purple' => 'group-hover:text-purple-700',
+                                'red' => 'group-hover:text-red-700',
+                                'orange' => 'group-hover:text-orange-700',
                                 default => ''
                             };
                         @endphp

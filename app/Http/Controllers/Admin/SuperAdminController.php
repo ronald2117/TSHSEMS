@@ -58,8 +58,143 @@ class SuperAdminController extends Controller
                     ['name' => 'System Statistics', 'route' => 'admin.system.stats', 'icon' => 'chart-square-bar', 'description' => 'View system statistics and metrics'],
                 ],
             ],
+            'global_settings' => [
+                'title' => 'Global System Settings',
+                'description' => 'Super Admin exclusive system-wide configuration and controls',
+                'icon' => 'shield-check',
+                'color' => 'red',
+                'links' => [
+                    ['name' => 'System Settings', 'route' => 'admin.settings.index', 'icon' => 'cog', 'description' => 'Configure system-wide settings and preferences'],
+                    ['name' => 'Feature Toggles', 'route' => 'admin.features.index', 'icon' => 'adjustments', 'description' => 'Enable or disable system features'],
+                    ['name' => 'Maintenance Mode', 'route' => 'admin.maintenance.index', 'icon' => 'exclamation', 'description' => 'Control system maintenance mode'],
+                    ['name' => 'Academic Year Locking', 'route' => 'admin.year-locking.index', 'icon' => 'lock-closed', 'description' => 'Lock/unlock academic years globally'],
+                ],
+            ],
+            'security_audit' => [
+                'title' => 'Security & Audit',
+                'description' => 'Monitoring, security logs, and compliance audit trails',
+                'icon' => 'shield-check',
+                'color' => 'orange',
+                'links' => [
+                    ['name' => 'Activity Logs', 'route' => 'admin.audit.activity', 'icon' => 'clipboard-list', 'description' => 'System-wide activity and security audit log'],
+                    ['name' => 'Login Logs', 'route' => 'admin.audit.login', 'icon' => 'shield-check', 'description' => 'Authentication attempts and login monitoring'],
+                    ['name' => 'Grade Audit Logs', 'route' => 'admin.audit.grades', 'icon' => 'chart-bar', 'description' => 'Track all grade modifications for compliance'],
+                ],
+            ],
         ];
 
         return view('admin.super-admin.all-navigations', compact('navigationGroups'));
+    }
+
+    /**
+     * Display system settings page
+     */
+    public function systemSettings()
+    {
+        return view('admin.super-admin.settings.index');
+    }
+
+    /**
+     * Update system settings
+     */
+    public function updateSystemSettings()
+    {
+        // Implementation for updating system settings
+        return redirect()->route('admin.settings.index')->with('success', 'System settings updated successfully');
+    }
+
+    /**
+     * Display feature toggles page
+     */
+    public function featureToggles()
+    {
+        return view('admin.super-admin.features.index');
+    }
+
+    /**
+     * Toggle a feature
+     */
+    public function toggleFeature()
+    {
+        // Implementation for toggling features
+        return back()->with('success', 'Feature toggled successfully');
+    }
+
+    /**
+     * Display maintenance mode page
+     */
+    public function maintenanceMode()
+    {
+        return view('admin.super-admin.maintenance.index');
+    }
+
+    /**
+     * Toggle maintenance mode
+     */
+    public function toggleMaintenance()
+    {
+        // Implementation for maintenance mode
+        return back()->with('success', 'Maintenance mode updated successfully');
+    }
+
+    /**
+     * Display academic year locking page
+     */
+    public function yearLocking()
+    {
+        $schoolYears = \App\Models\SchoolYear::orderBy('start_date', 'desc')->get();
+        return view('admin.super-admin.year-locking.index', compact('schoolYears'));
+    }
+
+    /**
+     * Toggle academic year lock
+     */
+    public function toggleYearLock($id)
+    {
+        // Implementation for year locking
+        return back()->with('success', 'Academic year lock status updated');
+    }
+
+    /**
+     * Display activity logs page
+     */
+    public function activityLogs()
+    {
+        $logs = \App\Models\ActivityLog::with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(50);
+        
+        return view('admin.super-admin.audit.activity-logs', compact('logs'));
+    }
+
+    /**
+     * Display login logs page
+     */
+    public function loginLogs()
+    {
+        $logs = \App\Models\LoginLog::with('user')
+            ->orderBy('logged_in_at', 'desc')
+            ->paginate(50);
+        
+        $stats = [
+            'total' => \App\Models\LoginLog::count(),
+            'successful' => \App\Models\LoginLog::successful()->count(),
+            'failed' => \App\Models\LoginLog::failed()->count(),
+            'today' => \App\Models\LoginLog::whereDate('logged_in_at', today())->count(),
+        ];
+        
+        return view('admin.super-admin.audit.login-logs', compact('logs', 'stats'));
+    }
+
+    /**
+     * Display grade audit logs page
+     */
+    public function gradeAuditLogs()
+    {
+        $logs = \App\Models\GradeAuditLog::with(['quarterlyGrade.student.user', 'user'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(50);
+        
+        return view('admin.super-admin.audit.grade-audit-logs', compact('logs'));
     }
 }

@@ -174,6 +174,27 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Super Admin Routes (Override access to all admin functions)
     Route::middleware('super-admin')->group(function () {
         Route::get('all-navigations', [SuperAdminController::class, 'allAdminNavigations'])->name('all-navigations');
+        
+        // Global System Settings
+        Route::get('settings', [SuperAdminController::class, 'systemSettings'])->name('settings.index');
+        Route::put('settings', [SuperAdminController::class, 'updateSystemSettings'])->name('settings.update');
+        
+        // Feature Toggles
+        Route::get('features', [SuperAdminController::class, 'featureToggles'])->name('features.index');
+        Route::post('features/toggle', [SuperAdminController::class, 'toggleFeature'])->name('features.toggle');
+        
+        // Maintenance Mode
+        Route::get('maintenance', [SuperAdminController::class, 'maintenanceMode'])->name('maintenance.index');
+        Route::post('maintenance/toggle', [SuperAdminController::class, 'toggleMaintenance'])->name('maintenance.toggle');
+        
+        // Academic Year Locking
+        Route::get('year-locking', [SuperAdminController::class, 'yearLocking'])->name('year-locking.index');
+        Route::post('year-locking/{schoolYear}/toggle', [SuperAdminController::class, 'toggleYearLock'])->name('year-locking.toggle');
+        
+        // Security & Audit Logs
+        Route::get('audit/activity', [SuperAdminController::class, 'activityLogs'])->name('audit.activity');
+        Route::get('audit/login', [SuperAdminController::class, 'loginLogs'])->name('audit.login');
+        Route::get('audit/grades', [SuperAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
     });
 });
 

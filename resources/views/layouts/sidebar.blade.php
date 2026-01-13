@@ -124,7 +124,11 @@
                 @endif
 
                 @if(auth()->user()->isSuperAdmin())
-                <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
+                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Super Admin</div>
+                    <x-nav-link href="{{ route('admin.all-navigations') }}" :active="request()->routeIs('admin.all-navigations')" icon="view-grid">
+                        All Admin Navigations
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
                         System Statistics
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
@@ -133,8 +137,30 @@
                     <x-nav-link href="{{ route('admin.announcements.index') }}" :active="request()->routeIs('admin.announcements.*')" icon="bell">
                         Announcements
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.all-navigations') }}" :active="request()->routeIs('admin.all-navigations')" icon="view-grid">
-                        All Admin Navigations
+                    
+                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Global Settings</div>
+                    <x-nav-link href="{{ route('admin.settings.index') }}" :active="request()->routeIs('admin.settings.*')" icon="cog">
+                        System Settings
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.features.index') }}" :active="request()->routeIs('admin.features.*')" icon="adjustments">
+                        Feature Toggles
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.maintenance.index') }}" :active="request()->routeIs('admin.maintenance.*')" icon="exclamation">
+                        Maintenance Mode
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.year-locking.index') }}" :active="request()->routeIs('admin.year-locking.*')" icon="lock-closed">
+                        Academic Year Locking
+                    </x-nav-link>
+                    
+                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Security & Audit</div>
+                    <x-nav-link href="{{ route('admin.audit.activity') }}" :active="request()->routeIs('admin.audit.activity')" icon="clipboard-list">
+                        Activity Logs
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.audit.login') }}" :active="request()->routeIs('admin.audit.login')" icon="shield-check">
+                        Login Logs
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.audit.grades') }}" :active="request()->routeIs('admin.audit.grades')" icon="chart-bar">
+                        Grade Audit Logs
                     </x-nav-link>
                 @endif
             @endif

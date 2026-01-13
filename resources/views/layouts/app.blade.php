@@ -13,7 +13,7 @@
             @include('layouts.sidebar')
 
             <!-- Main Content -->
-            <div class="flex-1 flex flex-col overflow-hidden">
+            <div class="flex-1 flex flex-col overflow-hidden w-full lg:w-auto">
                 <!-- Top Header -->
                 @include('layouts.header')
 

@@ -124,14 +124,17 @@
                 @endif
 
                 @if(auth()->user()->isSuperAdmin())
-                    <x-nav-link href="{{ route('admin.all-navigations') }}" :active="request()->routeIs('admin.all-navigations')" icon="view-grid">
-                        All Admin Navigations
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
+                <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
                         System Statistics
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
+                        User Management
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.announcements.index') }}" :active="request()->routeIs('admin.announcements.*')" icon="bell">
                         Announcements
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.all-navigations') }}" :active="request()->routeIs('admin.all-navigations')" icon="view-grid">
+                        All Admin Navigations
                     </x-nav-link>
                 @endif
             @endif

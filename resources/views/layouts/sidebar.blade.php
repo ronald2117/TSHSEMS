@@ -58,7 +58,6 @@
                 </x-nav-link>
                 
                 @if(auth()->user()->role === 'academic_admin')
-                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Academic</div>
                     <x-nav-link href="{{ route('admin.students.index') }}" :active="request()->routeIs('admin.students.*')" icon="academic-cap">
                         Students
                     </x-nav-link>
@@ -92,7 +91,6 @@
                 @endif
 
                 @if(auth()->user()->role === 'registrar_admin')
-                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Registrar</div>
                     <x-nav-link href="{{ route('admin.students.index') }}" :active="request()->routeIs('admin.students.*')" icon="academic-cap">
                         Students
                     </x-nav-link>
@@ -111,7 +109,6 @@
                 @endif
 
                 @if(auth()->user()->role === 'technical_admin')
-                    <div class="text-xs font-semibold text-gray-500 mt-4 mb-2 uppercase px-3">Technical</div>
                     <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
                         User Management
                     </x-nav-link>
@@ -127,6 +124,9 @@
                 @endif
 
                 @if(auth()->user()->isSuperAdmin())
+                    <x-nav-link href="{{ route('admin.all-navigations') }}" :active="request()->routeIs('admin.all-navigations')" icon="view-grid">
+                        All Admin Navigations
+                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
                         System Statistics
                     </x-nav-link>

@@ -16,6 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
             'student' => \App\Http\Middleware\StudentMiddleware::class,
             'registrar-admin' => \App\Http\Middleware\RegistrarAdminMiddleware::class,
+            'technical-admin' => \App\Http\Middleware\TechnicalAdminMiddleware::class,
+            'super-admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

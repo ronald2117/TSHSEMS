@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\TechnicalAdminController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\AcademicPeriodController;
 use App\Http\Controllers\Admin\ReportsController;
+use App\Http\Controllers\Admin\SuperAdminController;
 use App\Http\Controllers\Teacher\GradingController;
 use App\Http\Controllers\Teacher\AttendanceController;
 use App\Http\Controllers\Teacher\AssessmentController as TeacherAssessmentController;
@@ -168,6 +169,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         
         // System Stats
         Route::get('system/stats', [TechnicalAdminController::class, 'systemStats'])->name('system.stats');
+    });
+    
+    // Super Admin Routes (Override access to all admin functions)
+    Route::middleware('super-admin')->group(function () {
+        Route::get('all-navigations', [SuperAdminController::class, 'allAdminNavigations'])->name('all-navigations');
     });
 });
 

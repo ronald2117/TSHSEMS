@@ -57,7 +57,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 font-medium">Database Size</p>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ $stats['database_size'] }}</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ \Illuminate\Support\Number::fileSize($stats['database_size']) }}</p>
                 </div>
                 <div class="bg-orange-50 rounded-full p-3">
                     <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +81,7 @@
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
                     <span class="text-gray-600">Total Used</span>
-                    <span class="text-xl font-bold text-gray-800">{{ $stats['storage_used'] }}</span>
+                    <span class="text-xl font-bold text-gray-800">{{ \Illuminate\Support\Number::fileSize($stats['storage_used']) }}</span>
                 </div>
                 <div class="bg-gray-100 rounded-full h-3 overflow-hidden">
                     <div class="bg-green-500 h-full rounded-full" style="width: 35%"></div>

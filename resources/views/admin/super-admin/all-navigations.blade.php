@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
+@section('page_title', 'All Admin Navigations')
+@section('title', 'All Admin Navigations')
+@section('page_subtitle', 'Super Admin override access to all administrative functions' )
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">All Admin Navigations</h1>
-            <p class="text-gray-600 mt-2">Super Admin override access to all administrative functions</p>
-        </div>
-
         <!-- Navigation Groups -->
         <div class="space-y-8">
             @foreach($navigationGroups as $groupKey => $group)
@@ -99,29 +96,6 @@
                 </div>
             </div>
             @endforeach
-        </div>
-
-        <!-- Quick Stats Section -->
-        <div class="mt-8 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Access Stats</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-blue-50 rounded-lg p-4">
-                    <div class="text-2xl font-bold text-blue-600">{{ \App\Models\User::where('role', 'student')->count() }}</div>
-                    <div class="text-sm text-gray-600 mt-1">Total Students</div>
-                </div>
-                <div class="bg-green-50 rounded-lg p-4">
-                    <div class="text-2xl font-bold text-green-600">{{ \App\Models\User::where('role', 'teacher')->count() }}</div>
-                    <div class="text-sm text-gray-600 mt-1">Total Teachers</div>
-                </div>
-                <div class="bg-purple-50 rounded-lg p-4">
-                    <div class="text-2xl font-bold text-purple-600">{{ \App\Models\Section::count() }}</div>
-                    <div class="text-sm text-gray-600 mt-1">Active Sections</div>
-                </div>
-                <div class="bg-orange-50 rounded-lg p-4">
-                    <div class="text-2xl font-bold text-orange-600">{{ \App\Models\ClassSchedule::count() }}</div>
-                    <div class="text-sm text-gray-600 mt-1">Class Schedules</div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

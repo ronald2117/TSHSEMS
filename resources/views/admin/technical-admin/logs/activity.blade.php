@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
+@section('page_title', 'Activity Logs')
 @section('title', 'Activity Logs')
-
+@section('page_subtitle', 'System-wide activity and security audit trail' )
 @section('content')
 <div class="space-y-6">
-    <!-- Page Header -->
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Activity Logs</h1>
-        <p class="text-sm text-gray-600 mt-1">Monitor system activities and user actions</p>
-    </div>
-
+    
     <!-- Logs Table -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">

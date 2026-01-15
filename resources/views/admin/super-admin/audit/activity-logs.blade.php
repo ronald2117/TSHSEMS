@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
+@section('page_title', 'Activity Logs')
+@section('title', 'Activity Logs')
+@section('page_subtitle', 'System-wide activity and security audit trail' )
 @section('content')
+
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Activity Logs</h1>
-            <p class="text-gray-600 mt-2">System-wide activity and security audit trail</p>
-        </div>
 
         <!-- Filters -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">

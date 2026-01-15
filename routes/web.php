@@ -195,6 +195,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('audit/activity', [SuperAdminController::class, 'activityLogs'])->name('audit.activity');
         Route::get('audit/login', [SuperAdminController::class, 'loginLogs'])->name('audit.login');
         Route::get('audit/grades', [SuperAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
+
+        Route::get('system/stats', [TechnicalAdminController::class, 'systemStats'])->name('system.stats');
     });
 });
 

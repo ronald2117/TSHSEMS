@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\Strand;
 use App\Models\Section;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -113,6 +114,11 @@ class StudentManagementController extends Controller
             'address' => $validated['address'],
         ]);
 
+        ActivityLog::log(
+            'create',
+            "Created student: {$user->first_name} {$user->last_name} (LRN: {$validated['lrn']})"
+        );
+
         return redirect()->route('admin.students.index')
             ->with('success', 'Student created successfully.');
     }
@@ -207,6 +213,11 @@ class StudentManagementController extends Controller
             'address' => $validated['address'],
         ]);
 
+        ActivityLog::log(
+            'update',
+            "Updated student: {$student->first_name} {$student->last_name} (LRN: {$validated['lrn']})"
+        );
+
         return redirect()->route('admin.students.index')
             ->with('success', 'Student updated successfully.');
     }
@@ -217,7 +228,15 @@ class StudentManagementController extends Controller
             abort(404);
         }
 
+        $studentName = $student->full_name;
+        $lrn = $student->studentProfile->lrn;
+        
         $student->delete();
+
+        ActivityLog::log(
+            'delete',
+            "Deleted student: {$studentName} (LRN: {$lrn})"
+        );
 
         return redirect()->route('admin.students.index')
             ->with('success', 'Student deleted successfully.');

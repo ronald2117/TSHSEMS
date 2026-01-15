@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -84,6 +85,11 @@ class UserManagementController extends Controller
             $user->teacherProfile()->create();
         }
 
+        ActivityLog::log(
+            'create',
+            "Created user: {$user->first_name} {$user->last_name} (Role: {$validated['role']})"
+        );
+
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
@@ -133,19 +139,38 @@ class UserManagementController extends Controller
 
         $user->update($validated);
 
+        ActivityLog::log(
+            'update',
+            "Updated user: {$user->first_name} {$user->last_name} (Role: {$user->role})"
+        );
+
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function toggleStatus(User $user): RedirectResponse
     {
-        $user->update(['is_active' => !$user->is_active]);
+        $newStatus = !$user->is_active;
+        $user->update(['is_active' => $newStatus]);
+
+        ActivityLog::log(
+            'update',
+            "Changed user status to " . ($newStatus ? 'active' : 'inactive') . ": {$user->first_name} {$user->last_name}"
+        );
 
         return back()->with('success', 'User status updated.');
     }
 
     public function destroy(User $user): RedirectResponse
     {
+        $userName = $user->full_name;
+        $userRole = $user->role;
+        
         $user->delete();
+
+        ActivityLog::log(
+            'delete',
+            "Deleted user: {$userName} (Role: {$userRole})"
+        );
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted.');
     }

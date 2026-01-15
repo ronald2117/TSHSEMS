@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\TeacherProfile;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -70,6 +71,11 @@ class TeacherManagementController extends Controller
             'department' => $validated['department'],
             'specialization' => $validated['specialization'],
         ]);
+
+        ActivityLog::log(
+            'create',
+            "Created teacher: {$user->first_name} {$user->last_name} (ID: {$validated['employee_id']})"
+        );
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher created successfully.');
@@ -149,6 +155,11 @@ class TeacherManagementController extends Controller
             'specialization' => $validated['specialization'],
         ]);
 
+        ActivityLog::log(
+            'update',
+            "Updated teacher: {$teacher->first_name} {$teacher->last_name}"
+        );
+
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher updated successfully.');
     }
@@ -159,7 +170,14 @@ class TeacherManagementController extends Controller
             abort(404);
         }
 
+        $teacherName = $teacher->full_name;
+        
         $teacher->delete();
+
+        ActivityLog::log(
+            'delete',
+            "Deleted teacher: {$teacherName}"
+        );
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher deleted successfully.');

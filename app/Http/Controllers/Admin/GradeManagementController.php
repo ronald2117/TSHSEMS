@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\QuarterlyGrade;
 use App\Models\GradeAuditLog;
+use App\Models\ActivityLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -46,6 +47,11 @@ class GradeManagementController extends Controller
             'ip_address' => request()->ip(),
         ]);
 
+        ActivityLog::log(
+            'approve',
+            "Approved grade for student: {$quarterlyGrade->student->user->full_name} - {$quarterlyGrade->classSchedule->subject->name} (Quarter {$quarterlyGrade->quarter})"
+        );
+
         return back()->with('success', 'Grade approved.');
     }
 
@@ -69,6 +75,11 @@ class GradeManagementController extends Controller
             'reason' => 'Grade returned: ' . $validated['return_reason'],
             'ip_address' => request()->ip(),
         ]);
+
+        ActivityLog::log(
+            'return',
+            "Returned grade for student: {$quarterlyGrade->student->user->full_name} - {$quarterlyGrade->classSchedule->subject->name} (Reason: {$validated['return_reason']})"
+        );
 
         return back()->with('success', 'Grade returned to teacher.');
     }
@@ -99,7 +110,10 @@ class GradeManagementController extends Controller
             'reason' => 'Grade override: ' . $validated['reason'],
             'ip_address' => request()->ip(),
         ]);
-
+        ActivityLog::log(
+            'override',
+            "Overrode grade for student: {$quarterlyGrade->student->user->full_name} - {$quarterlyGrade->classSchedule->subject->name} (Old: {$oldGrade} → New: {$validated['new_grade']})"
+        );
         return back()->with('success', 'Grade overridden and approved.');
     }
 }

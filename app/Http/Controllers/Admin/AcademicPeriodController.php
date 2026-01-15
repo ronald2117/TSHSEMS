@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AcademicPeriod;
 use App\Models\SchoolYear;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class AcademicPeriodController extends Controller
@@ -34,6 +35,11 @@ class AcademicPeriodController extends Controller
 
         AcademicPeriod::create($validated);
 
+        ActivityLog::log(
+            'create',
+            "Created academic period: {$validated['name']}"
+        );
+
         return redirect()
             ->route('admin.academic-periods.index')
             ->with('success', 'Academic period created successfully!');
@@ -61,6 +67,11 @@ class AcademicPeriodController extends Controller
 
         $academicPeriod->update($validated);
 
+        ActivityLog::log(
+            'update',
+            "Updated academic period: {$validated['name']}"
+        );
+
         return redirect()
             ->route('admin.academic-periods.index')
             ->with('success', 'Academic period updated successfully!');
@@ -68,7 +79,14 @@ class AcademicPeriodController extends Controller
 
     public function destroy(AcademicPeriod $academicPeriod)
     {
+        $name = $academicPeriod->name;
+        
         $academicPeriod->delete();
+
+        ActivityLog::log(
+            'delete',
+            "Deleted academic period: {$name}"
+        );
 
         return redirect()
             ->route('admin.academic-periods.index')
@@ -79,6 +97,11 @@ class AcademicPeriodController extends Controller
     {
         $newStatus = $academicPeriod->status === 'Active' ? 'Closed' : 'Active';
         $academicPeriod->update(['status' => $newStatus]);
+
+        ActivityLog::log(
+            'update',
+            "Changed academic period status to {$newStatus}: {$academicPeriod->name}"
+        );
 
         return redirect()
             ->back()

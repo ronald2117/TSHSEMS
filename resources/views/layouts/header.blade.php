@@ -13,6 +13,9 @@
             <!-- Breadcrumb -->
             <div>
                 <h2 class="text-lg lg:text-xl font-semibold text-gray-900 truncate">@yield('page_title', 'Dashboard')</h2>
+                @hasSection('page_subtitle')
+                    <p class="text-sm text-gray-500 truncate">@yield('page_subtitle')</p>
+                @endif
             </div>
         </div>
 

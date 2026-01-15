@@ -1,15 +1,10 @@
 @extends('layouts.app')
-
+@section('page_title', 'System Statistics')
 @section('title', 'System Statistics')
-
+@section('page_subtitle', 'Overview of system performance and resource usage' )
 @section('content')
-<div class="container mx-auto px-4 py-6">
-    <!-- Page Header -->
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">System Statistics</h1>
-        <p class="text-gray-600 mt-2">Overview of system performance and resource usage</p>
-    </div>
 
+<div class="container mx-auto px-4 py-6">
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Total Users Card -->

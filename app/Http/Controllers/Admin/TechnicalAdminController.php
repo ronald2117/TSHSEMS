@@ -20,6 +20,21 @@ class TechnicalAdminController extends Controller
         $query = ActivityLog::with('user')
             ->latest();
 
+        // Smart search across multiple fields
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('action', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('ip_address', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                  });
+            });
+        }
+
         if ($request->has('action')) {
             $query->where('action', $request->action);
         }
@@ -28,7 +43,7 @@ class TechnicalAdminController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        $logs = $query->paginate(50);
+        $logs = $query->paginate(50)->withQueryString();
 
         return view('admin.technical-admin.logs.activity', compact('logs'));
     }

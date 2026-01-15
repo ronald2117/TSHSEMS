@@ -1,14 +1,11 @@
 @extends('layouts.app')
 
+@section('page_title', 'System Settings')
+@section('title', 'System Settings')
+@section('page_subtitle', 'Configure system-wide settings and preferences' )
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-5xl mx-auto">
-        <!-- Header -->
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">System Settings</h1>
-            <p class="text-gray-600 mt-2">Configure system-wide settings and preferences</p>
-        </div>
-
         <!-- Settings Form -->
         <form method="POST" action="{{ route('admin.settings.update') }}" class="space-y-6">
             @csrf

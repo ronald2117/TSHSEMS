@@ -12,7 +12,7 @@
     <!-- Summary Cards Row -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Total Students (Super Admin, Registrar) -->
-        @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'registrar_admin')
+        @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'registrar_admin' || auth()->user()->role === 'academic_admin')
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>

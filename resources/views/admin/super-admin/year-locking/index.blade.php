@@ -1,13 +1,10 @@
 @extends('layouts.app')
+@section('page_title', 'Academic Year Locking')
+@section('page_subtitle', 'Lock or unlock academic years to prevent/allow modifications')
 
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Academic Year Locking</h1>
-            <p class="text-gray-600 mt-2">Lock or unlock academic years to prevent/allow modifications</p>
-        </div>
 
         <!-- Info Alert -->
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">

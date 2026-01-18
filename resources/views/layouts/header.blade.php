@@ -32,8 +32,17 @@
             <!-- User Dropdown -->
             <div class="relative">
                 <button id="userMenuButton" class="cursor-pointer flex items-center space-x-2 lg:space-x-3 p-2 rounded-lg hover:bg-gray-100 transition">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->full_name) }}&background=00A230&color=fff" 
-                         alt="" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full border-2 border-gray-200">
+                    @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
+                        <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" 
+                             alt="{{ auth()->user()->full_name }}" 
+                             class="w-8 h-8 lg:w-10 lg:h-10 rounded-full border-2 border-gray-200 object-cover">
+                    @else
+                        <div class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-green-600 flex items-center justify-center border-2 border-gray-200">
+                            <span class="text-white text-xs lg:text-sm font-semibold">
+                                {{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}
+                            </span>
+                        </div>
+                    @endif
                     <div class="hidden sm:block text-left">
                         <p class="text-sm font-medium text-gray-900 truncate max-w-[150px]">{{ auth()->user()->full_name }}</p>
                         <p class="text-xs text-gray-500 truncate max-w-[150px]">{{ auth()->user()->email }}</p>

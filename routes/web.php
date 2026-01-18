@@ -173,7 +173,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('users/{user}/reset-password', [TechnicalAdminController::class, 'passwordResetForm'])->name('users.reset-password');
         Route::post('users/{user}/reset-password', [TechnicalAdminController::class, 'resetPassword'])->name('users.reset-password.process');
         
-        // System Stats
+        // System Stats (shared with Super Admin)
         Route::get('system/stats', [TechnicalAdminController::class, 'systemStats'])->name('system.stats');
     });
     
@@ -201,10 +201,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('audit/activity', [SuperAdminController::class, 'activityLogs'])->name('audit.activity');
         Route::get('audit/login', [SuperAdminController::class, 'loginLogs'])->name('audit.login');
         Route::get('audit/grades', [SuperAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
-
-        Route::get('system/stats', [TechnicalAdminController::class, 'systemStats'])->name('system.stats');
-
-        Route::get('logs/activity', [TechnicalAdminController::class, 'activityLogs'])->name('logs.activity');
     });
 });
 

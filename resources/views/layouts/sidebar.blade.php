@@ -154,9 +154,6 @@
                     <x-nav-link href="{{ route('admin.all-navigations') }}" :active="request()->routeIs('admin.all-navigations')" icon="view-grid">
                         Admin Modules
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
-                        System Statistics
-                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')" icon="users">
                         User Management
                     </x-nav-link>

@@ -175,9 +175,9 @@
                     <!-- <x-nav-link href="{{ route('admin.settings.index') }}" :active="request()->routeIs('admin.settings.*')" icon="cog">
                         System Settings
                     </x-nav-link> -->
-                    <x-nav-link href="{{ route('admin.features.index') }}" :active="request()->routeIs('admin.features.*')" icon="adjustments">
+                    <!-- <x-nav-link href="{{ route('admin.features.index') }}" :active="request()->routeIs('admin.features.*')" icon="adjustments">
                         Feature Toggles
-                    </x-nav-link>
+                    </x-nav-link> -->
                     <x-nav-link href="{{ route('admin.maintenance.index') }}" :active="request()->routeIs('admin.maintenance.*')" icon="exclamation">
                         Maintenance Mode
                     </x-nav-link>

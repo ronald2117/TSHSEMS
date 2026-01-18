@@ -19,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'technical-admin' => \App\Http\Middleware\TechnicalAdminMiddleware::class,
             'super-admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         ]);
+        
+        // Apply maintenance check to web routes (will be excluded for admins in the middleware)
+        $middleware->web(append: [
+            \App\Http\Middleware\CheckMaintenance::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

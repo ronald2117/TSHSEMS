@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class SuperAdminController extends Controller
 {
@@ -125,16 +126,49 @@ class SuperAdminController extends Controller
      */
     public function maintenanceMode()
     {
-        return view('admin.super-admin.maintenance.index');
+        $maintenanceMode = \App\Models\SystemSetting::isMaintenanceMode();
+        $maintenanceMessage = \App\Models\SystemSetting::getMaintenanceMessage();
+        $allowSuperAdmin = \App\Models\SystemSetting::allowSuperAdminDuringMaintenance();
+        
+        return view('admin.super-admin.maintenance.index', compact(
+            'maintenanceMode',
+            'maintenanceMessage',
+            'allowSuperAdmin'
+        ));
     }
 
     /**
      * Toggle maintenance mode
      */
-    public function toggleMaintenance()
+    public function toggleMaintenance(Request $request)
     {
-        // Implementation for maintenance mode
-        return back()->with('success', 'Maintenance mode updated successfully');
+        $currentMode = \App\Models\SystemSetting::isMaintenanceMode();
+        
+        // Toggle maintenance mode
+        \App\Models\SystemSetting::set('maintenance_mode', !$currentMode);
+        
+        // Update message and settings if provided
+        if ($request->has('maintenance_message')) {
+            \App\Models\SystemSetting::set('maintenance_message', $request->maintenance_message);
+        }
+        
+        if ($request->has('allow_super_admin')) {
+            \App\Models\SystemSetting::set('maintenance_allow_super_admin', $request->boolean('allow_super_admin'));
+        }
+        
+        // Log the activity
+        \App\Models\ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => $currentMode ? 'disabled_maintenance_mode' : 'enabled_maintenance_mode',
+            'description' => ($currentMode ? 'Disabled' : 'Enabled') . ' system maintenance mode',
+            'ip_address' => $request->ip(),
+        ]);
+        
+        $message = $currentMode 
+            ? 'Maintenance mode disabled. System is now accessible to all users.' 
+            : 'Maintenance mode enabled. Only authorized admins can access the system.';
+            
+        return back()->with('success', $message);
     }
 
     /**

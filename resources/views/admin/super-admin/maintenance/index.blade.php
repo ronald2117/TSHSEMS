@@ -9,21 +9,30 @@
             <p class="text-gray-600 mt-2">Control system maintenance mode and accessibility</p>
         </div>
 
+        <!-- Success Message -->
+        @if(session('success'))
+        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6">
+            {{ session('success') }}
+        </div>
+        @endif
+
         <!-- Current Status -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-gray-900 flex items-center">
-                        <span class="w-3 h-3 bg-green-500 rounded-full mr-3 animate-pulse"></span>
-                        System Status: Online
+                        <span class="w-3 h-3 {{ $maintenanceMode ? 'bg-orange-500' : 'bg-green-500' }} rounded-full mr-3 animate-pulse"></span>
+                        System Status: {{ $maintenanceMode ? 'Maintenance Mode' : 'Online' }}
                     </h2>
-                    <p class="text-sm text-gray-500 mt-1 ml-6">All systems operational</p>
+                    <p class="text-sm text-gray-500 mt-1 ml-6">
+                        {{ $maintenanceMode ? 'System is in maintenance mode' : 'All systems operational' }}
+                    </p>
                 </div>
                 <form method="POST" action="{{ route('admin.maintenance.toggle') }}">
                     @csrf
                     <button type="submit" 
-                            class="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors">
-                        Enable Maintenance Mode
+                            class="px-6 py-3 {{ $maintenanceMode ? 'bg-green-600 hover:bg-green-700' : 'bg-orange-600 hover:bg-orange-700' }} text-white font-semibold rounded-lg transition-colors">
+                        {{ $maintenanceMode ? 'Disable Maintenance Mode' : 'Enable Maintenance Mode' }}
                     </button>
                 </form>
             </div>
@@ -36,81 +45,30 @@
                 Maintenance Settings
             </h2>
             
-            <form class="space-y-4">
+            <form method="POST" action="{{ route('admin.maintenance.toggle') }}" class="space-y-4">
+                @csrf
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Maintenance Message</label>
                     <textarea name="maintenance_message" rows="4"
                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                              placeholder="Custom message to display during maintenance...">We are currently performing scheduled maintenance. The system will be back online shortly.</textarea>
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Estimated Duration</label>
-                    <select name="estimated_duration" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent">
-                        <option value="30">30 minutes</option>
-                        <option value="60">1 hour</option>
-                        <option value="120">2 hours</option>
-                        <option value="240">4 hours</option>
-                        <option value="custom">Custom</option>
-                    </select>
+                              placeholder="Custom message to display during maintenance...">{{ $maintenanceMessage }}</textarea>
                 </div>
                 
                 <div class="flex items-center">
-                    <input type="checkbox" name="allow_super_admin" id="allow_super_admin" checked
+                    <input type="checkbox" name="allow_super_admin" id="allow_super_admin" value="1" {{ $allowSuperAdmin ? 'checked' : '' }}
                            class="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500">
                     <label for="allow_super_admin" class="ml-2 text-sm text-gray-700">
                         Allow Super Admin access during maintenance
                     </label>
                 </div>
                 
-                <div class="flex items-center">
-                    <input type="checkbox" name="notify_users" id="notify_users"
-                           class="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500">
-                    <label for="notify_users" class="ml-2 text-sm text-gray-700">
-                        Send email notification to all active users
-                    </label>
+                <div class="pt-4">
+                    <button type="submit" 
+                            class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        Save Settings
+                    </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Scheduled Maintenance -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                <x-icon name="calendar" class="w-5 h-5 mr-2 text-blue-600" />
-                Scheduled Maintenance
-            </h2>
-            
-            <div class="space-y-4">
-                <p class="text-sm text-gray-600">Schedule maintenance windows in advance</p>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Start Date & Time</label>
-                        <input type="datetime-local" name="maintenance_start"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">End Date & Time</label>
-                        <input type="datetime-local" name="maintenance_end"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                </div>
-                
-                <button type="button" 
-                        class="w-full px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
-                    Schedule Maintenance
-                </button>
-                
-                <div class="mt-6 pt-6 border-t border-gray-200">
-                    <p class="text-sm font-medium text-gray-700 mb-3">Upcoming Scheduled Maintenance</p>
-                    <div class="text-center py-8 text-gray-500">
-                        <x-icon name="calendar" class="w-12 h-12 mx-auto mb-2 text-gray-400" />
-                        <p class="text-sm">No maintenance scheduled</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -32,6 +32,12 @@ use App\Http\Controllers\Student\DocumentRequestController as StudentDocumentReq
 use App\Http\Controllers\Teacher\ClassesController;
 use Illuminate\Support\Facades\Route;
 
+// Maintenance mode page (accessible to all when maintenance is active)
+Route::get('/maintenance', function () {
+    $message = \App\Models\SystemSetting::getMaintenanceMessage();
+    return view('maintenance', compact('message'));
+})->name('maintenance.show');
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');

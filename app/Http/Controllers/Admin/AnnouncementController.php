@@ -7,9 +7,12 @@ use App\Models\Announcement;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AnnouncementController extends Controller
 {
+    use AuthorizesRequests;
+    
     public function index()
     {
         $announcements = Announcement::with('author')

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('page_title', 'Admin Dashboard')
-@section('page_subtitle', 'Welcome back, {{ auth()->user()->first_name }}! Here\'s your system overview.')
+
+@section('page_subtitle')
+    Welcome back, {{ auth()->user()->first_name }}! Here's your system overview.
+@endsection
 
 @section('content')
 <div class="p-6 space-y-6">

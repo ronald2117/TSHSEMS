@@ -24,13 +24,19 @@ class EnrollmentController extends Controller
         $stats = [
             'total_enrolled' => StudentProfile::whereNotNull('current_section_id')->count(),
             'not_enrolled' => StudentProfile::whereNull('current_section_id')->count(),
-            'grade_11' => StudentProfile::where('grade_level', 11)->whereNotNull('current_section_id')->count(),
-            'grade_12' => StudentProfile::where('grade_level', 12)->whereNotNull('current_section_id')->count(),
+            'grade_11' => StudentProfile::whereNotNull('current_section_id')
+                ->whereHas('currentSection', function ($query) {
+                    $query->where('grade_level', 11);
+                })->count(),
+            'grade_12' => StudentProfile::whereNotNull('current_section_id')
+                ->whereHas('currentSection', function ($query) {
+                    $query->where('grade_level', 12);
+                })->count(),
         ];
 
         // Get sections with enrollment counts
         $sections = Section::with(['strand', 'schoolYear'])
-            ->withCount('students')
+            ->withCount('studentProfiles')
             ->when($schoolYearId, function ($query, $schoolYearId) {
                 $query->where('school_year_id', $schoolYearId);
             })

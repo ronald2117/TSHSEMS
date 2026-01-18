@@ -24,7 +24,17 @@ class GradeManagementController extends Controller
 
     public function show(QuarterlyGrade $quarterlyGrade): View
     {
-        $quarterlyGrade->load('student', 'classSchedule.subject', 'auditLogs');
+        $quarterlyGrade->load([
+            'student' => function ($query) {
+                $query->withTrashed();
+            },
+            'classSchedule' => function ($query) {
+                $query->withTrashed()->with(['subject' => function ($q) {
+                    $q->withTrashed();
+                }]);
+            },
+            'auditLogs'
+        ]);
 
         return view('admin.grades.show', ['grade' => $quarterlyGrade]);
     }

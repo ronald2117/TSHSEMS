@@ -163,7 +163,7 @@
                     <x-nav-link href="{{ route('admin.year-locking.index') }}" :active="request()->routeIs('admin.year-locking.*')" icon="lock-closed">
                         Academic Year Locking
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.logs.activity') }}" :active="request()->routeIs('admin.audit.activity')" icon="clipboard-list">
+                    <x-nav-link href="{{ route('admin.logs.activity') }}" :active="request()->routeIs('admin.logs.activity')" icon="clipboard-list">
                         Activity Logs
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.audit.grades') }}" :active="request()->routeIs('admin.audit.grades')" icon="chart-bar">

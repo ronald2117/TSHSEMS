@@ -10,7 +10,8 @@ class RegistrarAdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || auth()->user()->role !== 'registrar_admin') {
+        if (!auth()->check() || 
+            (auth()->user()->role !== 'registrar_admin' && !auth()->user()->isSuperAdmin())) {
             return redirect('dashboard')->with('error', 'Unauthorized access');
         }
         return $next($request);

@@ -21,6 +21,8 @@ class AnnouncementController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Announcement::class);
+        
         return view('admin.announcements.create');
     }
 
@@ -63,11 +65,15 @@ class AnnouncementController extends Controller
 
     public function edit(Announcement $announcement)
     {
+        $this->authorize('update', $announcement);
+        
         return view('admin.announcements.edit', compact('announcement'));
     }
 
     public function update(Request $request, Announcement $announcement)
     {
+        $this->authorize('update', $announcement);
+        
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -95,6 +101,8 @@ class AnnouncementController extends Controller
 
     public function destroy(Announcement $announcement)
     {
+        $this->authorize('delete', $announcement);
+        
         $title = $announcement->title;
         
         $announcement->delete();

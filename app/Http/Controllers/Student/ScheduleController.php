@@ -19,7 +19,7 @@ class ScheduleController extends Controller
         $schedules = ClassSchedule::with(['subject', 'teacher.user', 'academicPeriod'])
             ->where('section_id', $student->current_section_id)
             ->whereHas('academicPeriod', function ($query) {
-                $query->where('is_current', true);
+                $query->where('status', 'Active');
             })
             ->orderBy('day_of_week')
             ->orderBy('start_time')

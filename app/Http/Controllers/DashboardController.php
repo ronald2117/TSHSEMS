@@ -45,19 +45,63 @@ class DashboardController extends Controller
 
     private function teacherDashboard($user): View
     {
+        // Get all class schedules with related data (matching the pattern from TeacherManagementController)
         $classSchedules = $user->classSchedules()
-            ->with('section', 'subject')
+            ->with([
+                'section.schoolYear', 
+                'section.strand',
+                'subject', 
+                'academicPeriod',
+                'enrollments' => function($query) {
+                    $query->where('status', 'enrolled');
+                }
+            ])
             ->get();
 
-        $totalStudents = $classSchedules->sum(fn($cs) => $cs->enrollments()->count());
-        $pendingGrades = \App\Models\QuarterlyGrade::whereIn('class_schedule_id', $classSchedules->pluck('id'))
-            ->where('status', 'Draft')
-            ->count();
+        // Calculate total enrolled students from the eager-loaded enrollments
+        $totalStudents = $classSchedules->sum(function($schedule) {
+            return $schedule->enrollments->count();
+        });
+
+        // Get class schedule IDs for queries (only if there are schedules)
+        $scheduleIds = $classSchedules->pluck('id');
+        
+        // Count pending grade submissions (Draft status)
+        $pendingGrades = 0;
+        $submittedGrades = 0;
+        $totalAssessments = 0;
+        $recentGradeSubmissions = collect();
+
+        if ($scheduleIds->isNotEmpty()) {
+            $pendingGrades = \App\Models\QuarterlyGrade::whereIn('class_schedule_id', $scheduleIds)
+                ->where('status', 'Draft')
+                ->count();
+
+            // Count submitted grades waiting for approval
+            $submittedGrades = \App\Models\QuarterlyGrade::whereIn('class_schedule_id', $scheduleIds)
+                ->where('status', 'Submitted')
+                ->count();
+
+            // Count total assessments created
+            $totalAssessments = \App\Models\Assessment::whereIn('class_schedule_id', $scheduleIds)
+                ->count();
+
+            // Get recent activity (recent grade submissions)
+            $recentGradeSubmissions = \App\Models\QuarterlyGrade::whereIn('class_schedule_id', $scheduleIds)
+                ->with(['student', 'classSchedule.subject'])
+                ->latest('updated_at')
+                ->take(5)
+                ->get();
+        }
 
         return view('teacher.dashboard', [
             'classSchedules' => $classSchedules,
+            'totalClasses' => $classSchedules->count(),
             'totalStudents' => $totalStudents,
             'pendingGrades' => $pendingGrades,
+            'submittedGrades' => $submittedGrades,
+            'totalAssessments' => $totalAssessments,
+            'recentGradeSubmissions' => $recentGradeSubmissions,
         ]);
     }
 

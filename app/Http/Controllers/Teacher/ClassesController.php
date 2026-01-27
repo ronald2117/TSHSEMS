@@ -15,9 +15,9 @@ class ClassesController extends Controller
     public function index()
     {
         $classes = ClassSchedule::with(['subject', 'section.strand', 'academicPeriod', 'schoolYear'])
-            ->where('teacher_id', auth()->user()->teacherProfile->id)
+            ->where('teacher_id', auth()->id())
             ->whereHas('academicPeriod', function ($query) {
-                $query->where('is_current', true);
+                $query->where('status', 'Active');
             })
             ->orderBy('day_of_week')
             ->orderBy('start_time')

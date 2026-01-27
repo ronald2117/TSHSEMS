@@ -343,7 +343,7 @@
                                 <p class="text-xs text-gray-600 mb-2">{{ Str::limit($announcement->content, 100) }}</p>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-500">{{ $announcement->published_at->diffForHumans() }}</span>
-                                    <a href="{{ route('admin.announcements.show', $announcement) }}" class="text-xs text-green-600 hover:text-green-700 font-medium">Read more →</a>
+                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-green-600 hover:text-green-700 font-medium">See more →</button>
                                 </div>
                             </div>
                             @endforeach
@@ -364,4 +364,68 @@
         </div>
     </div>
 </div>
+
+<!-- Announcement Modal -->
+<div id="announcementModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-xl bg-white">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-200">
+            <h3 id="modalTitle" class="text-xl font-semibold text-gray-900"></h3>
+            <button onclick="closeAnnouncementModal()" class="text-gray-400 hover:text-gray-600 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="mt-4">
+            <div class="flex items-center text-sm text-gray-500 mb-4">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span id="modalDate"></span>
+            </div>
+            <div id="modalContent" class="text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
+        </div>
+        <div class="mt-6 flex justify-end">
+            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+const announcements = @json($announcements);
+
+function showAnnouncementModal(announcementId) {
+    const announcement = announcements.find(a => a.id === announcementId);
+    if (announcement) {
+        document.getElementById('modalTitle').textContent = announcement.title;
+        document.getElementById('modalContent').textContent = announcement.content;
+        document.getElementById('modalDate').textContent = new Date(announcement.published_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        document.getElementById('announcementModal').classList.remove('hidden');
+    }
+}
+
+function closeAnnouncementModal() {
+    document.getElementById('announcementModal').classList.add('hidden');
+}
+
+// Close modal when clicking outside
+document.getElementById('announcementModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeAnnouncementModal();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeAnnouncementModal();
+    }
+});
+</script>
 @endsection

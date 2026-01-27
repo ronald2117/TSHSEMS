@@ -27,64 +27,64 @@ class GradingController extends Controller
         return view('teacher.grading.index', ['classSchedules' => $classSchedules]);
     }
 
-    public function show(ClassSchedule $classSchedule): View
+    public function show(ClassSchedule $grading): View
     {
-        $this->authorize('view', $classSchedule);
+        $this->authorize('view', $grading);
 
-        $classSchedule->load(['subject', 'section', 'academicPeriod', 'enrollments.student.studentProfile']);
+        $grading->load(['subject', 'section', 'academicPeriod', 'enrollments.student.studentProfile']);
 
-        $students = $classSchedule->enrollments
+        $students = $grading->enrollments
             ->where('status', 'enrolled')
             ->pluck('student')
             ->filter();
 
-        $assessments = $classSchedule->assessments()
+        $assessments = $grading->assessments()
             ->with('scores')
             ->get()
             ->groupBy('type');
 
-        $grades = QuarterlyGrade::where('class_schedule_id', $classSchedule->id)->get();
+        $grades = QuarterlyGrade::where('class_schedule_id', $grading->id)->get();
 
         return view('teacher.grading.show', [
-            'classSchedule' => $classSchedule,
+            'classSchedule' => $grading,
             'students' => $students,
             'assessments' => $assessments,
             'grades' => $grades,
         ]);
     }
 
-    public function edit(ClassSchedule $classSchedule): View
+    public function edit(ClassSchedule $grading): View
     {
-        $this->authorize('view', $classSchedule);
+        $this->authorize('view', $grading);
 
-        $classSchedule->load(['subject', 'section', 'enrollments.student.studentProfile']);
+        $grading->load(['subject', 'section', 'enrollments.student.studentProfile']);
 
-        $students = $classSchedule->enrollments
+        $students = $grading->enrollments
             ->where('status', 'enrolled')
             ->pluck('student')
             ->filter();
 
-        $assessments = $classSchedule->assessments()
+        $assessments = $grading->assessments()
             ->orderBy('quarter')
             ->orderBy('type')
             ->get()
             ->groupBy('type');
 
-        $scores = StudentScore::whereIn('assessment_id', $classSchedule->assessments()->pluck('id'))
+        $scores = StudentScore::whereIn('assessment_id', $grading->assessments()->pluck('id'))
             ->get()
             ->groupBy('student_id');
 
         return view('teacher.grading.edit', [
-            'classSchedule' => $classSchedule,
+            'classSchedule' => $grading,
             'students' => $students,
             'assessments' => $assessments,
             'scores' => $scores,
         ]);
     }
 
-    public function update(Request $request, ClassSchedule $classSchedule): RedirectResponse
+    public function update(Request $request, ClassSchedule $grading): RedirectResponse
     {
-        $this->authorize('view', $classSchedule);
+        $this->authorize('view', $grading);
 
         $validated = $request->validate([
             'scores' => 'required|array',

@@ -35,11 +35,23 @@ class DashboardController extends Controller
         
         $recentGrades = $grades->sortByDesc('created_at')->take(5);
 
+        // Get announcements for students
+        $announcements = \App\Models\Announcement::where(function($q) {
+            $q->where('target_role', 'student')
+              ->orWhereNull('target_role');
+        })
+        ->where('status', 'published')
+        ->orderBy('is_pinned', 'desc')
+        ->orderBy('published_at', 'desc')
+        ->take(10)
+        ->get();
+
         return view('student.dashboard', [
             'profile' => $profile,
             'recentGrades' => $recentGrades,
             'totalGrades' => $grades->count(),
             'averageGrade' => $grades->avg('final_grade'),
+            'announcements' => $announcements,
         ]);
     }
 

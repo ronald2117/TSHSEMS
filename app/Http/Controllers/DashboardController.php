@@ -94,6 +94,20 @@ class DashboardController extends Controller
                 ->get();
         }
 
+        // Recent announcements for teachers
+        $announcements = \App\Models\Announcement::where(function($q) {
+            $q->where('target_role', 'teacher')
+              ->orWhereNull('target_role');
+        })
+        ->where('published_at', '<=', now())
+        ->where(function($q) {
+            $q->whereNull('expires_at')
+              ->orWhere('expires_at', '>', now());
+        })
+        ->latest('published_at')
+        ->take(5)
+        ->get();
+
         return view('teacher.dashboard', [
             'classSchedules' => $classSchedules,
             'totalClasses' => $classSchedules->count(),
@@ -102,6 +116,7 @@ class DashboardController extends Controller
             'submittedGrades' => $submittedGrades,
             'totalAssessments' => $totalAssessments,
             'recentGradeSubmissions' => $recentGradeSubmissions,
+            'announcements' => $announcements,
         ]);
     }
 

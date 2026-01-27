@@ -17,7 +17,7 @@ class AttendanceController extends Controller
     public function index(): View
     {
         $classSchedules = auth()->user()->classSchedules()
-            ->with('section', 'subject')
+            ->with('section', 'subject', 'enrollments')
             ->get();
 
         return view('teacher.attendance.index', ['classSchedules' => $classSchedules]);
@@ -28,9 +28,10 @@ class AttendanceController extends Controller
         $this->authorize('view', $classSchedule);
 
         $students = $classSchedule->enrollments()
-            ->with('user')
+            ->with('student.studentProfile')
+            ->where('status', 'enrolled')
             ->get()
-            ->map(fn($e) => $e->user);
+            ->pluck('student');
 
         $attendances = Attendance::where('class_schedule_id', $classSchedule->id)
             ->whereDate('date', today())

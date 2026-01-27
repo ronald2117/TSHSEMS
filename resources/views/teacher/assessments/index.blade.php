@@ -76,7 +76,7 @@
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">Q{{ $assessment->quarter }}</td>
                         <td class="px-6 py-4 text-sm text-gray-500">{{ $assessment->max_score }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $assessment->assessment_date->format('M d, Y') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{{ $assessment->assessment_date ? $assessment->assessment_date->format('M d, Y') : 'N/A' }}</td>
                         <td class="px-6 py-4">
                             @if ($assessment->is_published)
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Published</span>

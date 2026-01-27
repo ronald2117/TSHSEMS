@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use App\Models\ClassSchedule;
 use App\Models\Attendance;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class AttendanceController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): View
     {
         $classSchedules = auth()->user()->classSchedules()

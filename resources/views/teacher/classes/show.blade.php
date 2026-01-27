@@ -34,13 +34,12 @@
                 <p class="font-medium text-gray-900">{{ $classSchedule->section->name }}</p>
                 <p class="text-xs text-gray-500 mt-0.5">{{ $classSchedule->section->strand->name }}</p>
             </div>
+            @if($classSchedule->schedule_time)
             <div>
                 <p class="text-sm text-gray-500 mb-1">Schedule</p>
-                <p class="font-medium text-gray-900">{{ ucfirst($classSchedule->day_of_week) }}</p>
-                <p class="text-xs text-gray-500 mt-0.5">
-                    {{ date('g:i A', strtotime($classSchedule->start_time)) }} - {{ date('g:i A', strtotime($classSchedule->end_time)) }}
-                </p>
+                <p class="font-medium text-gray-900">{{ $classSchedule->schedule_time }}</p>
             </div>
+            @endif
             @if($classSchedule->room)
                 <div>
                     <p class="text-sm text-gray-500 mb-1">Room</p>
@@ -93,27 +92,27 @@
                     @forelse($students as $enrollment)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $enrollment->student->student_id }}
+                                {{ $enrollment->student->studentProfile->lrn ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
                                         <span class="text-green-700 font-semibold text-sm">
-                                            {{ substr($enrollment->student->user->name, 0, 2) }}
+                                            {{ substr($enrollment->student->first_name, 0, 1) }}{{ substr($enrollment->student->last_name, 0, 1) }}
                                         </span>
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
-                                            {{ $enrollment->student->user->name }}
+                                            {{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $enrollment->student->section->name ?? 'N/A' }}
+                                {{ $enrollment->student->studentProfile->currentSection->name ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $enrollment->student->user->email }}
+                                {{ $enrollment->student->email }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">

@@ -49,6 +49,12 @@ class ClassSchedule extends Model
         return $this->belongsTo(AcademicPeriod::class);
     }
 
+    // Accessor to get school year through academic period
+    public function getSchoolYearAttribute()
+    {
+        return $this->academicPeriod?->schoolYear;
+    }
+
     public function enrollments(): HasMany
     {
         return $this->hasMany(StudentSubjectEnrollment::class);

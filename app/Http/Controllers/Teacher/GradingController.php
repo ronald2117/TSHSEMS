@@ -9,12 +9,15 @@ use App\Models\StudentScore;
 use App\Models\QuarterlyGrade;
 use App\Models\GradingComponent;
 use App\Models\GradeTransmutation;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class GradingController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): View
     {
         $classSchedules = auth()->user()->classSchedules()
@@ -28,13 +31,15 @@ class GradingController extends Controller
     {
         $this->authorize('view', $classSchedule);
 
-        $students = $classSchedule->enrollments()
-            ->with('user')
-            ->get()
-            ->map(fn($e) => $e->user);
+        $classSchedule->load(['subject', 'section', 'academicPeriod', 'enrollments.student.studentProfile']);
+
+        $students = $classSchedule->enrollments
+            ->where('status', 'enrolled')
+            ->pluck('student')
+            ->filter();
 
         $assessments = $classSchedule->assessments()
-            ->where('is_published', true)
+            ->with('scores')
             ->get()
             ->groupBy('type');
 
@@ -52,12 +57,15 @@ class GradingController extends Controller
     {
         $this->authorize('view', $classSchedule);
 
-        $students = $classSchedule->enrollments()
-            ->with('user')
-            ->get()
-            ->map(fn($e) => $e->user);
+        $classSchedule->load(['subject', 'section', 'enrollments.student.studentProfile']);
+
+        $students = $classSchedule->enrollments
+            ->where('status', 'enrolled')
+            ->pluck('student')
+            ->filter();
 
         $assessments = $classSchedule->assessments()
+            ->orderBy('quarter')
             ->orderBy('type')
             ->get()
             ->groupBy('type');

@@ -13,7 +13,7 @@ class ClassSchedulePolicy
     public function view(User $user, ClassSchedule $classSchedule): bool
     {
         if ($user->isTeacher()) {
-            return $classSchedule->teacher_id === $user->teacherProfile->id;
+            return $classSchedule->teacher_id === $user->id;
         }
 
         return $user->isAdmin();
@@ -25,7 +25,7 @@ class ClassSchedulePolicy
     public function update(User $user, ClassSchedule $classSchedule): bool
     {
         if ($user->isTeacher()) {
-            return $classSchedule->teacher_id === $user->teacherProfile->id;
+            return $classSchedule->teacher_id === $user->id;
         }
 
         return $user->isAdmin();

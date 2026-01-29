@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\ClassSchedule;
 use App\Models\Section;
 use App\Models\Subject;
@@ -75,7 +76,16 @@ class ClassSchedulesController extends Controller
             return back()->withInput()->with('error', 'This subject is already scheduled for this section in the selected period.');
         }
 
-        ClassSchedule::create($validated);
+        $schedule = ClassSchedule::create($validated);
+
+        // Log activity
+        $section = Section::find($validated['section_id']);
+        $subject = Subject::find($validated['subject_id']);
+        $teacher = User::find($validated['teacher_id']);
+        ActivityLog::log(
+            'class_schedule_created',
+            "Created class schedule for {$subject->name} in section {$section->name}, assigned to {$teacher->first_name} {$teacher->last_name}"
+        );
 
         return redirect()->route('admin.class-schedules.index')
             ->with('success', 'Class schedule created successfully.');
@@ -132,6 +142,15 @@ class ClassSchedulesController extends Controller
 
         $classSchedule->update($validated);
 
+        // Log activity
+        $section = Section::find($validated['section_id']);
+        $subject = Subject::find($validated['subject_id']);
+        $teacher = User::find($validated['teacher_id']);
+        ActivityLog::log(
+            'class_schedule_updated',
+            "Updated class schedule for {$subject->name} in section {$section->name}, assigned to {$teacher->first_name} {$teacher->last_name}"
+        );
+
         return redirect()->route('admin.class-schedules.show', $classSchedule)
             ->with('success', 'Class schedule updated successfully.');
     }
@@ -143,7 +162,17 @@ class ClassSchedulesController extends Controller
                 ->with('error', 'Cannot delete class schedule with enrolled students.');
         }
 
+        // Log activity before deletion
+        $section = $classSchedule->section->name;
+        $subject = $classSchedule->subject->name;
+        $teacher = $classSchedule->teacher->first_name . ' ' . $classSchedule->teacher->last_name;
+        
         $classSchedule->delete();
+
+        ActivityLog::log(
+            'class_schedule_deleted',
+            "Deleted class schedule for {$subject} in section {$section}, previously assigned to {$teacher}"
+        );
 
         return redirect()->route('admin.class-schedules.index')
             ->with('success', 'Class schedule deleted successfully.');

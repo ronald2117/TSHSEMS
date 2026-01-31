@@ -210,6 +210,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // Teacher Routes
 Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+    // Profile Management
+    Route::get('profile', [\App\Http\Controllers\Teacher\ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile/edit', [\App\Http\Controllers\Teacher\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [\App\Http\Controllers\Teacher\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('profile/password', [\App\Http\Controllers\Teacher\ProfileController::class, 'updatePassword'])->name('profile.password');
+    
     // Classes Management
     Route::get('classes', [ClassesController::class, 'index'])->name('classes.index');
     Route::get('classes/{classSchedule}', [ClassesController::class, 'show'])->name('classes.show');

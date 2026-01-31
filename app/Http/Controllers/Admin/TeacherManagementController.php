@@ -98,6 +98,41 @@ class TeacherManagementController extends Controller
             abort(404);
         }
 
+        // Check authorization
+        $currentUser = auth()->user();
+        $isSuperAdmin = $currentUser->isSuperAdmin();
+        $isAcademicAdmin = $currentUser->role === 'academic_admin';
+        $isTechnicalAdmin = $currentUser->role === 'technical_admin';
+
+        // Technical Admin can only reset passwords
+        if ($isTechnicalAdmin) {
+            if (!$request->filled('password')) {
+                return back()->withErrors(['authorization' => 'Technical Admins can only reset passwords.']);
+            }
+            
+            $validated = $request->validate([
+                'password' => 'required|min:8|confirmed',
+            ]);
+
+            $teacher->update([
+                'password' => Hash::make($validated['password'])
+            ]);
+
+            ActivityLog::log(
+                'password_reset',
+                "Technical Admin reset password for teacher: {$teacher->first_name} {$teacher->last_name}",
+                $currentUser
+            );
+
+            return redirect()->route('admin.teachers.index')
+                ->with('success', 'Teacher password reset successfully.');
+        }
+
+        // Academic Admin and Super Admin can edit full profile
+        if (!$isAcademicAdmin && !$isSuperAdmin) {
+            abort(403, 'Unauthorized to edit teacher information.');
+        }
+
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
@@ -155,10 +190,20 @@ class TeacherManagementController extends Controller
             'specialization' => $validated['specialization'],
         ]);
 
-        ActivityLog::log(
-            'update',
-            "Updated teacher: {$teacher->first_name} {$teacher->last_name}"
-        );
+        // Log with Super Admin override if applicable
+        if ($isSuperAdmin) {
+            ActivityLog::log(
+                'super_admin_override',
+                "SUPER ADMIN OVERRIDE: Updated teacher: {$teacher->first_name} {$teacher->last_name} (ID: {$validated['employee_id']})",
+                $currentUser
+            );
+        } else {
+            ActivityLog::log(
+                'update',
+                "Academic Admin updated teacher: {$teacher->first_name} {$teacher->last_name}",
+                $currentUser
+            );
+        }
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher updated successfully.');

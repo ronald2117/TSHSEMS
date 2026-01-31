@@ -14,10 +14,7 @@ class UserManagementController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = User::query();
-
-        // Filter only admin roles (exclude teachers and students)
-        $query->whereIn('role', ['super_admin', 'academic_admin', 'registrar_admin', 'technical_admin']);
+        $query = User::with('studentProfile.strand', 'teacherProfile');
 
         // Smart search across multiple fields including role and status
         if ($request->filled('search')) {
@@ -36,6 +33,11 @@ class UserManagementController extends Controller
                 if (str_contains($search, 'inactive') || str_contains($search, 'disabled')) {
                     $q->orWhere('is_active', false);
                 }
+                
+                // Search in student LRN
+                $q->orWhereHas('studentProfile', function($sq) use ($search) {
+                    $sq->where('lrn', 'like', "%{$search}%");
+                });
             });
         }
 
@@ -51,6 +53,13 @@ class UserManagementController extends Controller
 
     public function show(User $user): View
     {
+        // Load relationships based on user role
+        if ($user->role === 'student') {
+            $user->load('studentProfile.strand', 'studentProfile.currentSection');
+        } elseif ($user->role === 'teacher') {
+            $user->load('teacherProfile');
+        }
+        
         return view('admin.users.show', ['user' => $user]);
     }
 

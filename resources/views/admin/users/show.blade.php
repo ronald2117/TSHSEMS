@@ -62,7 +62,7 @@
                 <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline">
                     @csrf
                     <button type="submit" 
-                            class="p-2 text-white rounded-lg transition shadow-sm {{ $user->is_active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-600 hover:bg-green-700' }}" 
+                            class="cursor-pointer p-2 text-white rounded-lg transition shadow-sm {{ $user->is_active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-600 hover:bg-green-700' }}" 
                             title="{{ $user->is_active ? 'Disable Account' : 'Enable Account' }}">
                         @if($user->is_active)
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,7 +80,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit" 
-                            class="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition shadow-sm" 
+                            class="cursor-pointer p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition shadow-sm" 
                             title="Delete User">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -175,6 +175,81 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Student-Specific Information -->
+                @if($user->role === 'student' && $user->studentProfile)
+                <div class="space-y-4 md:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Student Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">LRN</label>
+                            <p class="text-gray-900 mt-1">{{ $user->studentProfile->lrn ?? 'N/A' }}</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Strand</label>
+                            <p class="text-gray-900 mt-1">{{ $user->studentProfile->strand ? $user->studentProfile->strand->name . ' (' . $user->studentProfile->strand->code . ')' : 'N/A' }}</p>
+                        </div>
+
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Current Section</label>
+                            <p class="text-gray-900 mt-1">{{ $user->studentProfile->currentSection ? $user->studentProfile->currentSection->name : 'N/A' }}</p>
+                        </div>
+
+                        @if($user->studentProfile->address)
+                        <div class="md:col-span-3">
+                            <label class="text-sm font-medium text-gray-600">Address</label>
+                            <p class="text-gray-900 mt-1">{{ $user->studentProfile->address }}</p>
+                        </div>
+                        @endif
+
+                        @if($user->studentProfile->guardian_name)
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Guardian Name</label>
+                            <p class="text-gray-900 mt-1">{{ $user->studentProfile->guardian_name }}</p>
+                        </div>
+                        @endif
+
+                        @if($user->studentProfile->guardian_contact)
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Guardian Contact</label>
+                            <p class="text-gray-900 mt-1">{{ $user->studentProfile->guardian_contact }}</p>
+                        </div>
+                        @endif
+
+                        @if($user->studentProfile->birthdate)
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Birthdate</label>
+                            <p class="text-gray-900 mt-1">{{ \Carbon\Carbon::parse($user->studentProfile->birthdate)->format('M d, Y') }}</p>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+
+                <!-- Teacher-Specific Information -->
+                @if($user->role === 'teacher' && $user->teacherProfile)
+                <div class="space-y-4 md:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900 border-b pb-2">Teacher Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @if($user->teacherProfile->department)
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Department</label>
+                            <p class="text-gray-900 mt-1">{{ $user->teacherProfile->department }}</p>
+                        </div>
+                        @endif
+
+                        @if($user->teacherProfile->specialization)
+                        <div>
+                            <label class="text-sm font-medium text-gray-600">Specialization</label>
+                            <p class="text-gray-900 mt-1">{{ $user->teacherProfile->specialization }}</p>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>

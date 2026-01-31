@@ -35,26 +35,46 @@ class ProfileController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required|email|unique:users,email,' . auth()->id(),
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-            'emergency_contact_name' => 'nullable|string|max:100',
-            'emergency_contact_phone' => 'nullable|string|max:20',
-            'emergency_contact_relationship' => 'nullable|string|max:50',
+            'address' => 'nullable|string',
+            'guardian_name' => 'nullable|string|max:255',
+            'guardian_contact' => 'nullable|string|max:255',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_avatar' => 'nullable|boolean',
         ]);
 
         $user = auth()->user();
         $student = $user->studentProfile;
+
+        // Handle avatar removal
+        if ($request->has('remove_avatar') && $request->remove_avatar) {
+            if ($user->avatar_path && \Storage::disk('public')->exists($user->avatar_path)) {
+                \Storage::disk('public')->delete($user->avatar_path);
+            }
+            $user->avatar_path = null;
+            $user->save();
+        }
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($user->avatar_path && \Storage::disk('public')->exists($user->avatar_path)) {
+                \Storage::disk('public')->delete($user->avatar_path);
+            }
+
+            // Store new avatar
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar_path = $avatarPath;
+            $user->save();
+        }
 
         // Update user email
         $user->update(['email' => $validated['email']]);
 
         // Update student profile
         $student->update([
-            'phone' => $validated['phone'],
             'address' => $validated['address'],
-            'emergency_contact_name' => $validated['emergency_contact_name'],
-            'emergency_contact_phone' => $validated['emergency_contact_phone'],
-            'emergency_contact_relationship' => $validated['emergency_contact_relationship'],
+            'guardian_name' => $validated['guardian_name'],
+            'guardian_contact' => $validated['guardian_contact'],
         ]);
 
         return redirect()->route('student.profile.index')->with('success', 'Profile updated successfully');

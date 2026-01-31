@@ -155,6 +155,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('enrollment/{student}/enroll', [EnrollmentController::class, 'enroll'])->name('enrollment.enroll');
         Route::post('enrollment/{student}', [EnrollmentController::class, 'processEnrollment'])->name('enrollment.process');
         Route::get('enrollment/history', [EnrollmentController::class, 'history'])->name('enrollment.history');
+        Route::get('enrollment/bulk-import', [EnrollmentController::class, 'bulkImportForm'])->name('enrollment.bulk-import');
+        Route::post('enrollment/bulk-import', [EnrollmentController::class, 'processBulkImport'])->name('enrollment.bulk-import.process');
     });
     
     // Technical Admin Routes

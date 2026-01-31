@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\StudentProfile;
 use App\Models\Section;
 use App\Models\StudentSubjectEnrollment;
 use App\Models\ClassSchedule;
 use App\Models\StudentEnrollmentHistory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -106,6 +108,12 @@ class EnrollmentController extends Controller
 
             DB::commit();
 
+            // Log activity
+            ActivityLog::log(
+                'student_enrolled',
+                "Enrolled student {$student->user->full_name} to section {$section->name}"
+            );
+
             return redirect()
                 ->route('admin.students.show', $student->id)
                 ->with('success', 'Student enrolled successfully');
@@ -133,5 +141,174 @@ class EnrollmentController extends Controller
             ->paginate(50);
 
         return view('admin.registrar-admin.enrollment.history', compact('enrollments'));
+    }
+
+    /**
+     * Show bulk import form
+     */
+    public function bulkImportForm(Request $request)
+    {
+        // Download CSV template if requested
+        if ($request->has('download') && $request->download === 'template') {
+            $filename = 'student_enrollment_template.csv';
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            ];
+
+            $columns = ['LRN', 'Last Name', 'First Name', 'Middle Name', 'Email'];
+            $sampleData = [
+                ['123456789012', 'Dela Cruz', 'Juan', 'Santos', 'juan.delacruz@example.com'],
+                ['987654321098', 'Santos', 'Maria', 'Garcia', 'maria.santos@example.com'],
+            ];
+
+            $callback = function() use ($columns, $sampleData) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+                foreach ($sampleData as $row) {
+                    fputcsv($file, $row);
+                }
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+        }
+
+        $sections = Section::with(['strand', 'schoolYear'])
+            ->where('school_year_id', function ($query) {
+                $query->select('id')
+                    ->from('school_years')
+                    ->where('is_active', true)
+                    ->limit(1);
+            })
+            ->get();
+
+        return view('admin.registrar-admin.enrollment.bulk-import', compact('sections'));
+    }
+
+    /**
+     * Process bulk import from CSV/Excel file
+     */
+    public function processBulkImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt,xlsx,xls|max:2048',
+            'section_id' => 'required|exists:sections,id',
+            'enrollment_date' => 'required|date',
+        ]);
+
+        $section = Section::with('schoolYear')->findOrFail($request->section_id);
+        $file = $request->file('file');
+        
+        $successCount = 0;
+        $errorCount = 0;
+        $errors = [];
+
+        DB::beginTransaction();
+        try {
+            // Read file content
+            $fileContent = file_get_contents($file->getRealPath());
+            $rows = array_map('str_getcsv', explode("\n", $fileContent));
+            $header = array_shift($rows); // Remove header row
+
+            // Expected columns: lrn, last_name, first_name, middle_name, email
+            foreach ($rows as $index => $row) {
+                if (empty($row[0])) continue; // Skip empty rows
+
+                $rowNumber = $index + 2; // +2 because of header and 0-based index
+
+                try {
+                    // Extract data from CSV
+                    $lrn = trim($row[0] ?? '');
+                    $lastName = trim($row[1] ?? '');
+                    $firstName = trim($row[2] ?? '');
+                    $middleName = trim($row[3] ?? '');
+                    $email = trim($row[4] ?? '');
+
+                    if (empty($lrn) || empty($lastName) || empty($firstName)) {
+                        $errors[] = "Row {$rowNumber}: Missing required fields (LRN, Last Name, or First Name)";
+                        $errorCount++;
+                        continue;
+                    }
+
+                    // Find student by LRN
+                    $student = StudentProfile::where('lrn', $lrn)->first();
+
+                    if (!$student) {
+                        $errors[] = "Row {$rowNumber}: Student with LRN {$lrn} not found";
+                        $errorCount++;
+                        continue;
+                    }
+
+                    // Check if already enrolled in this section
+                    $alreadyEnrolled = StudentEnrollmentHistory::where('student_id', $student->id)
+                        ->where('section_id', $section->id)
+                        ->where('school_year_id', $section->school_year_id)
+                        ->where('status', 'enrolled')
+                        ->exists();
+
+                    if ($alreadyEnrolled) {
+                        $errors[] = "Row {$rowNumber}: Student {$lrn} already enrolled in this section";
+                        $errorCount++;
+                        continue;
+                    }
+
+                    // Update student's current section
+                    $student->update([
+                        'current_section_id' => $section->id,
+                        'grade_level' => $section->grade_level,
+                    ]);
+
+                    // Create enrollment history record
+                    StudentEnrollmentHistory::create([
+                        'student_id' => $student->id,
+                        'section_id' => $section->id,
+                        'school_year_id' => $section->school_year_id,
+                        'enrollment_date' => $request->enrollment_date,
+                        'status' => 'enrolled',
+                    ]);
+
+                    // Enroll student in all subjects for this section
+                    $classSchedules = ClassSchedule::where('section_id', $section->id)->get();
+                    
+                    foreach ($classSchedules as $schedule) {
+                        StudentSubjectEnrollment::firstOrCreate([
+                            'student_id' => $student->id,
+                            'class_schedule_id' => $schedule->id,
+                        ]);
+                    }
+
+                    $successCount++;
+
+                } catch (\Exception $e) {
+                    $errors[] = "Row {$rowNumber}: {$e->getMessage()}";
+                    $errorCount++;
+                }
+            }
+
+            DB::commit();
+
+            // Log activity
+            ActivityLog::log(
+                'bulk_enrollment',
+                "Bulk enrolled {$successCount} students to section {$section->name} ({$errorCount} errors)"
+            );
+
+            $message = "Bulk import completed: {$successCount} students enrolled successfully";
+            if ($errorCount > 0) {
+                $message .= ", {$errorCount} errors occurred";
+            }
+
+            return redirect()
+                ->route('admin.enrollment.index')
+                ->with('success', $message)
+                ->with('import_errors', $errors);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Bulk import failed: ' . $e->getMessage()]);
+        }
     }
 }

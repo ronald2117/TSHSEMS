@@ -241,4 +241,33 @@ class StudentManagementController extends Controller
         return redirect()->route('admin.students.index')
             ->with('success', 'Student deleted successfully.');
     }
+
+    public function toggleStatus(User $student)
+    {
+        // Check if the user is a student
+        if ($student->role !== 'student') {
+            abort(404);
+        }
+
+        // Check authorization: only super_admin and registrar_admin can toggle student status
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Toggle the is_active status
+        $student->is_active = !$student->is_active;
+        $student->save();
+
+        $status = $student->is_active ? 'enabled' : 'disabled';
+        $studentName = $student->full_name;
+        $lrn = $student->studentProfile->lrn ?? 'N/A';
+
+        ActivityLog::log(
+            'update',
+            "Student account {$status}: {$studentName} (LRN: {$lrn})"
+        );
+
+        return redirect()->back()
+            ->with('success', "Student account has been {$status} successfully.");
+    }
 }

@@ -80,6 +80,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('students/{student}/edit', [StudentManagementController::class, 'edit'])->name('students.edit');
     Route::put('students/{student}', [StudentManagementController::class, 'update'])->name('students.update');
     Route::delete('students/{student}', [StudentManagementController::class, 'destroy'])->name('students.destroy');
+    Route::post('students/{student}/toggle-status', [StudentManagementController::class, 'toggleStatus'])->name('students.toggle-status');
 
     // Teacher Management (with Profiles)
     Route::get('teachers', [TeacherManagementController::class, 'index'])->name('teachers.index');
@@ -89,6 +90,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('teachers/{teacher}/edit', [TeacherManagementController::class, 'edit'])->name('teachers.edit');
     Route::put('teachers/{teacher}', [TeacherManagementController::class, 'update'])->name('teachers.update');
     Route::delete('teachers/{teacher}', [TeacherManagementController::class, 'destroy'])->name('teachers.destroy');
+    Route::post('teachers/{teacher}/toggle-status', [TeacherManagementController::class, 'toggleStatus'])->name('teachers.toggle-status');
 
     // Academic Structure - School Years
     Route::resource('school-years', AcademicStructureController::class);

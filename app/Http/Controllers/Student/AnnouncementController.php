@@ -14,10 +14,10 @@ class AnnouncementController extends Controller
     public function index()
     {
         $announcements = Announcement::query()
-            ->where('status', 'published')
+            ->active()
             ->where(function ($query) {
                 $query->where('target_role', 'student')
-                      ->orWhere('target_role', 'all');
+                      ->orWhereNull('target_role');
             })
             ->latest('published_at')
             ->paginate(10);

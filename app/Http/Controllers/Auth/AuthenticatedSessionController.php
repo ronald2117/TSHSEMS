@@ -30,6 +30,19 @@ class AuthenticatedSessionController extends Controller
             ->first();
 
         if ($user && \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
+            // Check if account is active
+            if (!$user->is_active) {
+                ActivityLog::log(
+                    'login_failed',
+                    "Login attempt blocked - account disabled: {$user->full_name} (Role: {$user->role})",
+                    $user
+                );
+
+                return back()->withErrors([
+                    'login_id' => 'Your account has been disabled. Please contact the administrator.',
+                ])->onlyInput('login_id');
+            }
+
             Auth::login($user);
             $request->session()->regenerate();
             

@@ -182,4 +182,33 @@ class TeacherManagementController extends Controller
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher deleted successfully.');
     }
+
+    public function toggleStatus(User $teacher)
+    {
+        // Check if the user is a teacher
+        if ($teacher->role !== 'teacher') {
+            abort(404);
+        }
+
+        // Check authorization: only super_admin and academic_admin can toggle teacher status
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'academic_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Toggle the is_active status
+        $teacher->is_active = !$teacher->is_active;
+        $teacher->save();
+
+        $status = $teacher->is_active ? 'enabled' : 'disabled';
+        $teacherName = $teacher->full_name;
+        $employeeId = $teacher->login_id ?? 'N/A';
+
+        ActivityLog::log(
+            'update',
+            "Teacher account {$status}: {$teacherName} (ID: {$employeeId})"
+        );
+
+        return redirect()->back()
+            ->with('success', "Teacher account has been {$status} successfully.");
+    }
 }

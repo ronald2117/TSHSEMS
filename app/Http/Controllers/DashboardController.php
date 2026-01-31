@@ -40,7 +40,7 @@ class DashboardController extends Controller
             $q->where('target_role', 'student')
               ->orWhereNull('target_role');
         })
-        ->where('status', 'published')
+        ->active()
         ->orderBy('is_pinned', 'desc')
         ->orderBy('published_at', 'desc')
         ->take(10)

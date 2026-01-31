@@ -61,6 +61,25 @@
                         </svg>
                     </a>
 
+                    @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'academic_admin')
+                        <form method="POST" action="{{ route('admin.teachers.toggle-status', $teacher) }}" class="inline" onsubmit="return confirm('Are you sure you want to {{ $teacher->is_active ? 'disable' : 'enable' }} this teacher account?')">
+                            @csrf
+                            <button type="submit" 
+                                    class="p-2 {{ $teacher->is_active ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-blue-600 hover:bg-blue-700' }} text-white rounded-lg transition shadow-sm" 
+                                    title="{{ $teacher->is_active ? 'Disable' : 'Enable' }} Teacher">
+                                @if($teacher->is_active)
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                    </svg>
+                                @else
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                @endif
+                            </button>
+                        </form>
+                    @endif
+
                     <form method="POST" action="{{ route('admin.teachers.destroy', $teacher) }}" class="inline" onsubmit="return confirm('Are you sure you want to permanently delete this teacher? This action cannot be undone.')">
                         @csrf
                         @method('DELETE')

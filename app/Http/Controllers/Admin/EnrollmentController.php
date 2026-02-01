@@ -89,7 +89,18 @@ class EnrollmentController extends Controller
         ]);
 
         $student = StudentProfile::findOrFail($studentId);
-        $section = Section::with('schoolYear')->findOrFail($validated['section_id']);
+        $section = Section::with(['schoolYear.academicPeriods'])->findOrFail($validated['section_id']);
+
+        // Get active academic period for this school year
+        $academicPeriod = $section->schoolYear->academicPeriods()
+            ->where('status', 'Active')
+            ->first();
+
+        if (!$academicPeriod) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'No active academic period found for this school year.']);
+        }
 
         DB::beginTransaction();
         try {
@@ -102,8 +113,8 @@ class EnrollmentController extends Controller
             StudentEnrollmentHistory::create([
                 'student_id' => $student->id,
                 'section_id' => $section->id,
-                'school_year_id' => $section->school_year_id,
-                'enrollment_date' => $validated['enrollment_date'],
+                'academic_period_id' => $academicPeriod->id,
+                'grade_level' => $section->grade_level,
                 'status' => 'enrolled',
             ]);
 
@@ -174,10 +185,21 @@ class EnrollmentController extends Controller
 
         $student = StudentProfile::findOrFail($studentId);
         $oldSection = Section::find($student->current_section_id);
-        $newSection = Section::with('schoolYear')->findOrFail($validated['new_section_id']);
+        $newSection = Section::with(['schoolYear.academicPeriods'])->findOrFail($validated['new_section_id']);
 
         if ($student->current_section_id == $newSection->id) {
             return back()->withErrors(['error' => 'Student is already enrolled in this section.']);
+        }
+
+        // Get active academic period for this school year
+        $academicPeriod = $newSection->schoolYear->academicPeriods()
+            ->where('status', 'Active')
+            ->first();
+
+        if (!$academicPeriod) {
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'No active academic period found for this school year.']);
         }
 
         DB::beginTransaction();
@@ -197,8 +219,8 @@ class EnrollmentController extends Controller
             StudentEnrollmentHistory::create([
                 'student_id' => $student->id,
                 'section_id' => $newSection->id,
-                'school_year_id' => $newSection->school_year_id,
-                'enrollment_date' => $validated['transfer_date'],
+                'academic_period_id' => $academicPeriod->id,
+                'grade_level' => $newSection->grade_level,
                 'status' => 'enrolled',
             ]);
 
@@ -359,8 +381,18 @@ class EnrollmentController extends Controller
             'enrollment_date' => 'required|date',
         ]);
 
-        $section = Section::with('schoolYear')->findOrFail($request->section_id);
+        $section = Section::with(['schoolYear.academicPeriods'])->findOrFail($request->section_id);
         $file = $request->file('file');
+        
+        // Get active academic period for this school year
+        $academicPeriod = $section->schoolYear->academicPeriods()
+            ->where('status', 'Active')
+            ->first();
+
+        if (!$academicPeriod) {
+            return back()
+                ->withErrors(['error' => 'No active academic period found for the selected section\'s school year.']);
+        }
         
         $successCount = 0;
         $errorCount = 0;
@@ -405,7 +437,7 @@ class EnrollmentController extends Controller
                     // Check if already enrolled in this section
                     $alreadyEnrolled = StudentEnrollmentHistory::where('student_id', $student->id)
                         ->where('section_id', $section->id)
-                        ->where('school_year_id', $section->school_year_id)
+                        ->where('academic_period_id', $academicPeriod->id)
                         ->where('status', 'enrolled')
                         ->exists();
 
@@ -425,8 +457,8 @@ class EnrollmentController extends Controller
                     StudentEnrollmentHistory::create([
                         'student_id' => $student->id,
                         'section_id' => $section->id,
-                        'school_year_id' => $section->school_year_id,
-                        'enrollment_date' => $request->enrollment_date,
+                        'academic_period_id' => $academicPeriod->id,
+                        'grade_level' => $section->grade_level,
                         'status' => 'enrolled',
                     ]);
 

@@ -152,19 +152,53 @@ class GradingController extends Controller
             ->get()
             ->groupBy('type');
 
-        $weights = GradingComponent::where('subject_type', $classSchedule->subject->type)->first();
+        // Get grading weights, use defaults if not found
+        $weights = GradingComponent::where('subject_type', $classSchedule->subject->type ?? 'core')->first();
+        
+        // Default weights if no grading component is set
+        $writtenWeight = $weights->written_weight ?? 0.25;
+        $performanceWeight = $weights->performance_weight ?? 0.50;
+        $examWeight = $weights->exam_weight ?? 0.25;
 
-        $written = $assessments->get('written_work', collect())
-            ->avg(fn($a) => $a->scores()->where('student_id', $studentId)->avg('score'));
+        // Calculate written work component
+        $writtenAssessments = $assessments->get('written_work', collect());
+        $writtenScores = [];
+        foreach ($writtenAssessments as $assessment) {
+            $score = $assessment->scores()->where('student_id', $studentId)->first();
+            if ($score && $assessment->max_score > 0) {
+                $writtenScores[] = ($score->score / $assessment->max_score) * 100;
+            }
+        }
+        $written = count($writtenScores) > 0 ? array_sum($writtenScores) / count($writtenScores) : 0;
 
-        $performance = $assessments->get('performance_task', collect())
-            ->avg(fn($a) => $a->scores()->where('student_id', $studentId)->avg('score'));
+        // Calculate performance task component
+        $performanceAssessments = $assessments->get('performance_task', collect());
+        $performanceScores = [];
+        foreach ($performanceAssessments as $assessment) {
+            $score = $assessment->scores()->where('student_id', $studentId)->first();
+            if ($score && $assessment->max_score > 0) {
+                $performanceScores[] = ($score->score / $assessment->max_score) * 100;
+            }
+        }
+        $performance = count($performanceScores) > 0 ? array_sum($performanceScores) / count($performanceScores) : 0;
 
-        $exam = $assessments->get('quarterly_assessment', collect())
-            ->sum(fn($a) => $a->scores()->where('student_id', $studentId)->avg('score'));
+        // Calculate quarterly assessment component
+        $examAssessments = $assessments->get('quarterly_assessment', collect());
+        $examScores = [];
+        foreach ($examAssessments as $assessment) {
+            $score = $assessment->scores()->where('student_id', $studentId)->first();
+            if ($score && $assessment->max_score > 0) {
+                $examScores[] = ($score->score / $assessment->max_score) * 100;
+            }
+        }
+        $exam = count($examScores) > 0 ? array_sum($examScores) / count($examScores) : 0;
 
-        return ($written * $weights->written_weight) +
-               ($performance * $weights->performance_weight) +
-               ($exam * $weights->exam_weight);
+        // Calculate weighted initial grade
+        $initialGrade = ($written * $writtenWeight) +
+                       ($performance * $performanceWeight) +
+                       ($exam * $examWeight);
+
+        // Ensure grade is within valid range
+        return max(0, min(100, round($initialGrade, 2)));
     }
 }

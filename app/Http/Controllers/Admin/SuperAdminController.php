@@ -92,15 +92,49 @@ class SuperAdminController extends Controller
      */
     public function systemSettings()
     {
-        return view('admin.super-admin.settings.index');
+        $settings = [
+            'school_name' => \App\Models\SystemSetting::get('school_name', 'Taysan Senior High School'),
+            'school_address' => \App\Models\SystemSetting::get('school_address', 'Taysan, Batangas'),
+            'school_contact' => \App\Models\SystemSetting::get('school_contact', ''),
+            'school_email' => \App\Models\SystemSetting::get('school_email', ''),
+            'grading_system' => \App\Models\SystemSetting::get('grading_system', 'deped_standard'),
+            'session_timeout' => \App\Models\SystemSetting::get('session_timeout', 30),
+            'allow_student_registration' => \App\Models\SystemSetting::get('allow_student_registration', false),
+            'require_email_verification' => \App\Models\SystemSetting::get('require_email_verification', true),
+        ];
+        
+        return view('admin.super-admin.settings.index', compact('settings'));
     }
 
     /**
      * Update system settings
      */
-    public function updateSystemSettings()
+    public function updateSystemSettings(Request $request)
     {
-        // Implementation for updating system settings
+        $validated = $request->validate([
+            'school_name' => 'required|string|max:255',
+            'school_address' => 'required|string|max:500',
+            'school_contact' => 'nullable|string|max:50',
+            'school_email' => 'nullable|email|max:255',
+            'grading_system' => 'required|in:deped_standard,custom',
+            'session_timeout' => 'required|integer|min:5|max:120',
+            'allow_student_registration' => 'boolean',
+            'require_email_verification' => 'boolean',
+        ]);
+        
+        // Save each setting
+        foreach ($validated as $key => $value) {
+            \App\Models\SystemSetting::set($key, $value);
+        }
+        
+        // Log the activity
+        \App\Models\ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'system_settings_updated',
+            'description' => 'Updated system settings',
+            'ip_address' => $request->ip(),
+        ]);
+        
         return redirect()->route('admin.settings.index')->with('success', 'System settings updated successfully');
     }
 
@@ -109,16 +143,75 @@ class SuperAdminController extends Controller
      */
     public function featureToggles()
     {
-        return view('admin.super-admin.features.index');
+        $features = [
+            [
+                'key' => 'feature_attendance_tracking',
+                'name' => 'Attendance Tracking',
+                'description' => 'Enable daily attendance recording for teachers',
+                'enabled' => \App\Models\SystemSetting::get('feature_attendance_tracking', true),
+            ],
+            [
+                'key' => 'feature_document_requests',
+                'name' => 'Document Requests',
+                'description' => 'Allow students to request documents online',
+                'enabled' => \App\Models\SystemSetting::get('feature_document_requests', true),
+            ],
+            [
+                'key' => 'feature_grade_publishing',
+                'name' => 'Grade Publishing',
+                'description' => 'Allow teachers to submit grades for approval',
+                'enabled' => \App\Models\SystemSetting::get('feature_grade_publishing', true),
+            ],
+            [
+                'key' => 'feature_announcements',
+                'name' => 'Announcements System',
+                'description' => 'Enable announcement posting and viewing',
+                'enabled' => \App\Models\SystemSetting::get('feature_announcements', true),
+            ],
+            [
+                'key' => 'feature_grade_reports',
+                'name' => 'Grade Reports',
+                'description' => 'Enable Form 137/138 generation',
+                'enabled' => \App\Models\SystemSetting::get('feature_grade_reports', true),
+            ],
+            [
+                'key' => 'feature_bulk_import',
+                'name' => 'Bulk Import',
+                'description' => 'Allow bulk import of students via CSV/Excel',
+                'enabled' => \App\Models\SystemSetting::get('feature_bulk_import', true),
+            ],
+        ];
+        
+        return view('admin.super-admin.features.index', compact('features'));
     }
 
     /**
      * Toggle a feature
      */
-    public function toggleFeature()
+    public function toggleFeature(Request $request)
     {
-        // Implementation for toggling features
-        return back()->with('success', 'Feature toggled successfully');
+        $validated = $request->validate([
+            'feature_key' => 'required|string',
+        ]);
+        
+        $featureKey = $validated['feature_key'];
+        $currentValue = \App\Models\SystemSetting::get($featureKey, true);
+        $newValue = !$currentValue;
+        
+        \App\Models\SystemSetting::set($featureKey, $newValue);
+        
+        // Log the activity
+        \App\Models\ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'feature_toggled',
+            'description' => ($newValue ? 'Enabled' : 'Disabled') . " feature: {$featureKey}",
+            'ip_address' => $request->ip(),
+        ]);
+        
+        $featureName = str_replace(['feature_', '_'], ['', ' '], $featureKey);
+        $status = $newValue ? 'enabled' : 'disabled';
+        
+        return back()->with('success', ucfirst($featureName) . " has been {$status}");
     }
 
     /**
@@ -183,10 +276,28 @@ class SuperAdminController extends Controller
     /**
      * Toggle academic year lock
      */
-    public function toggleYearLock($id)
+    public function toggleYearLock(Request $request, $id)
     {
-        // Implementation for year locking
-        return back()->with('success', 'Academic year lock status updated');
+        $schoolYear = \App\Models\SchoolYear::findOrFail($id);
+        
+        // Check if is_locked column exists, otherwise use a setting
+        $lockKey = "school_year_{$id}_locked";
+        $currentlyLocked = \App\Models\SystemSetting::get($lockKey, false);
+        $newLockedState = !$currentlyLocked;
+        
+        \App\Models\SystemSetting::set($lockKey, $newLockedState);
+        
+        // Log the activity
+        \App\Models\ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => $newLockedState ? 'school_year_locked' : 'school_year_unlocked',
+            'description' => ($newLockedState ? 'Locked' : 'Unlocked') . " school year: {$schoolYear->name}",
+            'ip_address' => $request->ip(),
+        ]);
+        
+        $status = $newLockedState ? 'locked' : 'unlocked';
+        return back()->with('success', "School year {$schoolYear->name} has been {$status}. " . 
+            ($newLockedState ? 'Grade modifications are now restricted.' : 'Grade modifications are now allowed.'));
     }
 
     /**

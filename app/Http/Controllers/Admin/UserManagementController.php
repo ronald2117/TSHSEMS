@@ -116,11 +116,14 @@ class UserManagementController extends Controller
             'suffix' => 'nullable|string|max:50',
             'email' => 'required|string|email|unique:users,email,' . $user->id,
             'login_id' => 'nullable|string|unique:users,login_id,' . $user->id,
-            'role' => 'required|in:super_admin,academic_admin,registrar_admin,technical_admin,teacher,student',
+            // Role is intentionally removed from validation - cannot be changed after creation
             'password' => 'nullable|string|min:8',
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
             'remove_avatar' => 'nullable|boolean',
         ]);
+
+        // Remove role from validated data if it was somehow submitted
+        unset($validated['role']);
 
         // Handle avatar removal
         if ($request->has('remove_avatar') && $request->remove_avatar) {

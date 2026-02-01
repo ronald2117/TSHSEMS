@@ -123,24 +123,15 @@
                 @enderror
             </div>
 
-            <!-- Role -->
+            <!-- Role (Display Only - Cannot be changed) -->
             <div>
                 <label for="role" class="block text-sm font-medium text-gray-700 mb-2">
-                    Role *
+                    Role
                 </label>
-                <select name="role" id="role" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="">Select a role</option>
-                    <option value="super_admin" {{ old('role', $user->role) === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
-                    <option value="academic_admin" {{ old('role', $user->role) === 'academic_admin' ? 'selected' : '' }}>Academic Admin</option>
-                    <option value="registrar_admin" {{ old('role', $user->role) === 'registrar_admin' ? 'selected' : '' }}>Registrar Admin</option>
-                    <option value="technical_admin" {{ old('role', $user->role) === 'technical_admin' ? 'selected' : '' }}>Technical Admin</option>
-                    <option value="teacher" {{ old('role', $user->role) === 'teacher' ? 'selected' : '' }}>Teacher</option>
-                    <option value="student" {{ old('role', $user->role) === 'student' ? 'selected' : '' }}>Student</option>
-                </select>
-                @error('role')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                <div class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">
+                    {{ ucwords(str_replace('_', ' ', $user->role)) }}
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Role cannot be changed after account creation to maintain data integrity.</p>
             </div>
 
             <!-- Password (Optional for Edit) -->

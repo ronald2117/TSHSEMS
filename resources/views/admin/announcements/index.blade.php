@@ -94,22 +94,22 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($announcement->is_public)
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Public</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full">Public</span>
                                 @elseif ($announcement->target_role)
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full">
                                         {{ ucfirst($announcement->target_role) }}
                                     </span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">All</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full">All</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if ($announcement->expires_at && $announcement->expires_at < now())
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Expired</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full">Expired</span>
                                 @elseif ($announcement->published_at && $announcement->published_at <= now())
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full">Active</span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Scheduled</span>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full">Scheduled</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">

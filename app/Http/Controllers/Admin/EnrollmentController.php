@@ -46,7 +46,12 @@ class EnrollmentController extends Controller
             ->get();
 
         // Get all students with their enrollment status
+        // Only show students whose user accounts are not deleted
         $students = StudentProfile::with(['user', 'currentSection.strand'])
+            ->whereHas('user', function ($query) {
+                // This ensures the user exists and is not soft deleted
+                $query->whereNull('deleted_at');
+            })
             ->when($search, function ($query, $search) {
                 $query->whereHas('user', function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
@@ -118,11 +123,14 @@ class EnrollmentController extends Controller
                 'status' => 'enrolled',
             ]);
 
+            // Remove any existing subject enrollments for this student (cleanup old data)
+            StudentSubjectEnrollment::where('student_id', $student->id)->delete();
+
             // Enroll student in all subjects for this section
             $classSchedules = ClassSchedule::where('section_id', $section->id)->get();
             
             foreach ($classSchedules as $schedule) {
-                StudentSubjectEnrollment::firstOrCreate([
+                StudentSubjectEnrollment::create([
                     'student_id' => $student->id,
                     'class_schedule_id' => $schedule->id,
                 ]);
@@ -224,18 +232,14 @@ class EnrollmentController extends Controller
                 'status' => 'enrolled',
             ]);
 
-            // Remove old subject enrollments
-            StudentSubjectEnrollment::where('student_id', $student->id)
-                ->whereHas('classSchedule', function ($query) use ($oldSection) {
-                    $query->where('section_id', $oldSection->id);
-                })
-                ->delete();
+            // Remove ALL old subject enrollments for this student (ensures clean state)
+            StudentSubjectEnrollment::where('student_id', $student->id)->delete();
 
             // Enroll student in all subjects for the new section
             $classSchedules = ClassSchedule::where('section_id', $newSection->id)->get();
             
             foreach ($classSchedules as $schedule) {
-                StudentSubjectEnrollment::firstOrCreate([
+                StudentSubjectEnrollment::create([
                     'student_id' => $student->id,
                     'class_schedule_id' => $schedule->id,
                 ]);

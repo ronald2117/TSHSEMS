@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserManagementController extends Controller
 {
@@ -177,13 +178,29 @@ class UserManagementController extends Controller
         $userName = $user->full_name;
         $userRole = $user->role;
         
-        $user->delete();
+        DB::beginTransaction();
+        try {
+            // Delete associated profiles based on role
+            if ($user->role === 'student' && $user->studentProfile) {
+                $user->studentProfile->delete();
+            } elseif ($user->role === 'teacher' && $user->teacherProfile) {
+                $user->teacherProfile->delete();
+            }
+            
+            // Delete the user
+            $user->delete();
+            
+            DB::commit();
+            
+            ActivityLog::log(
+                'delete',
+                "Deleted user: {$userName} (Role: {$userRole})"
+            );
 
-        ActivityLog::log(
-            'delete',
-            "Deleted user: {$userName} (Role: {$userRole})"
-        );
-
-        return redirect()->route('admin.users.index')->with('success', 'User deleted.');
+            return redirect()->route('admin.users.index')->with('success', 'User deleted.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Failed to delete user: ' . $e->getMessage()]);
+        }
     }
 }

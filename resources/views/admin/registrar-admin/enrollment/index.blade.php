@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
+@section('page_title', 'Enrollment Management')
 @section('title', 'Enrollment Management')
+@section('page_subtitle', 'Manage student enrollments and section assignments' )
 
 @section('content')
 <div class="space-y-6">
-    <!-- Page Header -->
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Enrollment Management</h1>
-        <p class="text-sm text-gray-600 mt-1">Manage student enrollments and section assignments</p>
-    </div>
-
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-xl shadow-sm p-6">

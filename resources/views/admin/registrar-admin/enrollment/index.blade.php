@@ -114,7 +114,7 @@
                                 {{ $section->strand->code ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $section->schoolYear ? $section->schoolYear->year_start . '-' . $section->schoolYear->year_end : 'N/A' }}
+                                {{ $section->schoolYear->name ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 Grade {{ $section->grade_level }}

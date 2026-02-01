@@ -115,18 +115,18 @@
                                 <div class="text-sm font-medium text-gray-900">{{ $section->name }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $section->strand->name }}
+                                {{ $section->strand->code ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $section->schoolYear->year_start }}-{{ $section->schoolYear->year_end }}
+                                {{ $section->schoolYear ? $section->schoolYear->year_start . '-' . $section->schoolYear->year_end : 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 Grade {{ $section->grade_level }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-2">
-                                    <span class="text-sm font-medium text-gray-900">{{ $section->students_count }}</span>
-                                    @if($section->max_students && $section->students_count >= $section->max_students)
+                                    <span class="text-sm font-medium text-gray-900">{{ $section->studentProfiles->count() ?? 0 }}</span>
+                                    @if($section->max_students && $section->studentProfiles->count() >= $section->max_students)
                                         <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
                                             Full
                                         </span>
@@ -148,5 +148,189 @@
             </table>
         </div>
     </div>
+
+    <!-- Students List with Enrollment Actions -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-semibold text-gray-900">Students</h2>
+                    <p class="text-sm text-gray-500 mt-1">View and manage student enrollments</p>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" 
+                           placeholder="Search students..." 
+                           class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                           id="searchStudent">
+                </div>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Student
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            LRN
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Current Section
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Grade Level
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse($students as $student)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 flex-shrink-0">
+                                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                            <span class="text-sm font-medium text-green-600">
+                                                {{ substr($student->user->first_name ?? 'S', 0, 1) }}{{ substr($student->user->last_name ?? '', 0, 1) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            {{ $student->user->full_name ?? 'Unknown Student' }}
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            {{ $student->user->email ?? 'No email' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ $student->lrn }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ $student->currentSection->name ?? 'Not Enrolled' }}
+                                </div>
+                                @if($student->currentSection)
+                                    <div class="text-sm text-gray-500">
+                                        {{ $student->currentSection->strand->code ?? '' }}
+                                    </div>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">
+                                    {{ $student->currentSection ? 'Grade ' . $student->currentSection->grade_level : 'N/A' }}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($student->current_section_id)
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Enrolled
+                                    </span>
+                                @else
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        Not Enrolled
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex items-center justify-end gap-2">
+                                    @if(!$student->current_section_id)
+                                        <a href="{{ route('admin.enrollment.enroll', $student->id) }}" 
+                                           class="px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs font-medium">
+                                            Enroll
+                                        </a>
+                                    @else
+                                        <a href="{{ route('admin.enrollment.transfer', $student->id) }}" 
+                                           class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-xs font-medium">
+                                            Transfer
+                                        </a>
+                                        <form action="{{ route('admin.enrollment.unenroll', $student->id) }}" 
+                                              method="POST" 
+                                              class="inline"
+                                              onsubmit="return confirm('Are you sure you want to unenroll this student?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" 
+                                                    class="px-3 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-xs font-medium">
+                                                Unenroll
+                                            </button>
+                                        </form>
+                                    @endif
+                                    <a href="{{ route('admin.students.show', $student->id) }}" 
+                                       class="px-3 py-1.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-xs font-medium">
+                                        View
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <svg class="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                    <p class="text-sm text-gray-500">No students found</p>
+                                    <a href="{{ route('admin.students.create') }}" 
+                                       class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium">
+                                        Add New Student
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($students->hasPages())
+            <div class="px-6 py-4 border-t border-gray-200">
+                {{ $students->links() }}
+            </div>
+        @endif
+    </div>
 </div>
+
+<script>
+// Smart search functionality
+let searchTimeout;
+const searchInput = document.getElementById('searchStudent');
+const currentUrl = new URL(window.location.href);
+
+if (searchInput) {
+    // Set initial value from URL
+    const searchParam = currentUrl.searchParams.get('search');
+    if (searchParam) {
+        searchInput.value = searchParam;
+    }
+
+    searchInput.addEventListener('input', function(e) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const searchValue = e.target.value.trim();
+            const url = new URL(window.location.href);
+            
+            if (searchValue) {
+                url.searchParams.set('search', searchValue);
+            } else {
+                url.searchParams.delete('search');
+            }
+            
+            // Reset to page 1 on new search
+            url.searchParams.delete('page');
+            
+            window.location.href = url.toString();
+        }, 500); // Debounce for 500ms
+    });
+}
+</script>
 @endsection

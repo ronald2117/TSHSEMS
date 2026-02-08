@@ -115,23 +115,25 @@ class EnrollmentController extends Controller
             ]);
 
             // Create enrollment history record
+            // Note: student_enrollment_history.student_id references users.id
             StudentEnrollmentHistory::create([
-                'student_id' => $student->id,
+                'student_id' => $student->user_id,
                 'section_id' => $section->id,
                 'academic_period_id' => $academicPeriod->id,
                 'grade_level' => $section->grade_level,
-                'status' => 'enrolled',
+                'status' => 'Enrolled',
             ]);
 
             // Remove any existing subject enrollments for this student (cleanup old data)
-            StudentSubjectEnrollment::where('student_id', $student->id)->delete();
+            // Note: student_subject_enrollments.student_id references users.id
+            StudentSubjectEnrollment::where('student_id', $student->user_id)->forceDelete();
 
             // Enroll student in all subjects for this section
             $classSchedules = ClassSchedule::where('section_id', $section->id)->get();
             
             foreach ($classSchedules as $schedule) {
                 StudentSubjectEnrollment::create([
-                    'student_id' => $student->id,
+                    'student_id' => $student->user_id,
                     'class_schedule_id' => $schedule->id,
                 ]);
             }
@@ -213,10 +215,11 @@ class EnrollmentController extends Controller
         DB::beginTransaction();
         try {
             // Update old enrollment history to 'transferred'
-            StudentEnrollmentHistory::where('student_id', $student->id)
+            // Note: student_enrollment_history.student_id references users.id
+            StudentEnrollmentHistory::where('student_id', $student->user_id)
                 ->where('section_id', $oldSection->id)
-                ->where('status', 'enrolled')
-                ->update(['status' => 'transferred']);
+                ->where('status', 'Enrolled')
+                ->update(['status' => 'Transferred']);
 
             // Update student's current section
             $student->update([
@@ -224,23 +227,25 @@ class EnrollmentController extends Controller
             ]);
 
             // Create new enrollment history record
+            // Note: student_enrollment_history.student_id references users.id
             StudentEnrollmentHistory::create([
-                'student_id' => $student->id,
+                'student_id' => $student->user_id,
                 'section_id' => $newSection->id,
                 'academic_period_id' => $academicPeriod->id,
                 'grade_level' => $newSection->grade_level,
-                'status' => 'enrolled',
+                'status' => 'Enrolled',
             ]);
 
             // Remove ALL old subject enrollments for this student (ensures clean state)
-            StudentSubjectEnrollment::where('student_id', $student->id)->delete();
+            // Note: student_subject_enrollments.student_id references users.id
+            StudentSubjectEnrollment::where('student_id', $student->user_id)->delete();
 
             // Enroll student in all subjects for the new section
             $classSchedules = ClassSchedule::where('section_id', $newSection->id)->get();
             
             foreach ($classSchedules as $schedule) {
                 StudentSubjectEnrollment::create([
-                    'student_id' => $student->id,
+                    'student_id' => $student->user_id,
                     'class_schedule_id' => $schedule->id,
                 ]);
             }
@@ -278,19 +283,30 @@ class EnrollmentController extends Controller
         DB::beginTransaction();
         try {
             $section = $student->currentSection;
+            $sectionId = $student->current_section_id;
+            $sectionName = $section->name ?? 'Unknown Section (ID: ' . $sectionId . ')';
 
-            // Update enrollment history to 'withdrawn'
-            StudentEnrollmentHistory::where('student_id', $student->id)
-                ->where('section_id', $student->current_section_id)
-                ->where('status', 'enrolled')
-                ->update(['status' => 'withdrawn']);
+            // Update enrollment history to 'Withdrawn'
+            // Also check for both 'Enrolled' and 'enrolled' to handle legacy data
+            StudentEnrollmentHistory::where('student_id', $student->user_id)
+                ->where('section_id', $sectionId)
+                ->whereIn('status', ['Enrolled', 'enrolled'])
+                ->update(['status' => 'Withdrawn']);
 
-            // Remove subject enrollments
-            StudentSubjectEnrollment::where('student_id', $student->id)
-                ->whereHas('classSchedule', function ($query) use ($section) {
-                    $query->where('section_id', $section->id);
-                })
-                ->delete();
+            // Remove subject enrollments (use forceDelete since soft deletes can cause issues)
+            // Also use user_id since student_subject_enrollments.student_id references users.id
+            // Handle case where section may have been deleted
+            if ($section) {
+                StudentSubjectEnrollment::where('student_id', $student->user_id)
+                    ->whereHas('classSchedule', function ($query) use ($sectionId) {
+                        $query->where('section_id', $sectionId);
+                    })
+                    ->forceDelete();
+            } else {
+                // If section doesn't exist, just remove all subject enrollments for this student
+                // that reference non-existent class schedules
+                StudentSubjectEnrollment::where('student_id', $student->user_id)->forceDelete();
+            }
 
             // Update student's current section to null
             $student->update([
@@ -302,7 +318,7 @@ class EnrollmentController extends Controller
             // Log activity
             ActivityLog::log(
                 'student_unenrollment',
-                "Unenrolled student {$student->user->full_name} from {$section->name}"
+                "Unenrolled student {$student->user->full_name} from {$sectionName}"
             );
 
             return redirect()
@@ -439,10 +455,11 @@ class EnrollmentController extends Controller
                     }
 
                     // Check if already enrolled in this section
-                    $alreadyEnrolled = StudentEnrollmentHistory::where('student_id', $student->id)
+                    // Note: student_enrollment_history.student_id references users.id
+                    $alreadyEnrolled = StudentEnrollmentHistory::where('student_id', $student->user_id)
                         ->where('section_id', $section->id)
                         ->where('academic_period_id', $academicPeriod->id)
-                        ->where('status', 'enrolled')
+                        ->whereIn('status', ['Enrolled', 'enrolled'])
                         ->exists();
 
                     if ($alreadyEnrolled) {
@@ -458,20 +475,22 @@ class EnrollmentController extends Controller
                     ]);
 
                     // Create enrollment history record
+                    // Note: student_enrollment_history.student_id references users.id
                     StudentEnrollmentHistory::create([
-                        'student_id' => $student->id,
+                        'student_id' => $student->user_id,
                         'section_id' => $section->id,
                         'academic_period_id' => $academicPeriod->id,
                         'grade_level' => $section->grade_level,
-                        'status' => 'enrolled',
+                        'status' => 'Enrolled',
                     ]);
 
                     // Enroll student in all subjects for this section
+                    // Note: student_subject_enrollments.student_id references users.id
                     $classSchedules = ClassSchedule::where('section_id', $section->id)->get();
                     
                     foreach ($classSchedules as $schedule) {
                         StudentSubjectEnrollment::firstOrCreate([
-                            'student_id' => $student->id,
+                            'student_id' => $student->user_id,
                             'class_schedule_id' => $schedule->id,
                         ]);
                     }

@@ -54,6 +54,7 @@ class StudentEnrollmentHistory extends Model
 
     public function scopeEnrolled($query)
     {
-        return $query->where('status', 'Enrolled');
+        // Handle both capitalized and lowercase for legacy data compatibility
+        return $query->whereIn('status', ['Enrolled', 'enrolled']);
     }
 }

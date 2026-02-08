@@ -192,11 +192,15 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <div class="w-10 h-10 flex-shrink-0">
-                                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                                            <span class="text-sm font-medium text-green-600">
-                                                {{ substr($student->user->first_name ?? 'S', 0, 1) }}{{ substr($student->user->last_name ?? '', 0, 1) }}
-                                            </span>
-                                        </div>
+                                        @if($student->user && $student->user->avatar_path && file_exists(public_path('storage/' . $student->user->avatar_path)))
+                                            <img src="{{ asset('storage/' . $student->user->avatar_path) }}" alt="{{ $student->user->full_name }}" class="w-10 h-10 rounded-full object-cover">
+                                        @else
+                                            <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                                <span class="text-white text-sm">
+                                                    {{ strtoupper(substr($student->user->first_name ?? 'S', 0, 1)) }}{{ strtoupper(substr($student->user->last_name ?? '', 0, 1)) }}
+                                                </span>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900">
@@ -241,12 +245,12 @@
                                 <div class="flex items-center justify-end gap-2">
                                     @if(!$student->current_section_id)
                                         <a href="{{ route('admin.enrollment.enroll', $student->id) }}" 
-                                           class="px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs font-medium">
+                                           class="px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs font-medium cursor-pointer">
                                             Enroll
                                         </a>
                                     @else
                                         <a href="{{ route('admin.enrollment.transfer', $student->id) }}" 
-                                           class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-xs font-medium">
+                                           class="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-xs font-medium cursor-pointer">
                                             Transfer
                                         </a>
                                         <form action="{{ route('admin.enrollment.unenroll', $student->id) }}" 
@@ -256,13 +260,13 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" 
-                                                    class="px-3 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-xs font-medium">
+                                                    class="px-3 py-1.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-xs font-medium cursor-pointer">
                                                 Unenroll
                                             </button>
                                         </form>
                                     @endif
                                     <a href="{{ route('admin.students.show', $student->id) }}" 
-                                       class="px-3 py-1.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-xs font-medium">
+                                       class="px-3 py-1.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-xs font-medium cursor-pointer">
                                         View
                                     </a>
                                 </div>

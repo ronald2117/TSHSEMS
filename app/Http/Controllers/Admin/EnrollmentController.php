@@ -147,7 +147,7 @@ class EnrollmentController extends Controller
             );
 
             return redirect()
-                ->route('admin.students.show', $student->id)
+                ->route('admin.enrollment.index')
                 ->with('success', 'Student enrolled successfully');
 
         } catch (\Exception $e) {

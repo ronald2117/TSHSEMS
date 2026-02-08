@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="p-6 space-y-6">
-    
+
     <!-- Summary Cards Row -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Total Students (Super Admin, Registrar) -->
@@ -109,7 +109,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Left Column: Action Required & Quick Actions (2/3 width) -->
         <div class="lg:col-span-2 space-y-6">
-            
+
             <!-- Action Required Section -->
             @if(isset($actionItems) && count($actionItems) > 0)
             <div class="bg-white rounded-xl shadow-sm border border-gray-100">
@@ -130,7 +130,7 @@
                             @foreach($actionItems['grades']->take(3) as $grade)
                             <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
                                 <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">{{ $grade->student->full_name }}</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ $grade->student->full_name ?? 'Unnamed Student' }}</p>
                                     <p class="text-xs text-gray-600">{{ $grade->classSchedule->subject->name }} - Quarter {{ $grade->quarter }}</p>
                                 </div>
                                 <a href="{{ route('admin.grade-approval.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">Review →</a>
@@ -168,7 +168,7 @@
                     </div>
                     @endif
 
-                    @if((!isset($actionItems['grades']) || $actionItems['grades']->count() === 0) && 
+                    @if((!isset($actionItems['grades']) || $actionItems['grades']->count() === 0) &&
                         (!isset($actionItems['unassigned']) || $actionItems['unassigned']->count() === 0))
                     <div class="text-center py-8">
                         <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,7 +193,7 @@
                 </div>
                 <div class="p-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        
+
                         <!-- Registrar Actions -->
                         @if(auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin())
                         <a href="{{ route('admin.students.create') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition group">

@@ -84,18 +84,50 @@
                             @forelse($students as $student)
                                 @php
                                     $grade = $grades->where('student_id', $student->id)->where('quarter', $quarter)->first();
-                                    $writtenAvg = $assessments->get('written_work', collect())
-                                        ->filter(fn($a) => $a->quarter == $quarter)
-                                        ->map(fn($a) => $a->scores->where('student_id', $student->id)->first()?->score ?? 0)
-                                        ->avg();
-                                    $perfAvg = $assessments->get('performance_task', collect())
-                                        ->filter(fn($a) => $a->quarter == $quarter)
-                                        ->map(fn($a) => $a->scores->where('student_id', $student->id)->first()?->score ?? 0)
-                                        ->avg();
-                                    $examScore = $assessments->get('quarterly_assessment', collect())
-                                        ->filter(fn($a) => $a->quarter == $quarter)
-                                        ->first()
-                                        ?->scores->where('student_id', $student->id)->first()?->score ?? 0;
+                                    
+                                    // Calculate written work percentage
+                                    $writtenAssessments = $assessments->get('written_work', collect())->filter(fn($a) => $a->quarter == $quarter);
+                                    $writtenPercentages = $writtenAssessments->map(function($a) use ($student) {
+                                        $score = $a->scores->where('student_id', $student->id)->first();
+                                        return ($score && $a->max_score > 0) ? ($score->score / $a->max_score) * 100 : null;
+                                    })->filter(fn($v) => $v !== null);
+                                    $writtenAvg = $writtenPercentages->count() > 0 ? $writtenPercentages->avg() : null;
+                                    
+                                    // Calculate performance task percentage
+                                    $perfAssessments = $assessments->get('performance_task', collect())->filter(fn($a) => $a->quarter == $quarter);
+                                    $perfPercentages = $perfAssessments->map(function($a) use ($student) {
+                                        $score = $a->scores->where('student_id', $student->id)->first();
+                                        return ($score && $a->max_score > 0) ? ($score->score / $a->max_score) * 100 : null;
+                                    })->filter(fn($v) => $v !== null);
+                                    $perfAvg = $perfPercentages->count() > 0 ? $perfPercentages->avg() : null;
+                                    
+                                    // Calculate quarterly exam percentage
+                                    $examAssessment = $assessments->get('quarterly_assessment', collect())->filter(fn($a) => $a->quarter == $quarter)->first();
+                                    $examScore = null;
+                                    if ($examAssessment) {
+                                        $score = $examAssessment->scores->where('student_id', $student->id)->first();
+                                        $examScore = ($score && $examAssessment->max_score > 0) ? ($score->score / $examAssessment->max_score) * 100 : null;
+                                    }
+                                    
+                                    // Compute preview grades on-the-fly
+                                    $hasScores = $writtenAvg !== null || $perfAvg !== null || $examScore !== null;
+                                    $previewInitial = null;
+                                    $previewFinal = null;
+                                    $previewRemarks = null;
+                                    
+                                    if ($hasScores) {
+                                        $previewInitial = (($writtenAvg ?? 0) * $gradingWeights['written']) +
+                                                         (($perfAvg ?? 0) * $gradingWeights['performance']) +
+                                                         (($examScore ?? 0) * $gradingWeights['exam']);
+                                        $previewInitial = max(0, min(100, round($previewInitial, 2)));
+                                        $previewFinal = \App\Models\GradeTransmutation::transmute($previewInitial);
+                                        $previewRemarks = \App\Models\GradeTransmutation::getRemarks($previewFinal);
+                                    }
+                                    
+                                    // Use saved grade if submitted/approved, otherwise use preview
+                                    $displayInitial = $grade ? $grade->initial_grade : $previewInitial;
+                                    $displayFinal = $grade ? $grade->final_grade : $previewFinal;
+                                    $displayRemarks = $grade ? $grade->remarks : $previewRemarks;
                                 @endphp
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -116,24 +148,45 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 text-center text-sm text-gray-900">
-                                        {{ $writtenAvg ? number_format($writtenAvg, 2) : '—' }}
+                                        {{ $writtenAvg !== null ? number_format($writtenAvg, 2) . '%' : '—' }}
                                     </td>
                                     <td class="px-6 py-4 text-center text-sm text-gray-900">
-                                        {{ $perfAvg ? number_format($perfAvg, 2) : '—' }}
+                                        {{ $perfAvg !== null ? number_format($perfAvg, 2) . '%' : '—' }}
                                     </td>
                                     <td class="px-6 py-4 text-center text-sm text-gray-900">
-                                        {{ $examScore ? number_format($examScore, 2) : '—' }}
+                                        {{ $examScore !== null ? number_format($examScore, 2) . '%' : '—' }}
                                     </td>
                                     <td class="px-6 py-4 text-center text-sm font-semibold text-gray-900">
-                                        {{ $grade ? number_format($grade->initial_grade, 2) : '—' }}
+                                        @if($displayInitial !== null)
+                                            {{ number_format($displayInitial, 2) }}
+                                            @if(!$grade)
+                                                <span class="text-xs text-gray-400 block">(preview)</span>
+                                            @endif
+                                        @else
+                                            —
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 text-center">
-                                        <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full {{ $grade && $grade->final_grade >= 75 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            {{ $grade ? number_format($grade->final_grade, 2) : '—' }}
-                                        </span>
+                                        @if($displayFinal !== null)
+                                            <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full {{ $displayFinal >= 75 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                {{ number_format($displayFinal, 0) }}
+                                            </span>
+                                            @if(!$grade)
+                                                <span class="text-xs text-gray-400 block">(preview)</span>
+                                            @endif
+                                        @else
+                                            <span class="text-gray-400">—</span>
+                                        @endif
                                     </td>
-                                    <td class="px-6 py-4 text-center text-sm {{ $grade && $grade->remarks === 'Passed' ? 'text-green-600 font-medium' : 'text-red-600 font-medium' }}">
-                                        {{ $grade->remarks ?? '—' }}
+                                    <td class="px-6 py-4 text-center text-sm {{ $displayRemarks === 'Passed' ? 'text-green-600 font-medium' : 'text-red-600 font-medium' }}">
+                                        @if($displayRemarks)
+                                            {{ $displayRemarks }}
+                                            @if(!$grade)
+                                                <span class="text-xs text-gray-400 block">(preview)</span>
+                                            @endif
+                                        @else
+                                            —
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($grade)

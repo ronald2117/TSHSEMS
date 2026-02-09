@@ -45,11 +45,20 @@ class GradingController extends Controller
 
         $grades = QuarterlyGrade::where('class_schedule_id', $grading->id)->get();
 
+        // Get grading weights for this subject type
+        $weights = GradingComponent::where('subject_type', $grading->subject->type ?? 'core')->first();
+        $gradingWeights = [
+            'written' => $weights->written_weight ?? 0.25,
+            'performance' => $weights->performance_weight ?? 0.50,
+            'exam' => $weights->exam_weight ?? 0.25,
+        ];
+
         return view('teacher.grading.show', [
             'classSchedule' => $grading,
             'students' => $students,
             'assessments' => $assessments,
             'grades' => $grades,
+            'gradingWeights' => $gradingWeights,
         ]);
     }
 

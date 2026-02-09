@@ -336,7 +336,7 @@ class SuperAdminController extends Controller
      */
     public function gradeAuditLogs()
     {
-        $logs = \App\Models\GradeAuditLog::with(['quarterlyGrade.student.user', 'user'])
+        $logs = \App\Models\GradeAuditLog::with(['quarterlyGrade.student.studentProfile', 'user'])
             ->orderBy('created_at', 'desc')
             ->paginate(50);
         

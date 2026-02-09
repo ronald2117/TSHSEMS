@@ -16,7 +16,7 @@ class DocumentRequestController extends Controller
     {
         $status = $request->get('status', 'all');
         
-        $query = DocumentRequest::with(['student.user'])
+        $query = DocumentRequest::with(['student.studentProfile'])
             ->latest();
 
         if ($status !== 'all') {
@@ -40,7 +40,7 @@ class DocumentRequestController extends Controller
      */
     public function show(DocumentRequest $documentRequest)
     {
-        $documentRequest->load(['student.user', 'student.section', 'processedBy']);
+        $documentRequest->load(['student.studentProfile.currentSection', 'processor']);
         
         return view('admin.registrar-admin.documents.show', compact('documentRequest'));
     }

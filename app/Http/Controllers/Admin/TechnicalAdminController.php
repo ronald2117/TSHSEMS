@@ -53,7 +53,7 @@ class TechnicalAdminController extends Controller
      */
     public function gradeAuditLogs(Request $request)
     {
-        $query = GradeAuditLog::with(['quarterlyGrade.student.user', 'user'])
+        $query = GradeAuditLog::with(['quarterlyGrade.student.studentProfile', 'user'])
             ->latest();
 
         if ($request->has('student_id')) {

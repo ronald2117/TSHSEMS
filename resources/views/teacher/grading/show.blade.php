@@ -56,15 +56,9 @@
     @for($quarter = 1; $quarter <= 4; $quarter++)
         <div class="quarter-content {{ $quarter == 1 ? '' : 'hidden' }}" data-quarter="{{ $quarter }}">
             <div class="bg-white rounded-xl shadow-sm">
-                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <div class="px-6 py-4 border-b border-gray-100">
                     <h3 class="text-lg font-semibold text-gray-900">Quarter {{ $quarter }} Grades</h3>
-                    <form action="{{ route('teacher.grading.submit', $classSchedule) }}" method="POST" onsubmit="return confirm('Submit all grades for Quarter {{ $quarter }} for approval?');">
-                        @csrf
-                        <input type="hidden" name="quarter" value="{{ $quarter }}">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition">
-                            Submit for Approval
-                        </button>
-                    </form>
+                    <p class="text-sm text-gray-500 mt-1">Submit grades individually when ready for approval</p>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -78,6 +72,7 @@
                                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Final Grade</th>
                                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Remarks</th>
                                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -180,7 +175,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center text-sm {{ $displayRemarks === 'Passed' ? 'text-green-600 font-medium' : 'text-red-600 font-medium' }}">
                                         @if($displayRemarks)
-                                            {{ $displayRemarks }}
+ displayed if grade was returned by registrar                                            {{ $displayRemarks }}
                                             @if(!$grade)
                                                 <span class="text-xs text-gray-400 block">(preview)</span>
                                             @endif
@@ -197,14 +192,46 @@
                                                 {{ $grade->status === 'Returned' ? 'bg-red-100 text-red-800' : '' }}">
                                                 {{ $grade->status }}
                                             </span>
+                                            @if($grade->status === 'Returned')
+                                                <p class="text-xs text-red-600 mt-1">{{ $grade->return_reason }}</p>
+                                            @endif
                                         @else
                                             <span class="text-gray-400 text-xs">Not graded</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        @if($displayFinal !== null)
+                                            @if(!$grade || $grade->status === 'Draft' || $grade->status === 'Returned')
+                                                <form action="{{ route('teacher.grading.submit-grade', [$classSchedule, $student->id]) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <input type="hidden" name="quarter" value="{{ $quarter }}">
+                                                    <button type="submit" 
+                                                            onclick="return confirm('Submit this grade for approval?')"
+                                                            class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-medium transition">
+                                                        Submit
+                                                    </button>
+                                                </form>
+                                            @elseif($grade->status === 'Submitted')
+                                                <form action="{{ route('teacher.grading.unsubmit-grade', $grade) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" 
+                                                            onclick="return confirm('Withdraw this submission?')"
+                                                            class="px-3 py-1 bg-gray-500 hover:bg-gray-600 text-white rounded text-xs font-medium transition">
+                                                        Unsubmit
+                                                    </button>
+                                                </form>
+                                            @elseif($grade->status === 'Approved')
+                                                <span class="text-xs text-gray-400">Locked</span>
+                                            @endif
+                                        @else
+                                            <span class="text-xs text-gray-400">No scores</span>
                                         @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="px-6 py-12 text-center text-sm text-gray-500">
+                                    <td colspan="9" class="px-6 py-12 text-center text-sm text-gray-500">
                                         No students enrolled in this class
                                     </td>
                                 </tr>

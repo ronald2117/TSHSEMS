@@ -227,6 +227,8 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->gro
     // Grading
     Route::resource('grading', GradingController::class)->only(['index', 'show', 'edit', 'update']);
     Route::post('grading/{classSchedule}/submit-grades', [GradingController::class, 'submitGrades'])->name('grading.submit');
+    Route::post('grading/{classSchedule}/submit-grade/{student}', [GradingController::class, 'submitGrade'])->name('grading.submit-grade');
+    Route::patch('grading/unsubmit-grade/{grade}', [GradingController::class, 'unsubmitGrade'])->name('grading.unsubmit-grade');
     
     // Assessments Management
     Route::resource('assessments', TeacherAssessmentController::class);

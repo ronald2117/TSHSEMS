@@ -154,6 +154,52 @@ class GradingController extends Controller
             ->with('success', 'Grades submitted for approval.');
     }
 
+    public function submitGrade(ClassSchedule $classSchedule, $studentId, Request $request): RedirectResponse
+    {
+        $this->authorize('view', $classSchedule);
+
+        $quarter = $request->input('quarter', 1);
+
+        // Calculate grade
+        $initialGrade = $this->calculateInitialGrade($classSchedule, $studentId, $quarter);
+        $finalGrade = GradeTransmutation::transmute($initialGrade);
+        $remarks = GradeTransmutation::getRemarks($finalGrade);
+
+        QuarterlyGrade::updateOrCreate(
+            [
+                'student_id' => $studentId,
+                'class_schedule_id' => $classSchedule->id,
+                'quarter' => $quarter,
+            ],
+            [
+                'initial_grade' => $initialGrade,
+                'final_grade' => $finalGrade,
+                'remarks' => $remarks,
+                'status' => 'Submitted',
+                'submitted_at' => now(),
+                'submitted_by' => auth()->id(),
+            ]
+        );
+
+        return back()->with('success', 'Grade submitted for approval.');
+    }
+
+    public function unsubmitGrade(QuarterlyGrade $grade): RedirectResponse
+    {
+        // Only allow unsubmitting if status is Submitted (not Approved)
+        if ($grade->status !== 'Submitted') {
+            return back()->with('error', 'Cannot unsubmit this grade.');
+        }
+
+        $grade->update([
+            'status' => 'Draft',
+            'submitted_at' => null,
+            'submitted_by' => null,
+        ]);
+
+        return back()->with('success', 'Grade submission withdrawn.');
+    }
+
     private function calculateInitialGrade($classSchedule, $studentId, $quarter)
     {
         $assessments = $classSchedule->assessments()

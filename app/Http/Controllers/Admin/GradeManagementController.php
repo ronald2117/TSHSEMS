@@ -28,21 +28,61 @@ class GradeManagementController extends Controller
         return view('admin.grades.index', ['grades' => $grades]);
     }
 
-    public function show(QuarterlyGrade $quarterlyGrade): View
+    public function show(QuarterlyGrade $grade_approval): View
     {
-        $quarterlyGrade->load([
+        $grade_approval->load([
             'student' => function ($query) {
-                $query->withTrashed();
+                $query->withTrashed()->with('studentProfile.currentSection');
             },
             'classSchedule' => function ($query) {
-                $query->withTrashed()->with(['subject' => function ($q) {
-                    $q->withTrashed();
-                }]);
+                $query->withTrashed()->with([
+                    'subject' => function ($q) {
+                        $q->withTrashed();
+                    },
+                    'section',
+                    'teacher' => function ($q) {
+                        $q->withTrashed();
+                    },
+                    'academicPeriod.schoolYear',
+                ]);
             },
-            'auditLogs'
+            'submitter',
+            'approver',
+            'auditLogs.user'
         ]);
 
-        return view('admin.grades.show', ['grade' => $quarterlyGrade]);
+        // Get assessment scores for this student in this class schedule for this quarter
+        $assessmentScores = [];
+        if ($grade_approval->classSchedule) {
+            $assessments = $grade_approval->classSchedule->assessments()
+                ->where('quarter', $grade_approval->quarter)
+                ->with(['scores' => function ($query) use ($grade_approval) {
+                    $query->where('student_id', $grade_approval->student_id);
+                }])
+                ->get()
+                ->groupBy('type');
+
+            foreach (['written_work', 'performance_task', 'quarterly_assessment'] as $type) {
+                $typeAssessments = $assessments->get($type, collect());
+                $percentages = $typeAssessments->map(function ($assessment) {
+                    $score = $assessment->scores->first();
+                    if ($score && $assessment->max_score > 0) {
+                        return ($score->score / $assessment->max_score) * 100;
+                    }
+                    return null;
+                })->filter(fn($v) => $v !== null);
+
+                $assessmentScores[$type] = [
+                    'count' => $typeAssessments->count(),
+                    'average' => $percentages->count() > 0 ? $percentages->avg() : null,
+                ];
+            }
+        }
+
+        return view('admin.grades.show', [
+            'grade' => $grade_approval,
+            'assessmentScores' => $assessmentScores,
+        ]);
     }
 
     public function approve(QuarterlyGrade $quarterlyGrade): RedirectResponse
@@ -65,7 +105,7 @@ class GradeManagementController extends Controller
 
         ActivityLog::log(
             'approve',
-            "Approved grade for student: {$quarterlyGrade->student->user->full_name} - {$quarterlyGrade->classSchedule->subject->name} (Quarter {$quarterlyGrade->quarter})"
+            "Approved grade for student: {$quarterlyGrade->student?->full_name} - {$quarterlyGrade->classSchedule?->subject?->name} (Quarter {$quarterlyGrade->quarter})"
         );
 
         return back()->with('success', 'Grade approved.');
@@ -94,7 +134,7 @@ class GradeManagementController extends Controller
 
         ActivityLog::log(
             'return',
-            "Returned grade for student: {$quarterlyGrade->student->user->full_name} - {$quarterlyGrade->classSchedule->subject->name} (Reason: {$validated['return_reason']})"
+            "Returned grade for student: {$quarterlyGrade->student?->full_name} - {$quarterlyGrade->classSchedule?->subject?->name} (Reason: {$validated['return_reason']})"
         );
 
         return back()->with('success', 'Grade returned to teacher.');
@@ -128,7 +168,7 @@ class GradeManagementController extends Controller
         ]);
         ActivityLog::log(
             'override',
-            "Overrode grade for student: {$quarterlyGrade->student->user->full_name} - {$quarterlyGrade->classSchedule->subject->name} (Old: {$oldGrade} → New: {$validated['new_grade']})"
+            "Overrode grade for student: {$quarterlyGrade->student?->full_name} - {$quarterlyGrade->classSchedule?->subject?->name} (Old: {$oldGrade} → New: {$validated['new_grade']})"
         );
         return back()->with('success', 'Grade overridden and approved.');
     }

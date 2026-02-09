@@ -98,8 +98,21 @@
                                             @foreach($students as $student)
                                                 <tr class="hover:bg-gray-50">
                                                     <td class="px-6 py-4 whitespace-nowrap sticky left-0 bg-white">
-                                                        <div class="text-sm font-medium text-gray-900">{{ $student->name }}</div>
-                                                        <div class="text-xs text-gray-500">{{ $student->studentProfile?->lrn ?? 'N/A' }}</div>
+                                                        <div class="flex items-center">
+                                                            @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
+                                                                <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
+                                                            @else
+                                                                <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
+                                                                    <span class="text-white font-semibold text-sm">
+                                                                        {{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}
+                                                                    </span>
+                                                                </div>
+                                                            @endif
+                                                            <div class="ml-4">
+                                                                <div class="text-sm font-medium text-gray-900">{{ $student->full_name }}</div>
+                                                                <div class="text-xs text-gray-500">{{ $student->studentProfile?->lrn ?? 'N/A' }}</div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     @foreach($quarterAssessments[$type] as $assessment)
                                                         @php

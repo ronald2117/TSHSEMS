@@ -43,62 +43,36 @@
     <!-- Weekly Schedule -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            @if($scheduleByDay->isNotEmpty())
-                @foreach($daysOfWeek as $day)
-                    @if($scheduleByDay->has($day))
-                        <div class="border-b border-gray-200 last:border-0">
-                            <div class="bg-gray-50 px-6 py-3 border-b border-gray-200">
-                                <h3 class="font-semibold text-gray-900 capitalize">{{ $day }}</h3>
-                            </div>
-                            <div class="p-6 space-y-4">
-                                @foreach($scheduleByDay[$day] as $schedule)
-                                    <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-                                        <!-- Time -->
-                                        <div class="flex-shrink-0 w-32">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                {{ date('g:i A', strtotime($schedule->start_time)) }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                {{ date('g:i A', strtotime($schedule->end_time)) }}
-                                            </div>
-                                        </div>
-
-                                        <!-- Subject Details -->
-                                        <div class="flex-1">
-                                            <h4 class="font-semibold text-gray-900">{{ $schedule->subject->name }}</h4>
-                                            <p class="text-sm text-gray-600 mt-1">{{ $schedule->subject->code }}</p>
-                                            <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                                                <span class="flex items-center gap-1">
-                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                                    </svg>
-                                                    {{ $schedule->teacher->user->name }}
-                                                </span>
-                                                @if($schedule->room)
-                                                    <span class="flex items-center gap-1">
-                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                                                        </svg>
-                                                        Room {{ $schedule->room }}
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <!-- Subject Type Badge -->
-                                        <div class="flex-shrink-0">
-                                            <span class="px-3 py-1 text-xs font-semibold rounded-full 
-                                                {{ $schedule->subject->subject_type === 'core' ? 'bg-blue-100 text-blue-700' : 
-                                                   ($schedule->subject->subject_type === 'applied' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700') }}">
-                                                {{ ucfirst($schedule->subject->subject_type) }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
+            @if($schedules->isNotEmpty())
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Schedule</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($schedules as $schedule)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-900">{{ $schedule->subject->name }}</div>
+                                    <div class="text-xs text-gray-500">{{ $schedule->subject->code }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">{{ $schedule->teacher->full_name }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">{{ $schedule->schedule_time ?? 'TBA' }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">{{ $schedule->room ?? 'TBA' }}</div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             @else
                 <div class="p-12 text-center">
                     <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -108,9 +108,9 @@
             </tr>
             <tr>
                 <td><strong>Teacher:</strong></td>
-                <td>{{ auth()->user()->name }}</td>
+                <td>{{ auth()->user()->full_name }}</td>
                 <td><strong>Schedule:</strong></td>
-                <td>{{ ucfirst($classSchedule->day_of_week) }}, {{ date('g:i A', strtotime($classSchedule->start_time)) }} - {{ date('g:i A', strtotime($classSchedule->end_time)) }}</td>
+                <td>{{ $classSchedule->schedule_time ?? 'TBA' }}</td>
             </tr>
             @if($classSchedule->room)
             <tr>

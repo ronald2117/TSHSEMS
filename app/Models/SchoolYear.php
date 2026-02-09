@@ -57,4 +57,28 @@ class SchoolYear extends Model
         static::where('id', '!=', $this->id)->update(['is_active' => false]);
         $this->update(['is_active' => true]);
     }
+
+    /**
+     * Check if this school year is locked
+     */
+    public function getIsLockedAttribute(): bool
+    {
+        return SystemSetting::get("school_year_{$this->id}_locked", false);
+    }
+
+    /**
+     * Lock this school year
+     */
+    public function lock(): void
+    {
+        SystemSetting::set("school_year_{$this->id}_locked", true);
+    }
+
+    /**
+     * Unlock this school year
+     */
+    public function unlock(): void
+    {
+        SystemSetting::set("school_year_{$this->id}_locked", false);
+    }
 }

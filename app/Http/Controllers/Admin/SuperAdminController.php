@@ -280,24 +280,26 @@ class SuperAdminController extends Controller
     {
         $schoolYear = \App\Models\SchoolYear::findOrFail($id);
         
-        // Check if is_locked column exists, otherwise use a setting
-        $lockKey = "school_year_{$id}_locked";
-        $currentlyLocked = \App\Models\SystemSetting::get($lockKey, false);
-        $newLockedState = !$currentlyLocked;
+        // Toggle the lock state
+        $wasLocked = $schoolYear->is_locked;
         
-        \App\Models\SystemSetting::set($lockKey, $newLockedState);
+        if ($wasLocked) {
+            $schoolYear->unlock();
+        } else {
+            $schoolYear->lock();
+        }
         
         // Log the activity
         \App\Models\ActivityLog::create([
             'user_id' => auth()->id(),
-            'action' => $newLockedState ? 'school_year_locked' : 'school_year_unlocked',
-            'description' => ($newLockedState ? 'Locked' : 'Unlocked') . " school year: {$schoolYear->name}",
+            'action' => $wasLocked ? 'school_year_unlocked' : 'school_year_locked',
+            'description' => ($wasLocked ? 'Unlocked' : 'Locked') . " school year: {$schoolYear->name}",
             'ip_address' => $request->ip(),
         ]);
         
-        $status = $newLockedState ? 'locked' : 'unlocked';
+        $status = $wasLocked ? 'unlocked' : 'locked';
         return back()->with('success', "School year {$schoolYear->name} has been {$status}. " . 
-            ($newLockedState ? 'Grade modifications are now restricted.' : 'Grade modifications are now allowed.'));
+            ($wasLocked ? 'Grade modifications are now allowed.' : 'Grade modifications are now restricted.'));
     }
 
     /**

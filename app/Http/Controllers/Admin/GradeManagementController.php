@@ -14,7 +14,13 @@ class GradeManagementController extends Controller
 {
     public function index(): View
     {
-        $grades = QuarterlyGrade::with('student', 'classSchedule.subject')
+        $grades = QuarterlyGrade::with([
+                'student' => function ($query) {
+                    $query->withTrashed();
+                },
+                'student.studentProfile',
+                'classSchedule.subject'
+            ])
             ->where('status', '!=', 'Approved')
             ->orderByDesc('created_at')
             ->paginate(20);

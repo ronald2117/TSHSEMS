@@ -33,10 +33,30 @@
                 @forelse($grades as $grade)
                 <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-medium text-gray-900">
-                            {{ $grade->student->first_name }} {{ $grade->student->last_name }}
-                        </div>
-                        <div class="text-xs text-gray-500">{{ $grade->student->studentProfile->lrn ?? 'N/A' }}</div>
+                        @if($grade->student)
+                            <div class="flex items-center">
+                                @if($grade->student->avatar_path && file_exists(public_path('storage/' . $grade->student->avatar_path)))
+                                    <img src="{{ asset('storage/' . $grade->student->avatar_path) }}" alt="{{ $grade->student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
+                                @else
+                                    <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white font-semibold text-sm">
+                                            {{ strtoupper(substr($grade->student->first_name, 0, 1)) }}{{ strtoupper(substr($grade->student->last_name, 0, 1)) }}
+                                        </span>
+                                    </div>
+                                @endif
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{ $grade->student->full_name }}
+                                        @if($grade->student->trashed())
+                                            <span class="text-xs text-red-500 ml-1">(deleted)</span>
+                                        @endif
+                                    </div>
+                                    <div class="text-xs text-gray-500">{{ $grade->student->studentProfile->lrn ?? 'N/A' }}</div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="text-sm text-gray-400 italic">Student record not found</div>
+                        @endif
                     </td>
                     <td class="px-6 py-4">
                         <div class="text-sm text-gray-900">{{ $grade->classSchedule->subject->name }}</div>

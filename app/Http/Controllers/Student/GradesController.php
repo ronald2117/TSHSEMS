@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\QuarterlyGrade;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 
 class GradesController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(): View
     {
         $grades = QuarterlyGrade::where('student_id', auth()->id())

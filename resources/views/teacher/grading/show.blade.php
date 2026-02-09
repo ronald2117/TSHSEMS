@@ -175,7 +175,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center text-sm {{ $displayRemarks === 'Passed' ? 'text-green-600 font-medium' : 'text-red-600 font-medium' }}">
                                         @if($displayRemarks)
- displayed if grade was returned by registrar                                            {{ $displayRemarks }}
+                                            {{ $displayRemarks }}
                                             @if(!$grade)
                                                 <span class="text-xs text-gray-400 block">(preview)</span>
                                             @endif

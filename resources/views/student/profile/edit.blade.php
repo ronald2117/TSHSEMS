@@ -35,16 +35,18 @@
         <h2 class="text-lg font-semibold text-gray-900">Profile Photo</h2>
         
         <div class="flex items-center gap-6">
-            @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
-                <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
-            @else
-                <div class="w-24 h-24 rounded-full bg-green-600 flex items-center justify-center border-4 border-gray-200">
-                    <span class="text-white text-2xl font-bold">{{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}</span>
-                </div>
-            @endif
+            <div id="avatar-preview">
+                @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
+                    <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
+                @else
+                    <div class="w-24 h-24 rounded-full bg-green-600 flex items-center justify-center border-4 border-gray-200">
+                        <span class="text-white text-2xl font-bold">{{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}</span>
+                    </div>
+                @endif
+            </div>
             <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Upload New Photo</label>
-                <input type="file" name="avatar" accept="image/*" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                 <p class="text-xs text-gray-500 mt-1">JPG, PNG, or GIF (max 2MB)</p>
                 @if(auth()->user()->avatar_path)
                     <label class="inline-flex items-center mt-2">
@@ -139,4 +141,19 @@
         </button>
     </form>
 </div>
+
+<script>
+function previewAvatar(event) {
+    const file = event.target.files[0];
+    const avatarPreview = document.getElementById('avatar-preview');
+    
+    if (file && avatarPreview) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">`;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 @endsection

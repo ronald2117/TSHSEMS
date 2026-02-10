@@ -13,7 +13,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $student = auth()->user()->studentProfile()->with(['section.strand', 'section.schoolYear'])->first();
+        $student = auth()->user()->studentProfile()->with(['currentSection.strand', 'currentSection.schoolYear'])->first();
         
         return view('student.profile.index', compact('student'));
     }

@@ -27,13 +27,13 @@ class DashboardController extends Controller
 
     private function studentDashboard($user): View
     {
-        $profile = $user->studentProfile;
+        $profile = $user->studentProfile()->with(['currentSection', 'strand'])->first();
         $grades = QuarterlyGrade::where('student_id', $user->id)
             ->with('classSchedule.subject')
-            ->where('status', 'Approved')
+            ->where('status', 'approved')
             ->get();
         
-        $recentGrades = $grades->sortByDesc('created_at')->take(5);
+        $recentGrades = $grades->sortByDesc('created_at')->take(6);
 
         // Get announcements for students
         $announcements = \App\Models\Announcement::where(function($q) {
@@ -50,7 +50,7 @@ class DashboardController extends Controller
             'profile' => $profile,
             'recentGrades' => $recentGrades,
             'totalGrades' => $grades->count(),
-            'averageGrade' => $grades->avg('final_grade'),
+            'averageGrade' => $grades->avg('final_grade') ?? 0,
             'announcements' => $announcements,
         ]);
     }

@@ -21,13 +21,17 @@
         <!-- Header Section -->
         <div class="bg-gradient-to-r from-green-500 to-green-600 p-8 text-white">
             <div class="flex items-center gap-6">
-                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-green-600 text-3xl font-bold">
-                    {{ substr(auth()->user()->name, 0, 2) }}
-                </div>
+                @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
+                    <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
+                @else
+                    <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-green-600 text-3xl font-bold shadow-lg">
+                        {{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}
+                    </div>
+                @endif
                 <div>
-                    <h2 class="text-2xl font-bold">{{ auth()->user()->name }}</h2>
-                    <p class="text-green-50 mt-1">Student ID: {{ $student->student_id }}</p>
-                    <p class="text-green-50 text-sm">{{ $student->section->name ?? 'No Section Assigned' }}</p>
+                    <h2 class="text-2xl font-bold">{{ auth()->user()->full_name }}</h2>
+                    <p class="text-green-50 mt-1">LRN: {{ $student->lrn ?? 'N/A' }}</p>
+                    <p class="text-green-50 text-sm">{{ $student->currentSection->name ?? 'No Section Assigned' }}</p>
                 </div>
             </div>
         </div>
@@ -41,7 +45,7 @@
                     
                     <div>
                         <p class="text-sm text-gray-500">Full Name</p>
-                        <p class="font-medium text-gray-900">{{ auth()->user()->name }}</p>
+                        <p class="font-medium text-gray-900">{{ auth()->user()->full_name }}</p>
                     </div>
 
                     <div>
@@ -83,22 +87,22 @@
                         <p class="font-medium text-gray-900">{{ $student->grade_level }}</p>
                     </div>
 
-                    @if($student->section)
+                    @if($student->currentSection)
                     <div>
                         <p class="text-sm text-gray-500">Section</p>
-                        <p class="font-medium text-gray-900">{{ $student->section->name }}</p>
+                        <p class="font-medium text-gray-900">{{ $student->currentSection->name }}</p>
                     </div>
 
                     <div>
                         <p class="text-sm text-gray-500">Strand</p>
-                        <p class="font-medium text-gray-900">{{ $student->section->strand->name }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">{{ $student->section->strand->description }}</p>
+                        <p class="font-medium text-gray-900">{{ $student->currentSection->strand->name ?? 'N/A' }}</p>
+                        <p class="text-xs text-gray-500 mt-0.5">{{ $student->currentSection->strand->description ?? '' }}</p>
                     </div>
 
                     <div>
                         <p class="text-sm text-gray-500">School Year</p>
                         <p class="font-medium text-gray-900">
-                            {{ $student->section->schoolYear->year_start }}-{{ $student->section->schoolYear->year_end }}
+                            {{ $student->currentSection->schoolYear->year_start ?? 'N/A' }}-{{ $student->currentSection->schoolYear->year_end ?? 'N/A' }}
                         </p>
                     </div>
                     @endif

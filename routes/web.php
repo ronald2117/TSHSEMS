@@ -237,6 +237,7 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->gro
     // Attendance
     Route::resource('attendance', AttendanceController::class)->only(['index', 'create', 'store']);
     Route::get('class-roster/{classSchedule}', [AttendanceController::class, 'roster'])->name('attendance.roster');
+    Route::get('attendance-history/{classSchedule}', [AttendanceController::class, 'history'])->name('attendance.history');
 });
 
 // Student Routes

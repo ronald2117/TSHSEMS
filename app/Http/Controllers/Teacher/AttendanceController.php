@@ -61,6 +61,8 @@ class AttendanceController extends Controller
             'date' => 'required|date',
             'attendance' => 'required|array',
             'attendance.*' => 'required|in:Present,Absent,Late,Excused',
+            'remarks' => 'nullable|array',
+            'remarks.*' => 'nullable|string|max:255',
         ]);
 
         $classSchedule = ClassSchedule::findOrFail($validated['class_schedule_id']);
@@ -78,6 +80,7 @@ class AttendanceController extends Controller
                     ],
                     [
                         'status' => $validated['attendance'][$studentId],
+                        'remarks' => $validated['remarks'][$studentId] ?? null,
                         'recorded_by' => auth()->id(),
                     ]
                 );
@@ -86,5 +89,80 @@ class AttendanceController extends Controller
 
         return redirect()->route('teacher.attendance.index')
             ->with('success', 'Attendance recorded successfully.');
+    }
+
+    public function history(ClassSchedule $classSchedule, Request $request): View
+    {
+        $this->authorize('view', $classSchedule);
+
+        // Get filter parameters
+        $startDate = $request->input('start_date', now()->subMonth()->format('Y-m-d'));
+        $endDate = $request->input('end_date', now()->format('Y-m-d'));
+        $studentFilter = $request->input('student_id');
+
+        // Get all enrolled students
+        $students = $classSchedule->enrollments()
+            ->with('student.studentProfile')
+            ->where('status', 'enrolled')
+            ->get()
+            ->pluck('student')
+            ->sortBy(function($student) {
+                return $student->last_name ?? $student->email;
+            });
+
+        // Query attendance records
+        $attendanceQuery = Attendance::where('class_schedule_id', $classSchedule->id)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->with(['student.studentProfile', 'recorder'])
+            ->orderBy('date', 'desc')
+            ->orderBy('student_id');
+
+        if ($studentFilter) {
+            $attendanceQuery->where('student_id', $studentFilter);
+        }
+
+        $attendances = $attendanceQuery->get();
+
+        // Calculate statistics
+        $stats = [
+            'total_records' => $attendances->count(),
+            'present' => $attendances->where('status', 'Present')->count(),
+            'absent' => $attendances->where('status', 'Absent')->count(),
+            'late' => $attendances->where('status', 'Late')->count(),
+            'excused' => $attendances->where('status', 'Excused')->count(),
+        ];
+
+        // Group attendance by date for table view
+        $attendanceByDate = $attendances->groupBy(function($attendance) {
+            return $attendance->date->format('Y-m-d');
+        });
+
+        // Calculate per-student statistics
+        $studentStats = [];
+        foreach ($students as $student) {
+            $studentAttendances = $attendances->where('student_id', $student->id);
+            $studentStats[$student->id] = [
+                'total' => $studentAttendances->count(),
+                'present' => $studentAttendances->where('status', 'Present')->count(),
+                'absent' => $studentAttendances->where('status', 'Absent')->count(),
+                'late' => $studentAttendances->where('status', 'Late')->count(),
+                'excused' => $studentAttendances->where('status', 'Excused')->count(),
+                'attendance_rate' => $studentAttendances->count() > 0 
+                    ? round(($studentAttendances->where('status', 'Present')->count() / $studentAttendances->count()) * 100, 1)
+                    : 0,
+            ];
+        }
+
+        return view('teacher.attendance.history', [
+            'classSchedule' => $classSchedule,
+            'students' => $students,
+            'attendances' => $attendances,
+            'attendanceByDate' => $attendanceByDate,
+            'stats' => $stats,
+            'studentStats' => $studentStats,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'studentFilter' => $studentFilter,
+        ]);
     }
 }

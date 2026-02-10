@@ -52,6 +52,7 @@
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Absent</th>
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Late</th>
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Excused</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Remarks</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -96,10 +97,16 @@
                                            {{ $status === 'Excused' ? 'checked' : '' }}
                                            class="w-4 h-4 text-blue-600 focus:ring-blue-500">
                                 </td>
+                                <td class="px-6 py-4">
+                                    <input type="text" name="remarks[{{ $student->id }}]" 
+                                           value="{{ $attendance?->remarks ?? '' }}"
+                                           placeholder="Optional notes..."
+                                           class="w-full px-3 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
+                                <td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500">
                                     No students enrolled in this class
                                 </td>
                             </tr>

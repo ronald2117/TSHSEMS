@@ -372,10 +372,21 @@ return new class extends Migration
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('system_settings', function (Blueprint $table) {
+            $table->comment('Key-value store for system-wide configuration');
+            $table->id();
+            $table->string('key')->unique();
+            $table->text('value')->nullable();
+            $table->string('type')->default('string'); // 'string', 'boolean', 'integer', 'json'
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('system_settings');
         Schema::dropIfExists('activity_logs');
         Schema::dropIfExists('announcements');
         Schema::dropIfExists('document_requests');

@@ -30,15 +30,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <p class="text-sm text-gray-500 mb-1">Student Name</p>
-                <p class="font-medium text-gray-900">{{ $documentRequest->student->user->name }}</p>
+                <p class="font-medium text-gray-900">{{ $documentRequest->student->full_name ?? 'N/A' }}</p>
             </div>
             <div>
                 <p class="text-sm text-gray-500 mb-1">Student ID</p>
-                <p class="font-medium text-gray-900">{{ $documentRequest->student->student_id }}</p>
+                <p class="font-medium text-gray-900">{{ $documentRequest->student->studentProfile->lrn ?? 'N/A' }}</p>
             </div>
             <div>
                 <p class="text-sm text-gray-500 mb-1">Section</p>
-                <p class="font-medium text-gray-900">{{ $documentRequest->student->section->name ?? 'N/A' }}</p>
+                <p class="font-medium text-gray-900">{{ $documentRequest->student->studentProfile->currentSection->name ?? 'N/A' }}</p>
             </div>
             <div>
                 <p class="text-sm text-gray-500 mb-1">Document Type</p>
@@ -60,14 +60,14 @@
                 <p class="text-sm text-gray-500 mb-1">Current Status</p>
                 @php
                     $statusColors = [
-                        'pending' => 'bg-yellow-100 text-yellow-800',
-                        'processing' => 'bg-blue-100 text-blue-800',
-                        'ready' => 'bg-green-100 text-green-800',
-                        'released' => 'bg-gray-100 text-gray-800',
-                        'rejected' => 'bg-red-100 text-red-800',
+                        'Pending' => 'bg-yellow-100 text-yellow-800',
+                        'Processing' => 'bg-blue-100 text-blue-800',
+                        'Ready' => 'bg-green-100 text-green-800',
+                        'Claimed' => 'bg-gray-100 text-gray-800',
+                        'Rejected' => 'bg-red-100 text-red-800',
                     ];
                 @endphp
-                <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full {{ $statusColors[$documentRequest->status] }}">
+                <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full {{ $statusColors[$documentRequest->status] ?? 'bg-gray-100 text-gray-800' }}">
                     {{ ucfirst($documentRequest->status) }}
                 </span>
             </div>

@@ -135,8 +135,8 @@
                                 #{{ $request->id }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{ $request->student->user->name }}</div>
-                                <div class="text-xs text-gray-500">{{ $request->student->student_id }}</div>
+                                <div class="text-sm font-medium text-gray-900">{{ $request->student->full_name ?? 'N/A' }}</div>
+                                <div class="text-xs text-gray-500">{{ $request->student->studentProfile->lrn ?? 'N/A' }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
                                 {{ str_replace('_', ' ', $request->document_type) }}

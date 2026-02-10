@@ -41,6 +41,11 @@ class DocumentRequest extends Model
         return $this->belongsTo(User::class, 'processed_by');
     }
 
+    public function processedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'processed_by');
+    }
+
     public function scopeForStudent($query, $studentId)
     {
         return $query->where('student_id', $studentId);

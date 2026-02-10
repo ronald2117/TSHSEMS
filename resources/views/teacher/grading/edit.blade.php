@@ -74,69 +74,108 @@
                         </a>
                     </div>
                 @else
+                    <!-- Assessment Type Tabs -->
+                    <div class="bg-white rounded-xl shadow-sm mb-6">
+                        <div class="border-b border-gray-200 px-4">
+                            <nav class="flex gap-2 -mb-px">
+                                @php
+                                    $typeLabels = [
+                                        'written_work' => 'Written Work',
+                                        'performance_task' => 'Performance Task',
+                                        'quarterly_assessment' => 'Quarterly Exam'
+                                    ];
+                                    $firstType = null;
+                                @endphp
+                                @foreach(['written_work', 'performance_task', 'quarterly_assessment'] as $type)
+                                    @if($quarterAssessments->has($type) && $quarterAssessments[$type]->isNotEmpty())
+                                        @php
+                                            if (!$firstType) $firstType = $type;
+                                            $isFirst = $type === $firstType;
+                                        @endphp
+                                        <button type="button" 
+                                                onclick="selectAssessmentType({{ $quarter }}, '{{ $type }}')" 
+                                                class="type-tab-q{{ $quarter }} px-4 py-3 text-sm font-medium border-b-2 transition {{ $isFirst ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                                                data-quarter="{{ $quarter }}"
+                                                data-type="{{ $type }}">
+                                            {{ $typeLabels[$type] }}
+                                            <span class="ml-1 text-xs">({{ $quarterAssessments[$type]->count() }})</span>
+                                        </button>
+                                    @endif
+                                @endforeach
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Assessment Type Content -->
                     @foreach(['written_work' => 'Written Work', 'performance_task' => 'Performance Task', 'quarterly_assessment' => 'Quarterly Exam'] as $type => $label)
                         @if($quarterAssessments->has($type) && $quarterAssessments[$type]->isNotEmpty())
-                            <div class="bg-white rounded-xl shadow-sm mb-6">
-                                <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
-                                    <h3 class="font-semibold text-gray-900">{{ $label }}</h3>
-                                </div>
-                                <div class="overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase sticky left-0 bg-gray-50">Student</th>
-                                                @foreach($quarterAssessments[$type] as $assessment)
-                                                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
-                                                        {{ $assessment->title }}
-                                                        <br>
-                                                        <span class="text-xs text-gray-400">({{ $assessment->max_score }} pts)</span>
-                                                    </th>
-                                                @endforeach
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            @foreach($students as $student)
-                                                <tr class="hover:bg-gray-50">
-                                                    <td class="px-6 py-4 whitespace-nowrap sticky left-0 bg-white">
-                                                        <div class="flex items-center">
-                                                            @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
-                                                                <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
-                                                            @else
-                                                                <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
-                                                                    <span class="text-white font-semibold text-sm">
-                                                                        {{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}
-                                                                    </span>
-                                                                </div>
-                                                            @endif
-                                                            <div class="ml-4">
-                                                                <div class="text-sm font-medium text-gray-900">{{ $student->full_name }}</div>
-                                                                <div class="text-xs text-gray-500">{{ $student->studentProfile?->lrn ?? 'N/A' }}</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
+                            @php
+                                $isFirstType = !isset($firstTypeDisplayed);
+                                if ($isFirstType) $firstTypeDisplayed = true;
+                            @endphp
+                            <div class="type-content-q{{ $quarter }} {{ $isFirstType ? '' : 'hidden' }}" data-quarter="{{ $quarter }}" data-type="{{ $type }}">
+                                <div class="bg-white rounded-xl shadow-sm mb-6">
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-gray-50">
+                                                <tr>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase sticky left-0 bg-gray-50 z-10">Student</th>
                                                     @foreach($quarterAssessments[$type] as $assessment)
-                                                        @php
-                                                            $score = $scores->get($student->id)?->firstWhere('assessment_id', $assessment->id);
-                                                        @endphp
-                                                        <td class="px-6 py-4 text-center">
-                                                            <input type="number" 
-                                                                   name="scores[{{ $student->id }}][{{ $assessment->id }}]" 
-                                                                   value="{{ $score->score ?? '' }}"
-                                                                   min="0" 
-                                                                   max="{{ $assessment->max_score }}" 
-                                                                   step="0.01"
-                                                                   class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-green-500 focus:border-green-500 text-center"
-                                                                   placeholder="—">
-                                                        </td>
+                                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase whitespace-nowrap">
+                                                            {{ $assessment->title }}
+                                                            <br>
+                                                            <span class="text-xs text-gray-400">({{ $assessment->max_score }} pts)</span>
+                                                        </th>
                                                     @endforeach
                                                 </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                                @foreach($students as $student)
+                                                    <tr class="hover:bg-gray-50">
+                                                        <td class="px-6 py-4 whitespace-nowrap sticky left-0 bg-white z-10">
+                                                            <div class="flex items-center">
+                                                                @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
+                                                                    <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
+                                                                @else
+                                                                    <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
+                                                                        <span class="text-white font-semibold text-sm">
+                                                                            {{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}
+                                                                        </span>
+                                                                    </div>
+                                                                @endif
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">{{ $student->full_name }}</div>
+                                                                    <div class="text-xs text-gray-500">{{ $student->studentProfile?->lrn ?? 'N/A' }}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        @foreach($quarterAssessments[$type] as $assessment)
+                                                            @php
+                                                                $score = $scores->get($student->id)?->firstWhere('assessment_id', $assessment->id);
+                                                            @endphp
+                                                            <td class="px-6 py-4 text-center">
+                                                                <input type="number" 
+                                                                       name="scores[{{ $student->id }}][{{ $assessment->id }}]" 
+                                                                       value="{{ $score->score ?? '' }}"
+                                                                       min="0" 
+                                                                       max="{{ $assessment->max_score }}" 
+                                                                       step="0.01"
+                                                                       class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-green-500 focus:border-green-500 text-center"
+                                                                       placeholder="—">
+                                                            </td>
+                                                        @endforeach
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         @endif
                     @endforeach
+                    @php
+                        unset($firstTypeDisplayed);
+                    @endphp
                 @endif
             </div>
         @endfor
@@ -169,6 +208,28 @@ function selectQuarter(quarter) {
     // Update content
     document.querySelectorAll('.quarter-content').forEach(content => {
         if (parseInt(content.dataset.quarter) === quarter) {
+            content.classList.remove('hidden');
+        } else {
+            content.classList.add('hidden');
+        }
+    });
+}
+
+function selectAssessmentType(quarter, type) {
+    // Update assessment type tabs for the specific quarter
+    document.querySelectorAll(`.type-tab-q${quarter}`).forEach(tab => {
+        if (tab.dataset.type === type) {
+            tab.classList.remove('border-transparent', 'text-gray-500');
+            tab.classList.add('border-blue-500', 'text-blue-600');
+        } else {
+            tab.classList.remove('border-blue-500', 'text-blue-600');
+            tab.classList.add('border-transparent', 'text-gray-500');
+        }
+    });
+    
+    // Update assessment type content for the specific quarter
+    document.querySelectorAll(`.type-content-q${quarter}`).forEach(content => {
+        if (content.dataset.type === type) {
             content.classList.remove('hidden');
         } else {
             content.classList.add('hidden');

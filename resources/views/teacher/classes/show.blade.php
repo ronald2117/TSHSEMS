@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('page_title', 'Class Details')
+@section('page_subtitle', 'View class information, student list, and manage your class.')
+
 @section('title', 'Class Details - ' . $classSchedule->subject->name)
 
 @section('content')

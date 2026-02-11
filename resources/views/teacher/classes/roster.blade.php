@@ -137,9 +137,9 @@
             @foreach($students as $index => $enrollment)
                 <tr>
                     <td style="text-align: center;">{{ $index + 1 }}</td>
-                    <td>{{ $enrollment->student->student_id }}</td>
-                    <td>{{ $enrollment->student->user->name }}</td>
-                    <td>{{ $enrollment->student->sex ?? '' }}</td>
+                    <td>{{ $enrollment->student->studentProfile->lrn ?? 'N/A' }}</td>
+                    <td>{{ $enrollment->student->full_name }}</td>
+                    <td></td>
                     <td></td>
                 </tr>
             @endforeach

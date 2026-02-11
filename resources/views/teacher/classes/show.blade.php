@@ -136,46 +136,6 @@
             </table>
         </div>
     </div>
-
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition flex items-center gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-                </svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-gray-900">Grade Students</h3>
-                <p class="text-xs text-gray-500">Input and manage grades</p>
-            </div>
-        </a>
-        
-        <a href="{{ route('teacher.attendance.create', ['class_schedule' => $classSchedule->id]) }}" class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition flex items-center gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                </svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-gray-900">Mark Attendance</h3>
-                <p class="text-xs text-gray-500">Record student attendance</p>
-            </div>
-        </a>
-        
-        <a href="{{ route('teacher.classes.roster', $classSchedule) }}" target="_blank" class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition flex items-center gap-4">
-            <div class="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
-                </svg>
-            </div>
-            <div>
-                <h3 class="font-semibold text-gray-900">Print Roster</h3>
-                <p class="text-xs text-gray-500">Generate class roster</p>
-            </div>
-        </a>
-    </div>
 </div>
 </div>
 @endsection

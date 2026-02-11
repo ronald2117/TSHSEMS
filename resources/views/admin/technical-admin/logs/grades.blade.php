@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Grade Audit Logs')
+@section('page_title', 'Grade Audit Logs')
+@section('page_subtitle', 'Track all grade changes for compliance and transparency.')
 
 @section('content')
 <div class="space-y-6">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Announcements')
+@section('page_title', 'Announcements')
+@section('page_subtitle', 'Stay updated with important notices and information.')
 
 @section('content')
 <div class="space-y-6">

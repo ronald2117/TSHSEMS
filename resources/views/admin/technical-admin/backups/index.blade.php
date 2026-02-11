@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Database Backups')
+@section('page_title', 'Database Backups')
+@section('page_subtitle', 'Manage and restore database backups.')
 
 @section('content')
 <div class="space-y-6">

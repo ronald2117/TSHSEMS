@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Enrollment History')
+@section('page_title', 'Enrollment History')
+@section('page_subtitle', 'View historical student enrollment records.')
 
 @section('content')
 <div class="space-y-6">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Create Assessment')
+@section('page_title', 'Create Assessment')
+@section('page_subtitle', 'Create a new assessment for your class.')
 
 @section('content')
 <div class="container mx-auto px-4 py-6">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Profile')
+@section('page_title', 'Edit Profile')
+@section('page_subtitle', 'Update your personal information and settings.')
 
 @section('content')
 <div class="space-y-6 max-w-4xl">

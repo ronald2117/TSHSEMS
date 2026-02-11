@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('page_title', 'Login Logs')
+@section('page_subtitle', 'Authentication attempts and login activity monitoring.')
+
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-7xl mx-auto">

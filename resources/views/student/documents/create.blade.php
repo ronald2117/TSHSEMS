@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Request Document')
+@section('page_title', 'Request Document')
+@section('page_subtitle', 'Submit a new document request.')
 
 @section('content')
 <div class="container mx-auto px-4 py-6">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'My Schedule')
+@section('page_title', 'My Schedule')
+@section('page_subtitle', 'View your class schedule and timetable.')
 
 @section('content')
 <div class="space-y-6">

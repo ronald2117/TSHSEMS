@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('page_title', 'Create Teacher')
+@section('page_subtitle', 'Add a new teacher to the system.')
+
 @section('content')
 <div class="p-6">
     <!-- Header -->

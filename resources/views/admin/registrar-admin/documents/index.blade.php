@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Document Requests')
+@section('page_title', 'Document Requests')
+@section('page_subtitle', 'Manage student document requests and processing.')
 
 @section('content')
 <div class="space-y-6">

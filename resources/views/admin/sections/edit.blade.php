@@ -16,7 +16,7 @@
                     Section Name *
                 </label>
                 <input type="text" name="name" id="name" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                        value="{{ old('name', $section->name) }}"
                        placeholder="e.g., Diamond, Sapphire, Emerald">
                 @error('name')
@@ -31,7 +31,7 @@
                         Grade Level *
                     </label>
                     <select name="grade_level" id="grade_level" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="">Select Grade Level</option>
                         <option value="11" {{ old('grade_level', $section->grade_level) == 11 ? 'selected' : '' }}>Grade 11</option>
                         <option value="12" {{ old('grade_level', $section->grade_level) == 12 ? 'selected' : '' }}>Grade 12</option>
@@ -47,7 +47,7 @@
                         Maximum Students *
                     </label>
                     <input type="number" name="max_students" id="max_students" required min="1"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('max_students', $section->max_students) }}"
                            placeholder="e.g., 40">
                     @error('max_students')
@@ -62,7 +62,7 @@
                     School Year *
                 </label>
                 <select name="school_year_id" id="school_year_id" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     <option value="">Select School Year</option>
                     @foreach($schoolYears as $schoolYear)
                         <option value="{{ $schoolYear->id }}" {{ old('school_year_id', $section->school_year_id) == $schoolYear->id ? 'selected' : '' }}>
@@ -81,7 +81,7 @@
                     Strand *
                 </label>
                 <select name="strand_id" id="strand_id" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     <option value="">Select Strand</option>
                     @foreach($strands as $strand)
                         <option value="{{ $strand->id }}" {{ old('strand_id', $section->strand_id) == $strand->id ? 'selected' : '' }}>

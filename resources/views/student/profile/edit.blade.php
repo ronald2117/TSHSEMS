@@ -47,11 +47,11 @@
             </div>
             <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Upload New Photo</label>
-                <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(event)" class="cursor-pointer w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                 <p class="text-xs text-gray-500 mt-1">JPG, PNG, or GIF (max 2MB)</p>
                 @if(auth()->user()->avatar_path)
                     <label class="inline-flex items-center mt-2">
-                        <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                        <input type="checkbox" name="remove_avatar" value="1" class="cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500">
                         <span class="ml-2 text-sm text-gray-600">Remove current photo</span>
                     </label>
                 @endif
@@ -65,14 +65,14 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                     <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                 </div>
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
                 <textarea name="address" rows="3" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="House No., Street, Barangay, City, Province">{{ old('address', $student->address) }}</textarea>
             </div>
         </div>
@@ -84,20 +84,20 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Guardian Name</label>
                     <input type="text" name="guardian_name" value="{{ old('guardian_name', $student->guardian_name) }}" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Guardian Contact Number</label>
                     <input type="text" name="guardian_contact" value="{{ old('guardian_contact', $student->guardian_contact) }}" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="+63 XXX XXX XXXX">
                 </div>
             </div>
         </div>
 
         <div class="flex gap-4 pt-4">
-            <button type="submit" class="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition">
+            <button type="submit" class="cursor-pointer px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition">
                 Save Changes
             </button>
             <a href="{{ route('student.profile.index') }}" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">
@@ -118,13 +118,13 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Current Password *</label>
                 <input type="password" name="current_password" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">New Password *</label>
                 <input type="password" name="password" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     required minlength="8">
                 <p class="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
             </div>
@@ -132,12 +132,12 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password *</label>
                 <input type="password" name="password_confirmation" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     required minlength="8">
             </div>
         </div>
 
-        <button type="submit" class="px-6 py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition">
+        <button type="submit" class="cursor-pointer px-6 py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition">
             Update Password
         </button>
     </form>

@@ -45,7 +45,7 @@
                         </div>
                         <input type="text" name="login_id" id="login_id" required
                                placeholder="Enter your email or login ID"
-                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('login_id') border-red-500 @enderror"
+                               class="cursor-pointer w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('login_id') border-red-500 @enderror"
                                value="{{ old('login_id') }}">
                     </div>
                     @error('login_id')
@@ -73,10 +73,10 @@
                         </div>
                         <input type="password" name="password" id="password" required
                                placeholder="Enter your password"
-                               class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="cursor-pointer w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <button type="button" 
                                 onclick="togglePassword()" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                                class="cursor-pointer absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                             <svg id="eye-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -94,7 +94,7 @@
                 <!-- Remember Me -->
                 <div class="flex items-center">
                     <input type="checkbox" name="remember" id="remember"
-                           class="h-4 w-4 text-green-600 rounded">
+                           class="cursor-pointer h-4 w-4 text-green-600 rounded">
                     <label for="remember" class="ml-2 text-sm text-gray-700">
                         Remember me
                     </label>

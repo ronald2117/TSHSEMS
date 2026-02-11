@@ -24,7 +24,7 @@
                 <label for="class_schedule_id" class="block text-sm font-medium text-gray-700 mb-2">Class *</label>
                 <select name="class_schedule_id" 
                         id="class_schedule_id" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('class_schedule_id') border-red-500 @enderror" 
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('class_schedule_id') border-red-500 @enderror" 
                         required>
                     <option value="">Select a class</option>
                     @foreach ($classSchedules as $schedule)
@@ -45,7 +45,7 @@
                        id="title" 
                        value="{{ old('title') }}"
                        placeholder="e.g., Quiz #1, Performance Task #2"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('title') border-red-500 @enderror" 
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('title') border-red-500 @enderror" 
                        required>
                 @error('title')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -57,7 +57,7 @@
                     <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Type *</label>
                     <select name="type" 
                             id="type" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('type') border-red-500 @enderror" 
+                            class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('type') border-red-500 @enderror" 
                             required>
                         <option value="">Select type</option>
                         <option value="written_work" {{ old('type') == 'written_work' ? 'selected' : '' }}>Written Work</option>
@@ -76,7 +76,7 @@
                            id="max_score" 
                            value="{{ old('max_score', 50) }}"
                            min="1"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('max_score') border-red-500 @enderror" 
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('max_score') border-red-500 @enderror" 
                            required>
                     @error('max_score')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -87,7 +87,7 @@
                     <label for="quarter" class="block text-sm font-medium text-gray-700 mb-2">Quarter *</label>
                     <select name="quarter" 
                             id="quarter" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('quarter') border-red-500 @enderror" 
+                            class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('quarter') border-red-500 @enderror" 
                             required>
                         @for ($i = 1; $i <= 4; $i++)
                             <option value="{{ $i }}" {{ old('quarter') == $i ? 'selected' : '' }}>Quarter {{ $i }}</option>
@@ -105,7 +105,7 @@
                        name="assessment_date" 
                        id="assessment_date" 
                        value="{{ old('assessment_date', now()->format('Y-m-d')) }}"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('assessment_date') border-red-500 @enderror" 
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('assessment_date') border-red-500 @enderror" 
                        required>
                 @error('assessment_date')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -118,13 +118,13 @@
                            name="is_published" 
                            value="1" 
                            {{ old('is_published', true) ? 'checked' : '' }}
-                           class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                           class="cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500">
                     <span class="ml-2 text-sm text-gray-700">Publish immediately (students can see this assessment)</span>
                 </label>
             </div>
 
             <div class="flex items-center gap-4">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
                     Create Assessment
                 </button>
                 <a href="{{ route('teacher.assessments.index') }}" class="text-gray-600 hover:text-gray-800">

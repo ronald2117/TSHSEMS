@@ -65,7 +65,7 @@
                 @if($teacher->avatar_path)
                     <div class="mt-4 flex items-center space-x-2">
                         <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                            <input type="checkbox" name="remove_avatar" value="1" class="cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500">
                             <span class="text-sm text-gray-600">Remove avatar</span>
                         </label>
                     </div>
@@ -87,7 +87,7 @@
                                 First Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="first_name" value="{{ old('first_name', $teacher->first_name) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                    required>
                             @error('first_name')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -100,7 +100,7 @@
                                 Middle Name
                             </label>
                             <input type="text" name="middle_name" value="{{ old('middle_name', $teacher->middle_name) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
 
                         <!-- Last Name -->
@@ -109,7 +109,7 @@
                                 Last Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="last_name" value="{{ old('last_name', $teacher->last_name) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                    required>
                             @error('last_name')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -122,7 +122,7 @@
                                 Suffix
                             </label>
                             <input type="text" name="suffix" value="{{ old('suffix', $teacher->suffix) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                    placeholder="Jr., Sr., III, etc.">
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                                 Employee ID <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="employee_id" value="{{ old('employee_id', $teacher->login_id) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
                                    placeholder="e.g., T-2025-001"
                                    required>
                             @error('employee_id')
@@ -153,7 +153,7 @@
                                 Email <span class="text-red-500">*</span>
                             </label>
                             <input type="email" name="email" value="{{ old('email', $teacher->email) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                    required>
                             @error('email')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -167,10 +167,10 @@
                             </label>
                             <div class="relative">
                                 <input type="password" id="password-field" name="password" 
-                                       class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                       class="cursor-pointer w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                        placeholder="Leave blank to keep current">
                                 <button type="button" onclick="togglePassword('password-field', 'password-toggle-icon')" 
-                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
+                                        class="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
                                     <svg id="password-toggle-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -190,9 +190,9 @@
                             </label>
                             <div class="relative">
                                 <input type="password" id="password-confirmation-field" name="password_confirmation" 
-                                       class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                       class="cursor-pointer w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                                 <button type="button" onclick="togglePassword('password-confirmation-field', 'password-confirmation-toggle-icon')" 
-                                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
+                                        class="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700">
                                     <svg id="password-confirmation-toggle-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -214,7 +214,7 @@
                                 Department
                             </label>
                             <input type="text" name="department" value="{{ old('department', $teacher->teacherProfile->department) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                    placeholder="e.g., Science Department, Mathematics">
                             @error('department')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -227,7 +227,7 @@
                                 Specialization
                             </label>
                             <input type="text" name="specialization" value="{{ old('specialization', $teacher->teacherProfile->specialization) }}" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                   class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                    placeholder="e.g., Biology, Calculus, English Literature">
                             @error('specialization')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -243,7 +243,7 @@
                         Cancel
                     </a>
                     <button type="submit" 
-                            class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm hover:shadow-md">
+                            class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm hover:shadow-md">
                         Update Teacher
                     </button>
                 </div>

@@ -109,11 +109,12 @@
             <!-- Links -->
             <div class="mt-6 text-center text-sm">
                 <p class="text-gray-600">
-                    <a href="{{ route('password.request') }}" class="text-green-600 hover:text-green-700 font-medium">Forgot Password?</a>
+                    <span class="text-gray-700">Forgot Password?</span>
+                    <span class="text-gray-500">Contact your administrator to reset your password.</span>
                 </p>
-                <p class="text-gray-500 text-xs mt-4">
+                <!-- <p class="text-gray-500 text-xs mt-4">
                     New user accounts must be created by system administrators.
-                </p>
+                </p> -->
             </div>
         </div>
         </div>

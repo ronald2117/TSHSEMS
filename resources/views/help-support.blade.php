@@ -30,7 +30,7 @@
                     <h3 class="text-xl font-semibold text-gray-900 mb-3">How do I log in to TSHSEMS?</h3>
                     <p class="text-gray-600 leading-relaxed">
                         Use the credentials provided by your school administrator. Click the "Login" button in the navigation bar or on the home page. 
-                        Enter your username and password, then click "Sign In". If you've forgotten your password, use the "Forgot Password" link.
+                        Enter your username and password, then click "Sign In". If you've forgotten your password, contact your administrator to reset it.
                     </p>
                 </div>
 

@@ -61,11 +61,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($year->is_active)
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span class="text-xs font-semibold text-green-600">
                                         Active
                                     </span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    <span class="text-xs font-semibold text-gray-600">
                                         Inactive
                                     </span>
                                 @endif

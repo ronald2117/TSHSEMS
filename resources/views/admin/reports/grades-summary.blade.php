@@ -120,7 +120,7 @@
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     @if($gwa)
-                                        <span class="px-2 py-1 text-xs rounded-full {{ $gwa >= 75 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        <span class="text-xs font-semibold {{ $gwa >= 75 ? 'text-green-600' : 'text-red-600' }}">
                                             {{ $gwa >= 75 ? 'Passed' : 'Failed' }}
                                         </span>
                                     @else

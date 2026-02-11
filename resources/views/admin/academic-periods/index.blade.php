@@ -63,7 +63,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $period->status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                                <span class="text-xs font-semibold {{ $period->status === 'Active' ? 'text-green-600' : 'text-gray-600' }}">
                                     {{ $period->status }}
                                 </span>
                             </td>

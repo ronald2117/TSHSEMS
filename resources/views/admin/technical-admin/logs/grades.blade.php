@@ -54,7 +54,7 @@
                                 {{ $log->user->name ?? 'System' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                <span class="text-xs font-semibold text-gray-600">
                                     {{ number_format($log->old_grade, 2) }}
                                 </span>
                             </td>

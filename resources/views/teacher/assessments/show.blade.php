@@ -126,15 +126,15 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @if($percentage >= 90)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Outstanding</span>
+                                    <span class="text-xs font-medium text-green-600">Outstanding</span>
                                 @elseif($percentage >= 85)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Very Satisfactory</span>
+                                    <span class="text-xs font-medium text-blue-600">Very Satisfactory</span>
                                 @elseif($percentage >= 80)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Satisfactory</span>
+                                    <span class="text-xs font-medium text-yellow-600">Satisfactory</span>
                                 @elseif($percentage >= 75)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-800">Fairly Satisfactory</span>
+                                    <span class="text-xs font-medium text-orange-600">Fairly Satisfactory</span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Did Not Meet</span>
+                                    <span class="text-xs font-medium text-red-600">Did Not Meet</span>
                                 @endif
                             </td>
                         </tr>

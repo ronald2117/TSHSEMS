@@ -163,7 +163,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($displayFinal !== null)
-                                            <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full {{ $displayFinal >= 75 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                            <span class="inline-block text-sm font-semibold {{ $displayFinal >= 75 ? 'text-green-600' : 'text-red-600' }}">
                                                 {{ number_format($displayFinal, 0) }}
                                             </span>
                                             @if(!$grade)
@@ -185,11 +185,11 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($grade)
-                                            <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                                {{ $grade->status === 'Draft' ? 'bg-gray-100 text-gray-800' : '' }}
-                                                {{ $grade->status === 'Submitted' ? 'bg-blue-100 text-blue-800' : '' }}
-                                                {{ $grade->status === 'Approved' ? 'bg-green-100 text-green-800' : '' }}
-                                                {{ $grade->status === 'Returned' ? 'bg-red-100 text-red-800' : '' }}">
+                                            <span class="text-xs font-semibold
+                                                {{ $grade->status === 'Draft' ? 'text-gray-600' : '' }}
+                                                {{ $grade->status === 'Submitted' ? 'text-blue-600' : '' }}
+                                                {{ $grade->status === 'Approved' ? 'text-green-600' : '' }}
+                                                {{ $grade->status === 'Returned' ? 'text-red-600' : '' }}">
                                                 {{ $grade->status }}
                                             </span>
                                             @if($grade->status === 'Returned')

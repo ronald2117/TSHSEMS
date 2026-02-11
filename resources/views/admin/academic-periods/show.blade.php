@@ -38,7 +38,7 @@
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Status</dt>
                         <dd class="mt-1">
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $academicPeriod->status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+                            <span class="text-xs font-semibold {{ $academicPeriod->status === 'Active' ? 'text-green-600' : 'text-gray-600' }}">
                                 {{ $academicPeriod->status }}
                             </span>
                         </dd>

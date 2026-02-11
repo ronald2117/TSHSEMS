@@ -182,19 +182,19 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($attendance->status === 'Present')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            <span class="text-xs leading-5 font-semibold text-green-600">
                                                 Present
                                             </span>
                                         @elseif($attendance->status === 'Absent')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            <span class="text-xs leading-5 font-semibold text-red-600">
                                                 Absent
                                             </span>
                                         @elseif($attendance->status === 'Late')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            <span class="text-xs leading-5 font-semibold text-yellow-600">
                                                 Late
                                             </span>
                                         @elseif($attendance->status === 'Excused')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            <span class="text-xs leading-5 font-semibold text-blue-600">
                                                 Excused
                                             </span>
                                         @endif

@@ -151,7 +151,7 @@
                             {{ $strand->pivot->is_required ? 'Required' : 'Elective' }}
                         </p>
                     </div>
-                    <span class="px-2 py-1 text-xs font-medium rounded bg-blue-100 text-blue-800">
+                    <span class="text-xs font-medium text-blue-600">
                         {{ $strand->code }}
                     </span>
                 </div>

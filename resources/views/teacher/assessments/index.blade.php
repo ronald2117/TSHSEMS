@@ -79,9 +79,9 @@
                         <td class="px-6 py-4 text-sm text-gray-500">{{ $assessment->assessment_date ? $assessment->assessment_date->format('M d, Y') : 'N/A' }}</td>
                         <td class="px-6 py-4">
                             @if ($assessment->is_published)
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Published</span>
+                                <span class="text-xs font-semibold text-green-600">Published</span>
                             @else
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Draft</span>
+                                <span class="text-xs font-semibold text-yellow-600">Draft</span>
                             @endif
                         </td>
                         <td class="px-6 py-4 text-right text-sm font-medium">

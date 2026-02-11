@@ -123,7 +123,7 @@
                                 <div class="flex items-center gap-2">
                                     <span class="text-sm font-medium text-gray-900">{{ $section->studentProfiles->count() ?? 0 }}</span>
                                     @if($section->max_students && $section->studentProfiles->count() >= $section->max_students)
-                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                        <span class="text-xs font-semibold text-red-600">
                                             Full
                                         </span>
                                     @endif

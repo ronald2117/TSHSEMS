@@ -37,12 +37,12 @@
                             <td class="px-6 py-4 text-gray-600">{{ $grade->classSchedule->section->name }}</td>
                             <td class="px-6 py-4 text-center font-medium text-gray-900">Q{{ $grade->quarter }}</td>
                             <td class="px-6 py-4 text-center">
-                                <span class="inline-block bg-green-100 text-green-800 px-4 py-1 rounded-full font-semibold text-lg">
+                                <span class="font-semibold text-lg text-green-600">
                                     {{ $grade->final_grade }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $grade->remarks === 'Passed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                <span class="text-xs font-semibold {{ $grade->remarks === 'Passed' ? 'text-green-600' : 'text-red-600' }}">
                                     {{ $grade->remarks }}
                                 </span>
                             </td>

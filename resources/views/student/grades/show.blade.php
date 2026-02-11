@@ -55,7 +55,7 @@
             <div class="space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-gray-700">Current Status:</span>
-                    <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                    <span class="text-sm font-semibold text-green-600">
                         {{ $grade->status }}
                     </span>
                 </div>

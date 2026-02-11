@@ -106,7 +106,7 @@
                                 <td class="px-3 py-3 text-center text-blue-600 font-semibold bg-blue-50/50">{{ $excused }}</td>
                                 <td class="px-4 py-3 text-center text-gray-900">{{ $totalRecorded }}</td>
                                 <td class="px-4 py-3 text-center">
-                                    <span class="px-2 py-1 text-xs rounded-full {{ $percentPresent >= 80 ? 'bg-green-100 text-green-800' : ($percentPresent >= 60 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+                                    <span class="text-xs font-semibold {{ $percentPresent >= 80 ? 'text-green-600' : ($percentPresent >= 60 ? 'text-yellow-600' : 'text-red-600') }}">
                                         {{ number_format($percentPresent, 1) }}%
                                     </span>
                                 </td>

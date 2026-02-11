@@ -3,27 +3,31 @@
 @section('title', 'Class Details - ' . $classSchedule->subject->name)
 
 @section('content')
-<div class="space-y-6">
-    <!-- Page Header with Back Button -->
-    <div class="flex items-center gap-4">
-        <a href="{{ route('teacher.classes.index') }}" class="p-2 hover:bg-gray-100 rounded-lg transition">
-            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+<div class="p-6">
+    <!-- Back Button -->
+    <div class="mb-6">
+        <a href="{{ route('teacher.classes.index') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
+            Back to Classes
         </a>
-        <div class="flex-1">
-            <h1 class="text-2xl font-bold text-gray-900">{{ $classSchedule->subject->name }}</h1>
-            <p class="text-sm text-gray-600 mt-1">{{ $classSchedule->subject->code }} • {{ $classSchedule->section->name }}</p>
-        </div>
-        <div class="flex gap-2">
-            <a href="{{ route('teacher.classes.roster', $classSchedule) }}" target="_blank" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium text-sm flex items-center gap-2">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"/>
-                </svg>
+    </div>
+
+    <!-- Class Info Card -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900">{{ $classSchedule->subject->name }}</h2>
+                <p class="text-sm text-gray-600 mt-1">{{ $classSchedule->section->name }} • {{ $students->count() }} Students</p>
+            </div>
+            <a href="{{ route('teacher.classes.roster', $classSchedule) }}" target="_blank" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
                 Print Roster
             </a>
         </div>
     </div>
+
+<div class="space-y-6">
 
     <!-- Class Information Card -->
     <div class="bg-white rounded-xl shadow-sm p-6">
@@ -169,5 +173,6 @@
             </div>
         </a>
     </div>
+</div>
 </div>
 @endsection

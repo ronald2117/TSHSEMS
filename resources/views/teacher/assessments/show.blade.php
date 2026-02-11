@@ -80,7 +80,7 @@
             <div>
                 <h2 class="text-lg font-semibold text-gray-900">Student Scores</h2>
                 <p class="text-sm text-gray-600">
-                    {{ $assessment->studentScores->count() }} of {{ $assessment->classSchedule->section->studentProfiles->count() ?? 0 }} students scored
+                    {{ $assessment->scores->count() }} of {{ $assessment->classSchedule->section->studentProfiles->count() ?? 0 }} students scored
                 </p>
             </div>
             <a href="{{ route('teacher.grading.show', $assessment->classSchedule) }}" 
@@ -104,7 +104,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    @forelse($assessment->studentScores as $index => $score)
+                    @forelse($assessment->scores as $index => $score)
                         @php
                             $percentage = $assessment->max_score > 0 ? ($score->score / $assessment->max_score) * 100 : 0;
                         @endphp
@@ -154,12 +154,12 @@
             </table>
         </div>
 
-        @if($assessment->studentScores->count() > 0)
+        @if($assessment->scores->count() > 0)
             <!-- Statistics -->
             <div class="p-6 border-t border-gray-200 bg-gray-50">
                 <h3 class="text-sm font-semibold text-gray-700 mb-4">Score Statistics</h3>
                 @php
-                    $scores = $assessment->studentScores->pluck('score');
+                    $scores = $assessment->scores->pluck('score');
                     $avgScore = $scores->avg();
                     $avgPercentage = $assessment->max_score > 0 ? ($avgScore / $assessment->max_score) * 100 : 0;
                     $passedCount = $scores->filter(fn($s) => ($s / $assessment->max_score) * 100 >= 75)->count();

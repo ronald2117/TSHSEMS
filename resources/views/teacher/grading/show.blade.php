@@ -43,7 +43,7 @@
             <nav class="flex -mb-px">
                 @for($q = 1; $q <= 4; $q++)
                     <button onclick="selectQuarter({{ $q }})" 
-                            class="quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                            class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
                             data-quarter="{{ $q }}">
                         Quarter {{ $q }}
                     </button>

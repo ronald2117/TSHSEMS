@@ -24,7 +24,7 @@
     <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
         <form method="GET" action="{{ route('teacher.assessments.index') }}" class="flex gap-4">
             <div class="flex-1">
-                <select name="class_schedule_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                <select name="class_schedule_id" class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg">
                     <option value="">All Classes</option>
                     @foreach ($classSchedules as $schedule)
                         <option value="{{ $schedule->id }}" {{ request('class_schedule_id') == $schedule->id ? 'selected' : '' }}>
@@ -34,14 +34,14 @@
                 </select>
             </div>
             <div>
-                <select name="quarter" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <select name="quarter" class="cursor-pointer px-4 py-2 border border-gray-300 rounded-lg">
                     <option value="">All Quarters</option>
                     @for ($i = 1; $i <= 4; $i++)
                         <option value="{{ $i }}" {{ request('quarter') == $i ? 'selected' : '' }}>Quarter {{ $i }}</option>
                     @endfor
                 </select>
             </div>
-            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Filter</button>
+            <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Filter</button>
         </form>
     </div>
 

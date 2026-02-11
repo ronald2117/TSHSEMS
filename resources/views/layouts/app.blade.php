@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'TSHSEMS - Evaluation Management')</title>
+    <link rel="icon" type="image/png" href="{{ asset('tshs_logo_whitebg.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-slate-50 font-sans">

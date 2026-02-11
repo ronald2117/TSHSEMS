@@ -95,19 +95,19 @@
             <div>
                 <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                 <input type="date" id="start_date" name="start_date" value="{{ $startDate }}" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
                 <label for="end_date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
                 <input type="date" id="end_date" name="end_date" value="{{ $endDate }}" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
                 <label for="student_id" class="block text-sm font-medium text-gray-700 mb-1">Filter by Student</label>
                 <select id="student_id" name="student_id" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     <option value="">All Students</option>
                     @foreach($students as $student)
                         <option value="{{ $student->id }}" {{ $studentFilter == $student->id ? 'selected' : '' }}>
@@ -118,7 +118,7 @@
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
                     Apply Filters
                 </button>
                 <a href="{{ route('teacher.attendance.history', $classSchedule) }}" 
@@ -134,11 +134,11 @@
         <div class="border-b border-gray-200">
             <nav class="flex -mb-px">
                 <button onclick="showTab('records')" id="tab-records" 
-                        class="tab-button active px-6 py-3 border-b-2 border-green-500 text-green-600 font-medium text-sm">
+                        class="cursor-pointer tab-button active px-6 py-3 border-b-2 border-green-500 text-green-600 font-medium text-sm">
                     Attendance Records
                 </button>
                 <button onclick="showTab('summary')" id="tab-summary" 
-                        class="tab-button px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+                        class="cursor-pointer tab-button px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
                     Student Summary
                 </button>
             </nav>

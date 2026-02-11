@@ -64,66 +64,64 @@
 
     <!-- Students List -->
     <div class="bg-white rounded-xl shadow-sm">
-        <div class="p-6 border-b border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-100">
             <h2 class="text-lg font-semibold text-gray-900">Enrolled Students</h2>
         </div>
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                             Student ID
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                             Name
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                             Section
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                             Email
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900">
                             Status
                         </th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="divide-y divide-gray-200">
                     @forelse($students as $enrollment)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $enrollment->student->studentProfile->lrn ?? 'N/A' }}
+                            <td class="px-6 py-4">
+                                <p class="text-sm text-gray-600">{{ $enrollment->student->studentProfile->lrn ?? 'N/A' }}</p>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
-                                        <span class="text-green-700 font-semibold text-sm">
-                                            {{ substr($enrollment->student->first_name, 0, 1) }}{{ substr($enrollment->student->last_name, 0, 1) }}
-                                        </span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">
-                                            {{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}
+                                <div class="flex items-center space-x-3">
+                                    @if($enrollment->student->avatar_path && file_exists(public_path('storage/' . $enrollment->student->avatar_path)))
+                                        <img src="{{ asset('storage/' . $enrollment->student->avatar_path) }}" alt="{{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}" class="w-10 h-10 rounded-full object-cover">
+                                    @else
+                                        <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                            <span class="text-white text-sm">{{ strtoupper(substr($enrollment->student->first_name, 0, 1)) }}{{ strtoupper(substr($enrollment->student->last_name, 0, 1)) }}</span>
                                         </div>
+                                    @endif
+                                    <div>
+                                        <p class="font-medium text-gray-900">{{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}</p>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td class="px-6 py-4 text-sm text-gray-600">
                                 {{ $enrollment->student->studentProfile->currentSection->name ?? 'N/A' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $enrollment->student->email }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                            <td class="px-6 py-4 text-sm text-gray-600">{{ $enrollment->student->email }}</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-sm text-gray-600">
                                     Active
                                 </span>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
-                                No students enrolled in this class yet
+                            <td colspan="5" class="px-6 py-8 text-center text-gray-600">
+                                No students enrolled in this class yet.
                             </td>
                         </tr>
                     @endforelse

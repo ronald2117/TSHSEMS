@@ -48,12 +48,12 @@
             @endif
             <div>
                 <p class="text-sm text-gray-500 mb-1">Subject Type</p>
-                <p class="font-medium text-gray-900 capitalize">{{ str_replace('_', ' ', $classSchedule->subject->subject_type) }}</p>
+                <p class="font-medium text-gray-900 capitalize">{{ str_replace('_', ' ', $classSchedule->subject->type) }}</p>
             </div>
             <div>
                 <p class="text-sm text-gray-500 mb-1">Academic Period</p>
                 <p class="font-medium text-gray-900">{{ $classSchedule->academicPeriod->name }}</p>
-                <p class="text-xs text-gray-500 mt-0.5">{{ $classSchedule->schoolYear->year_start }}-{{ $classSchedule->schoolYear->year_end }}</p>
+                <p class="text-xs text-gray-500 mt-0.5">{{ $classSchedule->academicPeriod->schoolYear->name }}</p>
             </div>
             <div>
                 <p class="text-sm text-gray-500 mb-1">Total Students</p>

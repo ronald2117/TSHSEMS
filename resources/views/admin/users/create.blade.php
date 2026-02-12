@@ -91,7 +91,7 @@
                     Role *
                 </label>
                 <select name="role" id="role" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     <option value="">Select a role</option>
                     <option value="super_admin" {{ old('role') === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
                     <option value="academic_admin" {{ old('role') === 'academic_admin' ? 'selected' : '' }}>Academic Admin</option>
@@ -113,7 +113,7 @@
                 <div class="relative">
                     <input type="password" name="password" id="password" required
                            class="w-full px-4 py-2 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <button type="button" onclick="togglePassword('password')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                    <button type="button" onclick="togglePassword('password')" class="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                         <svg id="password-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -131,10 +131,10 @@
 
             <!-- Buttons -->
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                <a href="{{ route('admin.users.index') }}" class="text-gray-600 hover:text-gray-700 font-medium">
+                <a href="{{ route('admin.users.index') }}" class="cursor-pointer text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Create User
                 </button>
             </div>

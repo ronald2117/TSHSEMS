@@ -149,10 +149,10 @@
 
             <!-- Buttons -->
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                <a href="{{ route('admin.users.show', $user) }}" class="text-gray-600 hover:text-gray-700 font-medium">
+                <a href="{{ route('admin.users.show', $user) }}" class="cursor-pointer text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Update User
                 </button>
             </div>

@@ -78,11 +78,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                    @if(str_contains($log->action, 'LOGIN')) bg-green-100 text-green-800
-                                    @elseif(str_contains($log->action, 'DELETE')) bg-red-100 text-red-800
-                                    @elseif(str_contains($log->action, 'UPDATE')) bg-blue-100 text-blue-800
-                                    @elseif(str_contains($log->action, 'CREATE')) bg-purple-100 text-purple-800
-                                    @else bg-gray-100 text-gray-800
+                                    @if(str_contains($log->action, 'LOGIN')) text-green-800
+                                    @elseif(str_contains($log->action, 'DELETE')) text-red-800
+                                    @elseif(str_contains($log->action, 'UPDATE')) text-blue-800
+                                    @elseif(str_contains($log->action, 'CREATE')) text-purple-800
+                                    @else text-gray-800
                                     @endif">
                                     {{ $log->action }}
                                 </span>

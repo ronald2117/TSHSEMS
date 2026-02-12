@@ -30,7 +30,7 @@
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
                 <div class="min-w-[150px]">
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <select class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">All Quarters</option>
                         <option value="1">1st Quarter</option>
                         <option value="2">2nd Quarter</option>
@@ -39,14 +39,14 @@
                     </select>
                 </div>
                 <div class="min-w-[150px]">
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <select class="cursor-pointer  w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         <option value="">All Time</option>
                         <option value="today">Today</option>
                         <option value="week">This Week</option>
                         <option value="month">This Month</option>
                     </select>
                 </div>
-                <button class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                <button class="cursor-pointer  px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                     Filter
                 </button>
             </div>
@@ -76,9 +76,6 @@
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 New Value
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Reason
-                            </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -90,7 +87,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($log->quarterlyGrade && $log->quarterlyGrade->student)
                                     <div class="text-sm font-medium text-gray-900">
-                                        {{ $log->quarterlyGrade->student->user->name ?? 'N/A' }}
+                                        {{ $log->quarterlyGrade->student->full_name ?? 'N/A' }}
                                     </div>
                                     <div class="text-xs text-gray-500">
                                         Quarter {{ $log->quarterlyGrade->quarter ?? 'N/A' }}
@@ -108,7 +105,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                                <span class="px-2 py-1 text-blue-800 text-xs font-medium rounded">
                                     {{ $log->field_changed ?? 'grade' }}
                                 </span>
                             </td>
@@ -122,13 +119,10 @@
                                     {{ $log->new_grade ?? '-' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">
-                                {{ $log->reason ?? 'No reason provided' }}
-                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-12 text-center">
+                            <td colspan="6" class="px-6 py-12 text-center">
                                 <x-icon name="chart-bar" class="w-12 h-12 mx-auto mb-3 text-gray-400" />
                                 <p class="text-gray-500">No grade audit logs found</p>
                             </td>

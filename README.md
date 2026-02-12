@@ -1,59 +1,153 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# TSHSEMS (Taysan Senior High School Evaluation Management System)
 
-## About Laravel
+TSHSEMS is a Laravel 12 web application that digitizes academic evaluation, grading, and student management for senior high schools aligned with DepEd curriculum workflows.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Key Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Role-based access control (Super Admin, Academic Admin, Registrar Admin, Technical Admin, Teacher, Student)
+- DepEd-style grading pipeline (assessment types, weighting, grade transmutation, remarks)
+- Grade approval workflow (Draft → Submitted → Approved/Returned) with audit logging
+- Attendance recording and student attendance viewing
+- Academic structure management (school years, periods, tracks/strands, sections, subjects, class schedules)
+- Modern responsive UI (Blade + Tailwind + Vite)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
 
-## Learning Laravel
+- Backend: Laravel 12 (PHP 8.2+)
+- Frontend: Blade + Tailwind CSS + Vite
+- Database: SQLite (recommended for local) or MySQL
+- Tests: Pest
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Quick Start (Windows)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Option A — Run the PowerShell setup script (recommended)
 
-## Laravel Sponsors
+From the project root:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\setup.ps1
+```
 
-### Premium Partners
+### Option B — Manual setup
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+#### 1) Prerequisites
 
-## Contributing
+- PHP 8.2+
+- Composer
+- Node.js 18+ (includes npm)
+- Database:
+	- SQLite (recommended for local), or
+	- MySQL (if using MySQL, ensure it’s running and credentials match your `.env`)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### 2) Install dependencies
 
-## Code of Conduct
+```bash
+composer install
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### 3) Create environment file
 
-## Security Vulnerabilities
+PowerShell:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```powershell
+Copy-Item .env.example .env
+php artisan key:generate
+```
 
-## License
+CMD:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bat
+copy .env.example .env
+php artisan key:generate
+```
+
+macOS/Linux (or Git Bash):
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+#### 4) Configure database
+
+SQLite (recommended):
+
+- Create the DB file: `database/database.sqlite`
+- In `.env`, set:
+	- `DB_CONNECTION=sqlite`
+	- `DB_DATABASE=ABSOLUTE_PATH_TO\database\database.sqlite`
+
+MySQL:
+
+- In `.env`, set `DB_CONNECTION=mysql` and update `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
+
+#### 5) Run migrations + seed demo data
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+#### 6) Build frontend assets
+
+```bash
+npm run build
+```
+
+#### 7) Run dev servers
+
+Terminal 1:
+
+```bash
+php artisan serve
+```
+
+Terminal 2 (optional, for hot reload during development):
+
+```bash
+npm run dev
+```
+
+Open: http://localhost:8000
+
+## Demo Login Credentials (Seeded)
+
+Use either **email** or **login_id** in the login field.
+
+| Role | Email | Password | Login ID |
+|------|-------|----------|----------|
+| Super Admin | admin@tshsems.local | password123 | ADMIN001 |
+| Academic Admin | academic@tshsems.local | password123 | ACAD001 |
+| Registrar Admin | registrar@tshsems.local | password123 | REG001 |
+| Teacher 1 | teacher1@tshsems.local | password123 | T-2025-0001 |
+| Teacher 2 | teacher2@tshsems.local | password123 | T-2025-0002 |
+| Student 1 | student1@tshsems.local | password123 | LRN000000001 |
+| Student 2 | student2@tshsems.local | password123 | LRN000000002 |
+
+## Useful Commands
+
+```bash
+# Run tests
+./vendor/bin/pest
+
+# Reset DB and reseed demo data
+php artisan migrate:fresh --seed
+
+# Clear caches
+php artisan optimize:clear
+```
+
+## Troubleshooting
+
+- Migrations fail on SQLite: ensure the `pdo_sqlite` PHP extension is enabled.
+- Migrations fail on MySQL: ensure `pdo_mysql` is enabled and MySQL is running.
+- Autoload / class errors: `composer dump-autoload`
+- Config/cache weirdness: `php artisan optimize:clear`
+
+## Docs
+
+- `QUICK_START.md` (short setup)
+- `PROTOTYPE_SETUP.md` (full prototype overview)
+- `.github/copilot-instructions.md` (architecture + codebase conventions)
+

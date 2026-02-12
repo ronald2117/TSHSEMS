@@ -12,42 +12,49 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('system_settings', function (Blueprint $table) {
-            $table->id();
-            $table->string('key')->unique();
-            $table->text('value')->nullable();
-            $table->string('type')->default('string'); // string, boolean, integer, json
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('system_settings')) {
+            Schema::create('system_settings', function (Blueprint $table) {
+                $table->id();
+                $table->string('key')->unique();
+                $table->text('value')->nullable();
+                $table->string('type')->default('string'); // string, boolean, integer, json
+                $table->text('description')->nullable();
+                $table->timestamps();
+            });
+        }
 
-        // Insert default maintenance settings
-        DB::table('system_settings')->insert([
+        // Ensure default maintenance settings exist (safe if table was created elsewhere)
+        $now = now();
+        DB::table('system_settings')->upsert(
             [
-                'key' => 'maintenance_mode',
-                'value' => 'false',
-                'type' => 'boolean',
-                'description' => 'System maintenance mode status',
-                'created_at' => now(),
-                'updated_at' => now(),
+                [
+                    'key' => 'maintenance_mode',
+                    'value' => 'false',
+                    'type' => 'boolean',
+                    'description' => 'System maintenance mode status',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ],
+                [
+                    'key' => 'maintenance_message',
+                    'value' => 'We are currently performing scheduled maintenance. The system will be back online shortly.',
+                    'type' => 'string',
+                    'description' => 'Message displayed during maintenance mode',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ],
+                [
+                    'key' => 'maintenance_allow_super_admin',
+                    'value' => 'true',
+                    'type' => 'boolean',
+                    'description' => 'Allow super admin access during maintenance',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ],
             ],
-            [
-                'key' => 'maintenance_message',
-                'value' => 'We are currently performing scheduled maintenance. The system will be back online shortly.',
-                'type' => 'string',
-                'description' => 'Message displayed during maintenance mode',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'key' => 'maintenance_allow_super_admin',
-                'value' => 'true',
-                'type' => 'boolean',
-                'description' => 'Allow super admin access during maintenance',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            ['key'],
+            ['value', 'type', 'description', 'updated_at']
+        );
     }
 
     /**

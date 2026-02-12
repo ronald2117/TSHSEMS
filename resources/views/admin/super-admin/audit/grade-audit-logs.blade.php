@@ -100,7 +100,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
+                                <span class="px-2 py-1 text-gray-500 text-xs font-medium">
                                     {{ $log->field_changed ?? 'grade' }}
                                 </span>
                             </td>

@@ -233,16 +233,27 @@ class TechnicalAdminController extends Controller
      */
     private function getDatabaseSize()
     {
-        $dbName = config('database.connections.mysql.database');
+        $driver = config('database.default');
         
-        $result = DB::select(
-            "SELECT SUM(data_length + index_length) as size 
-             FROM information_schema.TABLES 
-             WHERE table_schema = ?",
-            [$dbName]
-        );
+        if ($driver === 'sqlite') {
+            // For SQLite, get the file size directly
+            $dbPath = config('database.connections.sqlite.database');
+            return file_exists($dbPath) ? filesize($dbPath) : 0;
+        } elseif ($driver === 'mysql') {
+            // For MySQL, query information_schema
+            $dbName = config('database.connections.mysql.database');
+            
+            $result = DB::select(
+                "SELECT SUM(data_length + index_length) as size 
+                 FROM information_schema.TABLES 
+                 WHERE table_schema = ?",
+                [$dbName]
+            );
 
-        return $result[0]->size ?? 0;
+            return $result[0]->size ?? 0;
+        }
+        
+        return 0;
     }
 
     /**

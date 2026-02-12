@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Request Document')
+@section('page_title', 'Request Document')
+@section('page_subtitle', 'Submit a new document request.')
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
@@ -29,7 +30,7 @@
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Document Type *</label>
                 <select name="type" 
                         id="type" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('type') border-red-500 @enderror" 
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('type') border-red-500 @enderror" 
                         required>
                     <option value="">Select document type</option>
                     <option value="Form 137" {{ old('type') == 'Form 137' ? 'selected' : '' }}>Form 137 (Permanent Record) - ₱50.00</option>
@@ -51,7 +52,7 @@
                        value="{{ old('copies', 1) }}"
                        min="1"
                        max="10"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('copies') border-red-500 @enderror" 
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('copies') border-red-500 @enderror" 
                        required>
                 <p class="mt-1 text-xs text-gray-500">Maximum of 10 copies per request</p>
                 @error('copies')
@@ -65,7 +66,7 @@
                           id="purpose" 
                           rows="4" 
                           placeholder="e.g., For college application, For scholarship requirements, etc."
-                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('purpose') border-red-500 @enderror" 
+                          class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('purpose') border-red-500 @enderror" 
                           required>{{ old('purpose') }}</textarea>
                 @error('purpose')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -83,7 +84,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
                     Submit Request
                 </button>
                 <a href="{{ route('student.documents.index') }}" class="text-gray-600 hover:text-gray-800">

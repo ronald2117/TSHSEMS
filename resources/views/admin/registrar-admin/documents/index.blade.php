@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Document Requests')
+@section('page_title', 'Document Requests')
+@section('page_subtitle', 'Manage student document requests and processing.')
 
 @section('content')
 <div class="space-y-6">
@@ -150,14 +151,14 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @php
                                     $statusColors = [
-                                        'pending' => 'bg-yellow-100 text-yellow-800',
-                                        'processing' => 'bg-blue-100 text-blue-800',
-                                        'ready' => 'bg-green-100 text-green-800',
-                                        'released' => 'bg-gray-100 text-gray-800',
-                                        'rejected' => 'bg-red-100 text-red-800',
+                                        'pending' => 'text-yellow-600',
+                                        'processing' => 'text-blue-600',
+                                        'ready' => 'text-green-600',
+                                        'released' => 'text-gray-600',
+                                        'rejected' => 'text-red-600',
                                     ];
                                 @endphp
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $statusColors[$request->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                <span class="text-xs font-semibold {{ $statusColors[$request->status] ?? 'text-gray-600' }}">
                                     {{ ucfirst($request->status) }}
                                 </span>
                             </td>

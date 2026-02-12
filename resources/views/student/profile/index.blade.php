@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'My Profile')
+@section('page_title', 'My Profile')
+@section('page_subtitle', 'View and manage your profile information.')
 
 @section('content')
 <div class="space-y-6">

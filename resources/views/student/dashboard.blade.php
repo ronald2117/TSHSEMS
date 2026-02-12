@@ -101,11 +101,11 @@
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-gray-500">Status:</span>
                                         @if($grade->status === 'approved')
-                                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">Approved</span>
+                                            <span class="text-green-600 text-xs font-medium">Approved</span>
                                         @elseif($grade->status === 'submitted')
-                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">Pending</span>
+                                            <span class="text-yellow-600 text-xs font-medium">Pending</span>
                                         @else
-                                            <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">Draft</span>
+                                            <span class="text-gray-600 text-xs font-medium">Draft</span>
                                         @endif
                                     </div>
                                 </div>

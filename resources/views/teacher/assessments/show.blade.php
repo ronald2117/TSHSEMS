@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Assessment Details')
+@section('page_title', 'Assessment Details')
+@section('page_subtitle', 'View assessment details and student scores.')
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
@@ -79,7 +80,7 @@
             <div>
                 <h2 class="text-lg font-semibold text-gray-900">Student Scores</h2>
                 <p class="text-sm text-gray-600">
-                    {{ $assessment->studentScores->count() }} of {{ $assessment->classSchedule->section->studentProfiles->count() ?? 0 }} students scored
+                    {{ $assessment->scores->count() }} of {{ $assessment->classSchedule->section->studentProfiles->count() ?? 0 }} students scored
                 </p>
             </div>
             <a href="{{ route('teacher.grading.show', $assessment->classSchedule) }}" 
@@ -103,7 +104,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    @forelse($assessment->studentScores as $index => $score)
+                    @forelse($assessment->scores as $index => $score)
                         @php
                             $percentage = $assessment->max_score > 0 ? ($score->score / $assessment->max_score) * 100 : 0;
                         @endphp
@@ -126,15 +127,15 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @if($percentage >= 90)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Outstanding</span>
+                                    <span class="text-sm font-medium text-green-600">Outstanding</span>
                                 @elseif($percentage >= 85)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Very Satisfactory</span>
+                                    <span class="text-sm font-medium text-blue-600">Very Satisfactory</span>
                                 @elseif($percentage >= 80)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">Satisfactory</span>
+                                    <span class="text-sm font-medium text-yellow-600">Satisfactory</span>
                                 @elseif($percentage >= 75)
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-orange-100 text-orange-800">Fairly Satisfactory</span>
+                                    <span class="text-sm font-medium text-orange-600">Fairly Satisfactory</span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Did Not Meet</span>
+                                    <span class="text-sm font-medium text-red-600">Did Not Meet</span>
                                 @endif
                             </td>
                         </tr>
@@ -153,12 +154,12 @@
             </table>
         </div>
 
-        @if($assessment->studentScores->count() > 0)
+        @if($assessment->scores->count() > 0)
             <!-- Statistics -->
             <div class="p-6 border-t border-gray-200 bg-gray-50">
                 <h3 class="text-sm font-semibold text-gray-700 mb-4">Score Statistics</h3>
                 @php
-                    $scores = $assessment->studentScores->pluck('score');
+                    $scores = $assessment->scores->pluck('score');
                     $avgScore = $scores->avg();
                     $avgPercentage = $assessment->max_score > 0 ? ($avgScore / $assessment->max_score) * 100 : 0;
                     $passedCount = $scores->filter(fn($s) => ($s / $assessment->max_score) * 100 >= 75)->count();

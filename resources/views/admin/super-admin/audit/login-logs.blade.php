@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('page_title', 'Login Logs')
+@section('page_subtitle', 'Authentication attempts and login activity monitoring.')
+
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-7xl mx-auto">
@@ -128,12 +131,12 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($log->status === 'success')
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 flex items-center w-fit">
+                                    <span class="text-xs font-semibold text-green-600 flex items-center w-fit">
                                         <x-icon name="check-circle" class="w-3 h-3 mr-1" />
                                         Success
                                     </span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 flex items-center w-fit">
+                                    <span class="text-xs font-semibold text-red-600 flex items-center w-fit">
                                         <x-icon name="exclamation" class="w-3 h-3 mr-1" />
                                         Failed
                                     </span>

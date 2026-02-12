@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('page_title', 'Maintenance Mode')
-@section('page_subtitle', 'Control system maintenance mode and accessibility')
+@section('page_subtitle', 'Control system maintenance mode and accessibility.')
 
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">

@@ -145,7 +145,7 @@
                                 <p class="text-sm text-gray-600">Grade {{ $section->grade_level }}</p>
                             </div>
                             @if($section->strand)
-                                <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded">{{ $section->strand->code }}</span>
+                                <span class="text-purple-600 text-xs font-medium">{{ $section->strand->code }}</span>
                             @endif
                         </div>
                         @if($section->adviser)

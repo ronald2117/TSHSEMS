@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('page_title', 'Feature Toggles')
+@section('page_subtitle', 'Enable or disable system features for all users.')
+
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-5xl mx-auto">

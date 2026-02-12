@@ -28,7 +28,7 @@
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="first_name" value="{{ old('first_name') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('first_name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -41,7 +41,7 @@
                             Middle Name
                         </label>
                         <input type="text" name="middle_name" value="{{ old('middle_name') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Last Name -->
@@ -50,7 +50,7 @@
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="last_name" value="{{ old('last_name') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('last_name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -63,7 +63,7 @@
                             Suffix (Jr., Sr., III, etc.)
                         </label>
                         <input type="text" name="suffix" value="{{ old('suffix') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Birthdate -->
@@ -72,7 +72,7 @@
                             Birthdate
                         </label>
                         <input type="date" name="birthdate" value="{{ old('birthdate') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Address -->
@@ -81,7 +81,7 @@
                             Address
                         </label>
                         <textarea name="address" rows="2" 
-                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('address') }}</textarea>
+                                  class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('address') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                             LRN (Learner Reference Number) <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="lrn" value="{{ old('lrn') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
                                required>
                         @error('lrn')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -110,7 +110,7 @@
                             Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" value="{{ old('email') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('email')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -123,7 +123,7 @@
                             Password <span class="text-red-500">*</span>
                         </label>
                         <input type="password" name="password" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('password')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -136,7 +136,7 @@
                             Confirm Password <span class="text-red-500">*</span>
                         </label>
                         <input type="password" name="password_confirmation" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                             Strand <span class="text-red-500">*</span>
                         </label>
                         <select name="strand_id" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                 required>
                             <option value="">Select a strand</option>
                             @foreach($strands as $strand)
@@ -173,7 +173,7 @@
                             Current Section
                         </label>
                         <select name="current_section_id" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                             <option value="">No section assigned</option>
                             @foreach($sections as $section)
                                 <option value="{{ $section->id }}" {{ old('current_section_id') == $section->id ? 'selected' : '' }}>
@@ -199,7 +199,7 @@
                             Guardian Name
                         </label>
                         <input type="text" name="guardian_name" value="{{ old('guardian_name') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Guardian Contact -->
@@ -208,7 +208,7 @@
                             Guardian Contact
                         </label>
                         <input type="text" name="guardian_contact" value="{{ old('guardian_contact') }}" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                placeholder="e.g., 09123456789">
                     </div>
                 </div>
@@ -217,7 +217,7 @@
             <!-- Action Buttons -->
             <div class="flex items-center gap-3">
                 <button type="submit" 
-                        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
+                        class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
                     Create Student
                 </button>
                 <a href="{{ route('admin.students.index') }}" 

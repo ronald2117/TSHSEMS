@@ -21,25 +21,25 @@
                         <h1 class="text-2xl font-bold text-gray-900">{{ $document->type }}</h1>
                         <p class="text-sm text-gray-600 mt-1">Request #{{ $document->id }}</p>
                     </div>
-                    <span class="px-4 py-1.5 text-sm font-medium rounded-full
+                    <span class="text-sm font-medium
                         @switch($document->status)
                             @case('Pending')
-                                bg-yellow-100 text-yellow-800
+                                text-yellow-600
                                 @break
                             @case('Processing')
-                                bg-blue-100 text-blue-800
+                                text-blue-600
                                 @break
                             @case('Ready')
-                                bg-green-100 text-green-800
+                                text-green-600
                                 @break
                             @case('Released')
-                                bg-gray-100 text-gray-800
+                                text-gray-600
                                 @break
                             @case('Rejected')
-                                bg-red-100 text-red-800
+                                text-red-600
                                 @break
                             @default
-                                bg-gray-100 text-gray-800
+                                text-gray-600
                         @endswitch
                     ">
                         {{ $document->status }}

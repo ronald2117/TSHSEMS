@@ -37,7 +37,7 @@
                         First Name *
                     </label>
                     <input type="text" name="first_name" id="first_name" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('first_name') }}">
                     @error('first_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -50,7 +50,7 @@
                         Last Name *
                     </label>
                     <input type="text" name="last_name" id="last_name" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('last_name') }}">
                     @error('last_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -64,7 +64,7 @@
                     Email Address *
                 </label>
                 <input type="email" name="email" id="email" required
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                        value="{{ old('email') }}">
                 @error('email')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -77,7 +77,7 @@
                     Login ID (Optional)
                 </label>
                 <input type="text" name="login_id" id="login_id"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                        value="{{ old('login_id') }}">
                 <p class="text-xs text-gray-500 mt-1">e.g., T-2025-001 or ACAD001</p>
                 @error('login_id')
@@ -112,7 +112,7 @@
                 </label>
                 <div class="relative">
                     <input type="password" name="password" id="password" required
-                           class="w-full px-4 py-2 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                           class="cursor-pointer w-full px-4 py-2 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     <button type="button" onclick="togglePassword('password')" class="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
                         <svg id="password-eye" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

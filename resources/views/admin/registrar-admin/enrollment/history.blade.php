@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Enrollment History')
+@section('page_title', 'Enrollment History')
+@section('page_subtitle', 'View historical student enrollment records.')
 
 @section('content')
 <div class="space-y-6">
@@ -86,19 +87,19 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($enrollment->status === 'active')
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                <span class="text-xs font-semibold text-green-600">
                                     Active
                                 </span>
                             @elseif($enrollment->status === 'completed')
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                                <span class="text-xs font-semibold text-blue-600">
                                     Completed
                                 </span>
                             @elseif($enrollment->status === 'dropped')
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                <span class="text-xs font-semibold text-red-600">
                                     Dropped
                                 </span>
                             @else
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                <span class="text-xs font-semibold text-gray-600">
                                     {{ ucfirst($enrollment->status ?? 'Unknown') }}
                                 </span>
                             @endif

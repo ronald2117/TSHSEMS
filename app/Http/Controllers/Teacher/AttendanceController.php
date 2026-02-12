@@ -165,4 +165,81 @@ class AttendanceController extends Controller
             'studentFilter' => $studentFilter,
         ]);
     }
+
+    public function monthlySummary(ClassSchedule $classSchedule, Request $request): View
+    {
+        $this->authorize('view', $classSchedule);
+
+        // Get month parameter or default to current month
+        $month = $request->input('month', now()->format('Y-m'));
+        $monthDate = \Carbon\Carbon::parse($month . '-01');
+        
+        $startDate = $monthDate->copy()->startOfMonth()->format('Y-m-d');
+        $endDate = $monthDate->copy()->endOfMonth()->format('Y-m-d');
+
+        // Get all enrolled students
+        $students = $classSchedule->enrollments()
+            ->with('student.studentProfile')
+            ->where('status', 'enrolled')
+            ->get()
+            ->pluck('student')
+            ->sortBy(function($student) {
+                return $student->last_name ?? $student->email;
+            });
+
+        // Get all attendance records for the month
+        $attendances = Attendance::where('class_schedule_id', $classSchedule->id)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->with('student')
+            ->orderBy('date')
+            ->get();
+
+        // Get unique dates in the month
+        $dates = $attendances->pluck('date')->unique()->sort()->values();
+
+        // Build attendance data per student
+        $studentAttendanceData = [];
+        foreach ($students as $student) {
+            $studentRecords = $attendances->where('student_id', $student->id);
+            
+            $dateRecords = [];
+            foreach ($dates as $date) {
+                $record = $studentRecords->firstWhere('date', $date);
+                $dateRecords[$date->format('Y-m-d')] = $record ? $record->status : null;
+            }
+            
+            $studentAttendanceData[$student->id] = [
+                'student' => $student,
+                'records' => $dateRecords,
+                'present' => $studentRecords->where('status', 'Present')->count(),
+                'absent' => $studentRecords->where('status', 'Absent')->count(),
+                'late' => $studentRecords->where('status', 'Late')->count(),
+                'excused' => $studentRecords->where('status', 'Excused')->count(),
+                'total' => $studentRecords->count(),
+                'attendance_rate' => $studentRecords->count() > 0 
+                    ? round(($studentRecords->where('status', 'Present')->count() / $studentRecords->count()) * 100, 1)
+                    : 0,
+            ];
+        }
+
+        // Overall statistics
+        $stats = [
+            'total_days' => $dates->count(),
+            'total_records' => $attendances->count(),
+            'present' => $attendances->where('status', 'Present')->count(),
+            'absent' => $attendances->where('status', 'Absent')->count(),
+            'late' => $attendances->where('status', 'Late')->count(),
+            'excused' => $attendances->where('status', 'Excused')->count(),
+        ];
+
+        return view('teacher.attendance.monthly-summary', [
+            'classSchedule' => $classSchedule,
+            'students' => $students,
+            'dates' => $dates,
+            'studentAttendanceData' => $studentAttendanceData,
+            'stats' => $stats,
+            'month' => $month,
+            'monthName' => $monthDate->format('F Y'),
+        ]);
+    }
 }

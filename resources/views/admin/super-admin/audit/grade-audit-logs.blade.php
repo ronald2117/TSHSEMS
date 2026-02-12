@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
-@section('page_title', 'Grade Audit Logs')
-@section('page_subtitle', 'Track all grade modifications for compliance and accountability')
-
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-7xl mx-auto">
@@ -103,7 +100,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                <span class="px-2 py-1 text-blue-800 text-xs font-medium rounded">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">
                                     {{ $log->field_changed ?? 'grade' }}
                                 </span>
                             </td>

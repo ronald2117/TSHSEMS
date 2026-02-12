@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'My Assessments')
+@section('page_title', 'My Assessments')
+@section('page_subtitle', 'View and manage your class assessments.')
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
@@ -23,7 +24,7 @@
     <div class="bg-white rounded-xl shadow-sm p-4 mb-6">
         <form method="GET" action="{{ route('teacher.assessments.index') }}" class="flex gap-4">
             <div class="flex-1">
-                <select name="class_schedule_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                <select name="class_schedule_id" class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg">
                     <option value="">All Classes</option>
                     @foreach ($classSchedules as $schedule)
                         <option value="{{ $schedule->id }}" {{ request('class_schedule_id') == $schedule->id ? 'selected' : '' }}>
@@ -33,14 +34,14 @@
                 </select>
             </div>
             <div>
-                <select name="quarter" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <select name="quarter" class="cursor-pointer px-4 py-2 border border-gray-300 rounded-lg">
                     <option value="">All Quarters</option>
                     @for ($i = 1; $i <= 4; $i++)
                         <option value="{{ $i }}" {{ request('quarter') == $i ? 'selected' : '' }}>Quarter {{ $i }}</option>
                     @endfor
                 </select>
             </div>
-            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Filter</button>
+            <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Filter</button>
         </form>
     </div>
 
@@ -55,7 +56,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Max Score</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -63,12 +64,7 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $assessment->title }}</td>
                         <td class="px-6 py-4 text-sm text-gray-500">
-                            <span class="px-2 py-1 text-xs rounded-full 
-                                @if($assessment->type === 'written_work') bg-blue-100 text-blue-800
-                                @elseif($assessment->type === 'performance_task') bg-purple-100 text-purple-800
-                                @else bg-red-100 text-red-800 @endif">
-                                {{ str_replace('_', ' ', ucwords($assessment->type, '_')) }}
-                            </span>
+                            {{ str_replace('_', ' ', ucwords($assessment->type, '_')) }}
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">
                             {{ $assessment->classSchedule->subject->name }}<br>
@@ -79,19 +75,40 @@
                         <td class="px-6 py-4 text-sm text-gray-500">{{ $assessment->assessment_date ? $assessment->assessment_date->format('M d, Y') : 'N/A' }}</td>
                         <td class="px-6 py-4">
                             @if ($assessment->is_published)
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Published</span>
+                                <span class="text-xs font-semibold text-green-600">Published</span>
                             @else
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Draft</span>
+                                <span class="text-xs font-semibold text-yellow-600">Draft</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-right text-sm font-medium">
-                            <a href="{{ route('teacher.assessments.show', $assessment) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
-                            <a href="{{ route('teacher.assessments.edit', $assessment) }}" class="text-green-600 hover:text-green-900 mr-3">Edit</a>
-                            <form action="{{ route('teacher.assessments.destroy', $assessment) }}" method="POST" class="inline" onsubmit="return confirm('Delete this assessment?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center justify-center space-x-3">
+                                <a href="{{ route('teacher.assessments.show', $assessment) }}" 
+                                   class="text-gray-600 hover:text-blue-600 transition" 
+                                   title="View Details">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </a>
+                                <a href="{{ route('teacher.assessments.edit', $assessment) }}" 
+                                   class="text-gray-600 hover:text-green-600 transition" 
+                                   title="Edit">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                </a>
+                                <form action="{{ route('teacher.assessments.destroy', $assessment) }}" method="POST" class="inline" onsubmit="return confirm('Delete this assessment?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="cursor-pointer text-gray-600 hover:text-red-600 transition" 
+                                            title="Delete">
+                                        <svg class="mt-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

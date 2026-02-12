@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - TSHSEMS</title>
+    <link rel="icon" type="image/png" href="{{ asset('tshs_logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-br from-green-50 to-green-100 min-h-screen flex items-center justify-center py-12">
@@ -26,7 +27,7 @@
                             First Name
                         </label>
                         <input type="text" name="first_name" id="first_name" required
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                value="{{ old('first_name') }}">
                         @error('first_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -39,7 +40,7 @@
                             Last Name
                         </label>
                         <input type="text" name="last_name" id="last_name" required
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                value="{{ old('last_name') }}">
                         @error('last_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -53,7 +54,7 @@
                         Email Address
                     </label>
                     <input type="email" name="email" id="email" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('email') }}">
                     @error('email')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -66,7 +67,7 @@
                         Register As
                     </label>
                     <select name="role" id="role" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="">Select a role</option>
                         <option value="student" {{ old('role') === 'student' ? 'selected' : '' }}>Student</option>
                         <option value="teacher" {{ old('role') === 'teacher' ? 'selected' : '' }}>Teacher</option>
@@ -82,7 +83,7 @@
                         Password
                     </label>
                     <input type="password" name="password" id="password" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     @error('password')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -94,11 +95,11 @@
                         Confirm Password
                     </label>
                     <input type="password" name="password_confirmation" id="password_confirmation" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg transition">
+                <button type="submit" class="cursor-pointer w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg transition">
                     Create Account
                 </button>
             </form>

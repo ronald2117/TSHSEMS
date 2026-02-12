@@ -34,12 +34,12 @@
                         <h3 class="text-lg font-semibold text-gray-800">{{ $request->type }}</h3>
                         <p class="text-sm text-gray-500">Request #{{ $request->id }} • {{ $request->created_at->format('M d, Y') }}</p>
                     </div>
-                    <span class="px-3 py-1 text-sm font-semibold rounded-full 
-                        @if($request->status === 'Pending') bg-yellow-100 text-yellow-800
-                        @elseif($request->status === 'Processing') bg-blue-100 text-blue-800
-                        @elseif($request->status === 'Ready') bg-green-100 text-green-800
-                        @elseif($request->status === 'Claimed') bg-gray-100 text-gray-800
-                        @else bg-red-100 text-red-800 @endif">
+                    <span class="text-sm font-semibold
+                        @if($request->status === 'Pending') text-yellow-600
+                        @elseif($request->status === 'Processing') text-blue-600
+                        @elseif($request->status === 'Ready') text-green-600
+                        @elseif($request->status === 'Claimed') text-gray-600
+                        @else text-red-600 @endif">
                         {{ $request->status }}
                     </span>
                 </div>

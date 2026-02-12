@@ -7,7 +7,7 @@
 <div class="p-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
+        <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="inline-flex items-center text-green-600 hover:text-green-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -44,7 +44,7 @@
                 <nav class="flex -mb-px">
                     @for($q = 1; $q <= 4; $q++)
                         <button type="button" onclick="selectQuarter({{ $q }})" 
-                                class="quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                                class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
                                 data-quarter="{{ $q }}">
                             Quarter {{ $q }}
                         </button>
@@ -94,7 +94,7 @@
                                         @endphp
                                         <button type="button" 
                                                 onclick="selectAssessmentType({{ $quarter }}, '{{ $type }}')" 
-                                                class="type-tab-q{{ $quarter }} px-4 py-3 text-sm font-medium border-b-2 transition {{ $isFirst ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                                                class="cursor-pointer type-tab-q{{ $quarter }} px-4 py-3 text-sm font-medium border-b-2 transition {{ $isFirst ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
                                                 data-quarter="{{ $quarter }}"
                                                 data-type="{{ $type }}">
                                             {{ $typeLabels[$type] }}
@@ -160,7 +160,7 @@
                                                                        min="0" 
                                                                        max="{{ $assessment->max_score }}" 
                                                                        step="0.01"
-                                                                       class="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-green-500 focus:border-green-500 text-center"
+                                                                       class="cursor-pointer w-20 px-2 py-1 border border-gray-300 rounded focus:ring-green-500 focus:border-green-500 text-center"
                                                                        placeholder="—">
                                                             </td>
                                                         @endforeach
@@ -185,7 +185,7 @@
             <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">
                 Cancel
             </a>
-            <button type="submit" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+            <button type="submit" class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
                 Save Scores
             </button>
         </div>

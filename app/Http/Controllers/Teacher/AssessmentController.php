@@ -80,7 +80,7 @@ class AssessmentController extends Controller
             abort(403);
         }
 
-        $assessment->load(['classSchedule.section', 'classSchedule.subject', 'studentScores.student']);
+        $assessment->load(['classSchedule.section', 'classSchedule.subject', 'scores.student']);
         
         return view('teacher.assessments.show', compact('assessment'));
     }

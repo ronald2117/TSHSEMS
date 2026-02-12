@@ -7,7 +7,7 @@
 <div class="p-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.attendance.index') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900 transition">
+        <a href="{{ route('teacher.attendance.index') }}" class="inline-flex items-center text-green-600 hover:text-green-700 transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -90,24 +90,33 @@
 
     <!-- Filter Form -->
     <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Filter Records</h3>
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900">Filter Records</h3>
+            <a href="{{ route('teacher.attendance.monthly-summary', $classSchedule) }}" 
+               class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium text-sm transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Monthly Summary
+            </a>
+        </div>
         <form method="GET" action="{{ route('teacher.attendance.history', $classSchedule) }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                 <input type="date" id="start_date" name="start_date" value="{{ $startDate }}" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
                 <label for="end_date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
                 <input type="date" id="end_date" name="end_date" value="{{ $endDate }}" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
                 <label for="student_id" class="block text-sm font-medium text-gray-700 mb-1">Filter by Student</label>
                 <select id="student_id" name="student_id" 
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     <option value="">All Students</option>
                     @foreach($students as $student)
                         <option value="{{ $student->id }}" {{ $studentFilter == $student->id ? 'selected' : '' }}>
@@ -118,7 +127,7 @@
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
                     Apply Filters
                 </button>
                 <a href="{{ route('teacher.attendance.history', $classSchedule) }}" 
@@ -134,11 +143,11 @@
         <div class="border-b border-gray-200">
             <nav class="flex -mb-px">
                 <button onclick="showTab('records')" id="tab-records" 
-                        class="tab-button active px-6 py-3 border-b-2 border-green-500 text-green-600 font-medium text-sm">
+                        class="cursor-pointer tab-button active px-6 py-3 border-b-2 border-green-500 text-green-600 font-medium text-sm">
                     Attendance Records
                 </button>
                 <button onclick="showTab('summary')" id="tab-summary" 
-                        class="tab-button px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+                        class="cursor-pointer tab-button px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
                     Student Summary
                 </button>
             </nav>
@@ -182,19 +191,19 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($attendance->status === 'Present')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            <span class="text-xs leading-5 font-semibold text-green-600">
                                                 Present
                                             </span>
                                         @elseif($attendance->status === 'Absent')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            <span class="text-xs leading-5 font-semibold text-red-600">
                                                 Absent
                                             </span>
                                         @elseif($attendance->status === 'Late')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            <span class="text-xs leading-5 font-semibold text-yellow-600">
                                                 Late
                                             </span>
                                         @elseif($attendance->status === 'Excused')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            <span class="text-xs leading-5 font-semibold text-blue-600">
                                                 Excused
                                             </span>
                                         @endif

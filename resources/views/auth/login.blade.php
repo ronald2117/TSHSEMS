@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - TSHSEMS</title>
+    <link rel="icon" type="image/png" href="{{ asset('tshs_logo.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('tshsems_school_bg.png') }}');">
@@ -44,7 +45,7 @@
                         </div>
                         <input type="text" name="login_id" id="login_id" required
                                placeholder="Enter your email or login ID"
-                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('login_id') border-red-500 @enderror"
+                               class="cursor-pointer w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('login_id') border-red-500 @enderror"
                                value="{{ old('login_id') }}">
                     </div>
                     @error('login_id')
@@ -72,10 +73,10 @@
                         </div>
                         <input type="password" name="password" id="password" required
                                placeholder="Enter your password"
-                               class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="cursor-pointer w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <button type="button" 
                                 onclick="togglePassword()" 
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                                class="cursor-pointer absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                             <svg id="eye-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -93,7 +94,7 @@
                 <!-- Remember Me -->
                 <div class="flex items-center">
                     <input type="checkbox" name="remember" id="remember"
-                           class="h-4 w-4 text-green-600 rounded">
+                           class="cursor-pointer h-4 w-4 text-green-600 rounded">
                     <label for="remember" class="ml-2 text-sm text-gray-700">
                         Remember me
                     </label>
@@ -108,11 +109,12 @@
             <!-- Links -->
             <div class="mt-6 text-center text-sm">
                 <p class="text-gray-600">
-                    <a href="{{ route('password.request') }}" class="text-green-600 hover:text-green-700 font-medium">Forgot Password?</a>
+                    <span class="text-gray-700">Forgot Password?</span>
+                    <span class="text-gray-500">Contact your administrator to reset your password.</span>
                 </p>
-                <p class="text-gray-500 text-xs mt-4">
+                <!-- <p class="text-gray-500 text-xs mt-4">
                     New user accounts must be created by system administrators.
-                </p>
+                </p> -->
             </div>
         </div>
         </div>

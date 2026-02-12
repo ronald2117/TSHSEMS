@@ -16,7 +16,7 @@
 
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.grading.index') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900">
+        <a href="{{ route('teacher.grading.index') }}" class="inline-flex items-center text-green-600 hover:text-green-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -43,7 +43,7 @@
             <nav class="flex -mb-px">
                 @for($q = 1; $q <= 4; $q++)
                     <button onclick="selectQuarter({{ $q }})" 
-                            class="quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                            class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
                             data-quarter="{{ $q }}">
                         Quarter {{ $q }}
                     </button>
@@ -163,7 +163,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($displayFinal !== null)
-                                            <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full {{ $displayFinal >= 75 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                            <span class="inline-block text-sm font-semibold {{ $displayFinal >= 75 ? 'text-green-600' : 'text-red-600' }}">
                                                 {{ number_format($displayFinal, 0) }}
                                             </span>
                                             @if(!$grade)
@@ -185,11 +185,11 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($grade)
-                                            <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                                {{ $grade->status === 'Draft' ? 'bg-gray-100 text-gray-800' : '' }}
-                                                {{ $grade->status === 'Submitted' ? 'bg-blue-100 text-blue-800' : '' }}
-                                                {{ $grade->status === 'Approved' ? 'bg-green-100 text-green-800' : '' }}
-                                                {{ $grade->status === 'Returned' ? 'bg-red-100 text-red-800' : '' }}">
+                                            <span class="text-xs font-semibold
+                                                {{ $grade->status === 'Draft' ? 'text-gray-600' : '' }}
+                                                {{ $grade->status === 'Submitted' ? 'text-blue-600' : '' }}
+                                                {{ $grade->status === 'Approved' ? 'text-green-600' : '' }}
+                                                {{ $grade->status === 'Returned' ? 'text-red-600' : '' }}">
                                                 {{ $grade->status }}
                                             </span>
                                             @if($grade->status === 'Returned')

@@ -61,11 +61,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($year->is_active)
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span class="px-2 py-1 text-xs font-semibold text-green-800">
                                         Active
                                     </span>
                                 @else
-                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    <span class="px-2 py-1 text-xs font-semibold text-gray-800">
                                         Inactive
                                     </span>
                                 @endif
@@ -100,7 +100,7 @@
                                     @else
                                         <button type="submit" 
                                                 onclick="return confirm('Are you sure you want to lock this academic year? This will prevent all modifications to grades and enrollments.')"
-                                                class="px-4 py-2 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                                                class="cursor-pointer px-4 py-2 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-colors">
                                             <x-icon name="lock-closed" class="w-4 h-4 inline mr-1" />
                                             Lock Year
                                         </button>

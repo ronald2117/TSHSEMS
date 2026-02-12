@@ -178,9 +178,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('backups/{filename}/download', [TechnicalAdminController::class, 'downloadBackup'])->name('backups.download');
         Route::delete('backups/{filename}', [TechnicalAdminController::class, 'deleteBackup'])->name('backups.delete');
         
-        // Activity Logs
-        Route::get('logs/activity', [TechnicalAdminController::class, 'activityLogs'])->name('logs.activity');
-        Route::get('logs/grades', [TechnicalAdminController::class, 'gradeAuditLogs'])->name('logs.grades');
+        // Audit & Logs
+        Route::get('audit/activity', [TechnicalAdminController::class, 'activityLogs'])->name('audit.activity');
+        Route::get('audit/login', [TechnicalAdminController::class, 'loginLogs'])->name('audit.login');
+        Route::get('audit/grades', [TechnicalAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
         
         // User Management Tools
         Route::get('users/{user}/reset-password', [TechnicalAdminController::class, 'passwordResetForm'])->name('users.reset-password');
@@ -209,11 +210,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         // Academic Year Locking
         Route::get('year-locking', [SuperAdminController::class, 'yearLocking'])->name('year-locking.index');
         Route::post('year-locking/{schoolYear}/toggle', [SuperAdminController::class, 'toggleYearLock'])->name('year-locking.toggle');
-        
-        // Security & Audit Logs
-        Route::get('audit/activity', [SuperAdminController::class, 'activityLogs'])->name('audit.activity');
-        Route::get('audit/login', [SuperAdminController::class, 'loginLogs'])->name('audit.login');
-        Route::get('audit/grades', [SuperAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
     });
 });
 

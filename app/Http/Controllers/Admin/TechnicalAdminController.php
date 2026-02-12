@@ -68,6 +68,25 @@ class TechnicalAdminController extends Controller
     }
 
     /**
+     * Display login logs
+     */
+    public function loginLogs()
+    {
+        $logs = \App\Models\LoginLog::with('user')
+            ->orderBy('logged_in_at', 'desc')
+            ->paginate(50);
+        
+        $stats = [
+            'total' => \App\Models\LoginLog::count(),
+            'successful' => \App\Models\LoginLog::successful()->count(),
+            'failed' => \App\Models\LoginLog::failed()->count(),
+            'today' => \App\Models\LoginLog::whereDate('logged_in_at', today())->count(),
+        ];
+        
+        return view('admin.technical-admin.logs.login', compact('logs', 'stats'));
+    }
+
+    /**
      * Display database backups list
      */
     public function backupsIndex()

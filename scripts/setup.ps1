@@ -338,6 +338,9 @@ function Main() {
         }
     }
 
+    Write-Section "Laravel Storage"
+    Invoke-Step -Label "storage:link (for file uploads)" -Command "php" -Arguments @("artisan", "storage:link")
+
     if (-not $SkipBuild) {
         Write-Section "Frontend Build"
         Invoke-Step -Label "npm run build" -Command "npm" -Arguments @("run", "build")

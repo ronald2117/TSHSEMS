@@ -31,7 +31,8 @@ class AttendanceController extends Controller
             ->with('student.studentProfile')
             ->where('status', 'enrolled')
             ->get()
-            ->pluck('student');
+            ->pluck('student')
+            ->filter(); // Remove null values
 
         $attendances = Attendance::where('class_schedule_id', $classSchedule->id)
             ->whereDate('date', today())
@@ -106,6 +107,7 @@ class AttendanceController extends Controller
             ->where('status', 'enrolled')
             ->get()
             ->pluck('student')
+            ->filter() // Remove null values
             ->sortBy(function($student) {
                 return $student->last_name ?? $student->email;
             });
@@ -183,6 +185,7 @@ class AttendanceController extends Controller
             ->where('status', 'enrolled')
             ->get()
             ->pluck('student')
+            ->filter() // Remove null values
             ->sortBy(function($student) {
                 return $student->last_name ?? $student->email;
             });

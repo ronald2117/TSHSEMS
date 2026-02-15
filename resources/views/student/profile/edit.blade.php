@@ -121,13 +121,13 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
                 <input type="password" name="current_password" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
                 <input type="password" name="password" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     minlength="8">
                 <p class="text-xs text-gray-500 mt-1">Minimum 8 characters if changing</p>
             </div>
@@ -135,7 +135,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
                 <input type="password" name="password_confirmation" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     minlength="8">
             </div>
         </div>

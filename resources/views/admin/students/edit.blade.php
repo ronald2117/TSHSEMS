@@ -52,7 +52,7 @@
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="first_name" value="{{ old('first_name', $student->first_name) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('first_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -65,7 +65,7 @@
                             Middle Name
                         </label>
                         <input type="text" name="middle_name" value="{{ old('middle_name', $student->middle_name) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Last Name -->
@@ -74,7 +74,7 @@
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="last_name" value="{{ old('last_name', $student->last_name) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('last_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -87,7 +87,7 @@
                             Suffix
                         </label>
                         <input type="text" name="suffix" value="{{ old('suffix', $student->suffix) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                placeholder="Jr., Sr., III, etc.">
                     </div>
 
@@ -97,7 +97,7 @@
                             Birthdate
                         </label>
                         <input type="date" name="birthdate" value="{{ old('birthdate', $student->studentProfile->birthdate) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Address -->
@@ -106,7 +106,7 @@
                             Address
                         </label>
                         <textarea name="address" rows="2" 
-                                  class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">{{ old('address', $student->studentProfile->address) }}</textarea>
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">{{ old('address', $student->studentProfile->address) }}</textarea>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                             LRN (Learner Reference Number) <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="lrn" value="{{ old('lrn', $student->studentProfile->lrn) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
                                required>
                         @error('lrn')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -135,7 +135,7 @@
                             Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" value="{{ old('email', $student->email) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                required>
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -148,7 +148,7 @@
                             New Password
                         </label>
                         <input type="password" name="password" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                placeholder="Leave blank to keep current">
                         <p class="text-xs text-gray-500 mt-1">Minimum 8 characters if changing</p>
                         @error('password')
@@ -162,7 +162,7 @@
                             Confirm Password
                         </label>
                         <input type="password" name="password_confirmation" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                             Strand <span class="text-red-500">*</span>
                         </label>
                         <select name="strand_id" 
-                                class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                 required>
                             <option value="">Select a strand</option>
                             @foreach($strands as $strand)
@@ -198,7 +198,7 @@
                             Current Section
                         </label>
                         <select name="current_section_id" 
-                                class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                             <option value="">No section assigned</option>
                             @foreach($sections as $section)
                                 <option value="{{ $section->id }}" {{ old('current_section_id', $student->studentProfile->current_section_id) == $section->id ? 'selected' : '' }}>
@@ -224,7 +224,7 @@
                             Guardian Name
                         </label>
                         <input type="text" name="guardian_name" value="{{ old('guardian_name', $student->studentProfile->guardian_name) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Guardian Contact -->
@@ -233,7 +233,7 @@
                             Guardian Contact
                         </label>
                         <input type="text" name="guardian_contact" value="{{ old('guardian_contact', $student->studentProfile->guardian_contact) }}" 
-                               class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                placeholder="e.g., 09123456789">
                     </div>
                 </div>

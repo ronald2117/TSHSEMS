@@ -67,7 +67,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                     <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" 
-                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                     <p class="text-xs text-gray-500 mt-1">Used for system notifications and communication</p>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
                     <input type="text" name="specialization" value="{{ old('specialization', $teacher->teacherProfile->specialization ?? '') }}" 
-                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="e.g., Mathematics, Science, English">
                     <p class="text-xs text-gray-500 mt-1">Your area of expertise or teaching focus</p>
                 </div>
@@ -118,13 +118,13 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
                 <input type="password" name="current_password" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
                 <input type="password" name="password" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     minlength="8">
                 <p class="text-xs text-gray-500 mt-1">Minimum 8 characters if changing</p>
             </div>
@@ -132,7 +132,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
                 <input type="password" name="password_confirmation" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
                     minlength="8">
             </div>
         </div>

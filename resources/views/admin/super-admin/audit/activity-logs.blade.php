@@ -5,44 +5,60 @@
 @section('page_subtitle', 'System-wide activity and security audit trail' )
 @section('content')
 
-<div class="min-h-screen bg-slate-50 p-6">
-    <div class="max-w-7xl mx-auto">
-
-        <!-- Filters -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
-            <div class="flex flex-wrap gap-4">
-                <div class="flex-1 min-w-[200px]">
-                    <input type="text" placeholder="Search by action or description..." 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-                <div class="min-w-[150px]">
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">All Actions</option>
-                        <option value="LOGIN">Login</option>
-                        <option value="LOGOUT">Logout</option>
-                        <option value="CREATE">Create</option>
-                        <option value="UPDATE">Update</option>
-                        <option value="DELETE">Delete</option>
-                    </select>
-                </div>
-                <div class="min-w-[150px]">
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                        <option value="">All Time</option>
-                        <option value="today">Today</option>
-                        <option value="week">This Week</option>
-                        <option value="month">This Month</option>
-                    </select>
-                </div>
-                <button class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
-                    Filter
-                </button>
-            </div>
+<div class="p-6">
+    <!-- Filter Form -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-900">Filter Records</h3>
         </div>
+        <form method="GET" action="{{ route('admin.super-admin.audit.activity-logs') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                <input type="text" id="search" name="search" value="{{ request('search') }}" 
+                       placeholder="User, description, or IP..."
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            </div>
 
-        <!-- Activity Logs Table -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full">
+            <div>
+                <label for="action" class="block text-sm font-medium text-gray-700 mb-1">Action Type</label>
+                <select id="action" name="action" 
+                        class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <option value="">All Actions</option>
+                    <option value="login" {{ request('action') === 'login' ? 'selected' : '' }}>Login</option>
+                    <option value="logout" {{ request('action') === 'logout' ? 'selected' : '' }}>Logout</option>
+                    <option value="create" {{ request('action') === 'create' ? 'selected' : '' }}>Create</option>
+                    <option value="update" {{ request('action') === 'update' ? 'selected' : '' }}>Update</option>
+                    <option value="delete" {{ request('action') === 'delete' ? 'selected' : '' }}>Delete</option>
+                    <option value="approve" {{ request('action') === 'approve' ? 'selected' : '' }}>Approve</option>
+                    <option value="return" {{ request('action') === 'return' ? 'selected' : '' }}>Return</option>
+                    <option value="override" {{ request('action') === 'override' ? 'selected' : '' }}>Override</option>
+                    <option value="backup" {{ request('action') === 'backup' ? 'selected' : '' }}>Backup</option>
+                    <option value="password_reset" {{ request('action') === 'password_reset' ? 'selected' : '' }}>Password Reset</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Date From</label>
+                <input type="date" id="date_from" name="date_from" value="{{ request('date_from') }}" 
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            </div>
+
+            <div class="flex items-end gap-2">
+                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                    Apply Filters
+                </button>
+                <a href="{{ route('admin.super-admin.audit.activity-logs') }}" 
+                   class="cursor-pointer px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition">
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Activity Logs Table -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
                     <thead class="bg-gray-50 border-b border-gray-200">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -114,5 +130,4 @@
             @endif
         </div>
     </div>
-</div>
 @endsection

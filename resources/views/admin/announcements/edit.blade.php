@@ -43,16 +43,16 @@
                            name="published_at" 
                            id="published_at" 
                            value="{{ old('published_at', $announcement->published_at ? $announcement->published_at->format('Y-m-d\TH:i') : '') }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                 </div>
 
                 <div>
-                    <label for="expires_at" class="block text-sm font-medium text-gray-700 mb-2">Expiration Date</label>
+                    <label for="expires_at" class="cursor-pointer block text-sm font-medium text-gray-700 mb-2">Expiration Date</label>
                     <input type="datetime-local" 
                            name="expires_at" 
                            id="expires_at" 
                            value="{{ old('expires_at', $announcement->expires_at ? $announcement->expires_at->format('Y-m-d\TH:i') : '') }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                 <label for="target_role" class="block text-sm font-medium text-gray-700 mb-2">Target Audience</label>
                 <select name="target_role" 
                         id="target_role" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     <option value="">All Logged-in Users</option>
                     <option value="student" {{ old('target_role', $announcement->target_role) == 'student' ? 'selected' : '' }}>Students Only</option>
                     <option value="teacher" {{ old('target_role', $announcement->target_role) == 'teacher' ? 'selected' : '' }}>Teachers Only</option>
@@ -71,6 +71,7 @@
             <div class="mb-6 space-y-2">
                 <label class="flex items-center">
                     <input type="checkbox" 
+                            class="cursor-pointer"
                            name="is_public" 
                            value="1" 
                            {{ old('is_public', $announcement->is_public) ? 'checked' : '' }}
@@ -80,6 +81,7 @@
 
                 <label class="flex items-center">
                     <input type="checkbox" 
+                            class="cursor-pointer"
                            name="is_pinned" 
                            value="1" 
                            {{ old('is_pinned', $announcement->is_pinned) ? 'checked' : '' }}
@@ -92,7 +94,7 @@
                 <a href="{{ route('admin.announcements.show', $announcement) }}" class="text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Update Announcement
                 </button>
             </div>

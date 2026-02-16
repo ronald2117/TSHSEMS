@@ -34,6 +34,30 @@ class ReportsController extends Controller
             $query->where('strand_id', $request->strand_id);
         }
 
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                // Search by LRN
+                $q->where('lrn', 'like', '%' . $search . '%')
+                  // Search by user name
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('first_name', 'like', '%' . $search . '%')
+                                ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                ->orWhere('last_name', 'like', '%' . $search . '%');
+                  })
+                  // Search by section name
+                  ->orWhereHas('currentSection', function($sectionQuery) use ($search) {
+                      $sectionQuery->where('name', 'like', '%' . $search . '%');
+                  })
+                  // Search by strand name or code
+                  ->orWhereHas('strand', function($strandQuery) use ($search) {
+                      $strandQuery->where('name', 'like', '%' . $search . '%')
+                                  ->orWhere('code', 'like', '%' . $search . '%');
+                  });
+            });
+        }
+
         $students = $query->paginate(50);
 
         return view('admin.reports.student-list', compact('students', 'sections', 'schoolYears'));
@@ -129,6 +153,30 @@ class ReportsController extends Controller
 
         if ($request->filled('strand_id')) {
             $query->where('strand_id', $request->strand_id);
+        }
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                // Search by LRN
+                $q->where('lrn', 'like', '%' . $search . '%')
+                  // Search by user name
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('first_name', 'like', '%' . $search . '%')
+                                ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                ->orWhere('last_name', 'like', '%' . $search . '%');
+                  })
+                  // Search by section name
+                  ->orWhereHas('currentSection', function($sectionQuery) use ($search) {
+                      $sectionQuery->where('name', 'like', '%' . $search . '%');
+                  })
+                  // Search by strand name or code
+                  ->orWhereHas('strand', function($strandQuery) use ($search) {
+                      $strandQuery->where('name', 'like', '%' . $search . '%')
+                                  ->orWhere('code', 'like', '%' . $search . '%');
+                  });
+            });
         }
 
         $students = $query->get();

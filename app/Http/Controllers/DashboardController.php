@@ -168,6 +168,11 @@ class DashboardController extends Controller
                 $data['lastBackup'] = null;
             }
             $data['systemStatus'] = 'operational'; // You can expand this with actual health checks
+            
+            // Additional stats for technical admin
+            $data['totalBackups'] = $backupFiles->count();
+            $data['activityLogsToday'] = \App\Models\ActivityLog::whereDate('created_at', today())->count();
+            $data['totalSystemUsers'] = User::count();
         }
 
         // Recent announcements for all admins

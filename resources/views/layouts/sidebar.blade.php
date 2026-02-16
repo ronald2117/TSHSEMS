@@ -142,9 +142,6 @@
                     <x-nav-link href="{{ route('admin.audit.activity') }}" :active="request()->routeIs('admin.audit.activity')" icon="clipboard-list">
                         Activity Logs
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.audit.login') }}" :active="request()->routeIs('admin.audit.login')" icon="shield-check">
-                        Login Logs
-                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.audit.grades') }}" :active="request()->routeIs('admin.audit.grades')" icon="chart-bar">
                         Grade Audit Logs
                     </x-nav-link>

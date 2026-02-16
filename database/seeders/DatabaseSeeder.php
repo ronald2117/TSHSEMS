@@ -22,11 +22,38 @@ use App\Models\QuarterlyGrade;
 use App\Models\Attendance;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Disable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Truncate tables in correct order (children first, parents last)
+        Attendance::truncate();
+        StudentScore::truncate();
+        QuarterlyGrade::truncate();
+        Assessment::truncate();
+        StudentSubjectEnrollment::truncate();
+        ClassSchedule::truncate();
+        StrandSubject::truncate();
+        GradeTransmutation::truncate();
+        GradingComponent::truncate();
+        Subject::truncate();
+        Section::truncate();
+        AcademicPeriod::truncate();
+        Strand::truncate();
+        Track::truncate();
+        SchoolYear::truncate();
+        StudentProfile::truncate();
+        TeacherProfile::truncate();
+        User::truncate();
+
+        // Re-enable foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         // Create Super Admin
         User::create([
             'first_name' => 'Super',
@@ -416,6 +443,284 @@ class DatabaseSeeder extends Seeder
                     'status' => ['Present', 'Present', 'Present', 'Late', 'Absent'][rand(0, 4)],
                     'recorded_by' => $teachers[0]->id,
                 ]);
+            }
+        }
+
+        // ========================================
+        // COMPLETE SECTION WITH FULL ASSESSMENTS
+        // ========================================
+        
+        // Create a complete test section for Grade 11 STEM
+        $completeSection = Section::create([
+            'school_year_id' => $schoolYear->id,
+            'name' => 'Sapphire',
+            'grade_level' => 11,
+            'strand_id' => $stem->id,
+            'adviser_id' => $teachers[4]->id,
+            'max_students' => 40,
+        ]);
+
+        // Create 10 students for this section
+        $completeStudents = [];
+        $studentNames = [
+            ['first' => 'Mark', 'last' => 'Johnson'],
+            ['first' => 'Sarah', 'last' => 'Williams'],
+            ['first' => 'David', 'last' => 'Brown'],
+            ['first' => 'Emma', 'last' => 'Davis'],
+            ['first' => 'James', 'last' => 'Miller'],
+            ['first' => 'Olivia', 'last' => 'Wilson'],
+            ['first' => 'Michael', 'last' => 'Moore'],
+            ['first' => 'Sophia', 'last' => 'Taylor'],
+            ['first' => 'Robert', 'last' => 'Anderson'],
+            ['first' => 'Isabella', 'last' => 'Thomas'],
+        ];
+
+        for ($i = 0; $i < 10; $i++) {
+            $lrn = '10982399' . str_pad($i + 1, 4, '0', STR_PAD_LEFT);
+            
+            $student = User::create([
+                'first_name' => $studentNames[$i]['first'],
+                'middle_name' => 'T.',
+                'last_name' => $studentNames[$i]['last'],
+                'email' => "complete.student" . ($i + 1) . "@tshsems.local",
+                'login_id' => $lrn,
+                'password' => Hash::make('password123'),
+                'role' => 'student',
+                'is_active' => true,
+            ]);
+            
+            StudentProfile::create([
+                'user_id' => $student->id,
+                'lrn' => $lrn,
+                'strand_id' => $stem->id,
+                'current_section_id' => $completeSection->id,
+                'guardian_name' => $guardianNames[$i % 5],
+                'guardian_contact' => '0923456' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
+                'birthdate' => now()->subYears(16)->subMonths($i)->format('Y-m-d'),
+                'address' => $addresses[$i % 5],
+            ]);
+            
+            $completeStudents[] = $student;
+        }
+
+        // Create 3 subjects for this section
+        $generalMath = Subject::create([
+            'code' => 'GENMATH11',
+            'name' => 'General Mathematics',
+            'type' => 'Core',
+            'units' => 3,
+        ]);
+
+        $earthScience = Subject::create([
+            'code' => 'EARTHSCI',
+            'name' => 'Earth Science',
+            'type' => 'Core',
+            'units' => 3,
+        ]);
+
+        $englishComp = Subject::create([
+            'code' => 'ENG11',
+            'name' => 'English for Academic Purposes',
+            'type' => 'Core',
+            'units' => 3,
+        ]);
+
+        // Link subjects to strand
+        foreach ([$generalMath, $earthScience, $englishComp] as $subject) {
+            StrandSubject::create([
+                'strand_id' => $stem->id,
+                'subject_id' => $subject->id,
+                'grade_level' => 11,
+                'is_required' => true,
+            ]);
+        }
+
+        // Create class schedules for each subject
+        $completeSchedules = [];
+        
+        $completeSchedules[] = ClassSchedule::create([
+            'section_id' => $completeSection->id,
+            'subject_id' => $generalMath->id,
+            'teacher_id' => $teachers[0]->id,
+            'academic_period_id' => $period1->id,
+            'schedule_time' => 'MWF 7:00-8:00',
+            'room' => '201',
+        ]);
+
+        $completeSchedules[] = ClassSchedule::create([
+            'section_id' => $completeSection->id,
+            'subject_id' => $earthScience->id,
+            'teacher_id' => $teachers[1]->id,
+            'academic_period_id' => $period1->id,
+            'schedule_time' => 'TTh 7:00-8:30',
+            'room' => '202',
+        ]);
+
+        $completeSchedules[] = ClassSchedule::create([
+            'section_id' => $completeSection->id,
+            'subject_id' => $englishComp->id,
+            'teacher_id' => $teachers[2]->id,
+            'academic_period_id' => $period1->id,
+            'schedule_time' => 'MWF 9:00-10:00',
+            'room' => '203',
+        ]);
+
+        // Enroll all students in all schedules
+        foreach ($completeStudents as $student) {
+            foreach ($completeSchedules as $schedule) {
+                StudentSubjectEnrollment::create([
+                    'student_id' => $student->id,
+                    'class_schedule_id' => $schedule->id,
+                    'status' => 'enrolled',
+                ]);
+            }
+        }
+
+        // Create assessments and scores for ALL quarters (1-4) for each schedule
+        foreach ($completeSchedules as $schedule) {
+            for ($quarter = 1; $quarter <= 4; $quarter++) {
+                // Create 2 Quizzes (Written Work)
+                $quiz1 = Assessment::create([
+                    'class_schedule_id' => $schedule->id,
+                    'title' => "Quiz 1 - Q{$quarter}",
+                    'type' => 'written_work',
+                    'max_score' => 50,
+                    'quarter' => $quarter,
+                    'is_published' => true,
+                ]);
+
+                $quiz2 = Assessment::create([
+                    'class_schedule_id' => $schedule->id,
+                    'title' => "Quiz 2 - Q{$quarter}",
+                    'type' => 'written_work',
+                    'max_score' => 50,
+                    'quarter' => $quarter,
+                    'is_published' => true,
+                ]);
+
+                // Create 2 Performance Tasks
+                $pt1 = Assessment::create([
+                    'class_schedule_id' => $schedule->id,
+                    'title' => "Performance Task 1 - Q{$quarter}",
+                    'type' => 'performance_task',
+                    'max_score' => 100,
+                    'quarter' => $quarter,
+                    'is_published' => true,
+                ]);
+
+                $pt2 = Assessment::create([
+                    'class_schedule_id' => $schedule->id,
+                    'title' => "Performance Task 2 - Q{$quarter}",
+                    'type' => 'performance_task',
+                    'max_score' => 100,
+                    'quarter' => $quarter,
+                    'is_published' => true,
+                ]);
+
+                // Create 1 Quarterly Assessment
+                $qa = Assessment::create([
+                    'class_schedule_id' => $schedule->id,
+                    'title' => "Quarterly Assessment - Q{$quarter}",
+                    'type' => 'quarterly_assessment',
+                    'max_score' => 100,
+                    'quarter' => $quarter,
+                    'is_published' => true,
+                ]);
+
+                // Create scores for all students in all assessments
+                foreach ($completeStudents as $student) {
+                    // Quiz 1 scores (70-95% of max)
+                    StudentScore::create([
+                        'assessment_id' => $quiz1->id,
+                        'student_id' => $student->id,
+                        'score' => rand(35, 48),
+                    ]);
+
+                    // Quiz 2 scores (70-95% of max)
+                    StudentScore::create([
+                        'assessment_id' => $quiz2->id,
+                        'student_id' => $student->id,
+                        'score' => rand(35, 48),
+                    ]);
+
+                    // Performance Task 1 scores (75-98% of max)
+                    StudentScore::create([
+                        'assessment_id' => $pt1->id,
+                        'student_id' => $student->id,
+                        'score' => rand(75, 98),
+                    ]);
+
+                    // Performance Task 2 scores (75-98% of max)
+                    StudentScore::create([
+                        'assessment_id' => $pt2->id,
+                        'student_id' => $student->id,
+                        'score' => rand(75, 98),
+                    ]);
+
+                    // Quarterly Assessment scores (70-95% of max)
+                    StudentScore::create([
+                        'assessment_id' => $qa->id,
+                        'student_id' => $student->id,
+                        'score' => rand(70, 95),
+                    ]);
+                }
+
+                // Calculate and create quarterly grades for all students
+                foreach ($completeStudents as $student) {
+                    // Get all scores for this student in this quarter
+                    $quiz1Score = StudentScore::where('assessment_id', $quiz1->id)
+                        ->where('student_id', $student->id)->first()->score;
+                    $quiz2Score = StudentScore::where('assessment_id', $quiz2->id)
+                        ->where('student_id', $student->id)->first()->score;
+                    $pt1Score = StudentScore::where('assessment_id', $pt1->id)
+                        ->where('student_id', $student->id)->first()->score;
+                    $pt2Score = StudentScore::where('assessment_id', $pt2->id)
+                        ->where('student_id', $student->id)->first()->score;
+                    $qaScore = StudentScore::where('assessment_id', $qa->id)
+                        ->where('student_id', $student->id)->first()->score;
+
+                    // Calculate percentages
+                    $writtenAvg = (($quiz1Score / 50) + ($quiz2Score / 50)) / 2 * 100;
+                    $performanceAvg = (($pt1Score / 100) + ($pt2Score / 100)) / 2 * 100;
+                    $examPercentage = ($qaScore / 100) * 100;
+
+                    // Calculate initial grade (weighted average)
+                    $initialGrade = ($writtenAvg * 0.25) + 
+                                  ($performanceAvg * 0.50) + 
+                                  ($examPercentage * 0.25);
+
+                    // Transmute to final grade (60-100 scale)
+                    $finalGrade = 75 + ($initialGrade - 60) * (100 - 75) / (100 - 60);
+                    $finalGrade = max(60, min(100, round($finalGrade)));
+
+                    QuarterlyGrade::create([
+                        'student_id' => $student->id,
+                        'class_schedule_id' => $schedule->id,
+                        'quarter' => $quarter,
+                        'initial_grade' => round($initialGrade, 2),
+                        'final_grade' => $finalGrade,
+                        'remarks' => $finalGrade >= 75 ? 'Passed' : 'Failed',
+                        'status' => 'Approved',
+                        'approved_at' => now(),
+                        'approved_by' => $registrar->id,
+                    ]);
+                }
+
+                // Add attendance records for this quarter (20 days per quarter)
+                foreach ($completeStudents as $student) {
+                    $startDay = ($quarter - 1) * 25;
+                    for ($day = 1; $day <= 20; $day++) {
+                        $statuses = ['Present', 'Present', 'Present', 'Present', 'Present', 
+                                   'Present', 'Present', 'Present', 'Late', 'Absent'];
+                        Attendance::create([
+                            'student_id' => $student->id,
+                            'class_schedule_id' => $schedule->id,
+                            'date' => now()->subDays($startDay + (20 - $day)),
+                            'status' => $statuses[rand(0, 9)],
+                            'recorded_by' => $schedule->teacher_id,
+                        ]);
+                    }
+                }
             }
         }
     }

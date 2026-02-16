@@ -84,7 +84,7 @@
                                     @elseif(str_contains($log->action, 'login')) text-purple-700
                                     @elseif(str_contains($log->action, 'logout')) text-gray-700
                                     @elseif(str_contains($log->action, 'approve')) text-teal-700
-                                    @else bg-gray-100 text-gray-700
+                                    @else text-gray-700
                                     @endif">
                                     {{ ucfirst(str_replace('_', ' ', $log->action)) }}
                                 </span>

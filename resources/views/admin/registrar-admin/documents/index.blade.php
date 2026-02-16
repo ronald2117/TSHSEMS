@@ -4,13 +4,9 @@
 @section('page_subtitle', 'Manage student document requests and processing.')
 
 @section('content')
-<div class="space-y-6">
+<div class="p-5 space-y-6">
     <!-- Page Header -->
     <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Document Requests</h1>
-            <p class="text-sm text-gray-600 mt-1">Manage student document requests</p>
-        </div>
     </div>
 
     @if(session('success'))

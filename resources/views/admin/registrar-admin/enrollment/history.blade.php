@@ -4,13 +4,9 @@
 @section('page_subtitle', 'View historical student enrollment records.')
 
 @section('content')
-<div class="space-y-6">
+<div class="p-5 space-y-6">
     <!-- Page Header -->
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Enrollment History</h1>
-            <p class="text-sm text-gray-600 mt-1">View all student enrollment transactions</p>
-        </div>
+    <div class="flex items-center justify-end">
         <a href="{{ route('admin.enrollment.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium text-sm transition">
             ← Back to Enrollment
         </a>
@@ -55,11 +51,11 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">
-                                {{ $enrollment->student->user->full_name ?? 'N/A' }}
+                                {{ $enrollment->student->full_name ?? 'N/A' }}
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $enrollment->student->lrn ?? 'N/A' }}</div>
+                            <div class="text-sm text-gray-900">{{ $enrollment->student->studentProfile->lrn ?? 'N/A' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">
@@ -78,11 +74,11 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $enrollment->schoolYear->name ?? 'N/A' }}</div>
+                            <div class="text-sm text-gray-900">{{ $enrollment->section->schoolYear->name ?? 'N/A' }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">
-                                {{ $enrollment->enrollment_date?->format('M d, Y') ?? 'N/A' }}
+                                {{ $enrollment->created_at?->format('M d, Y') ?? 'N/A' }}
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">

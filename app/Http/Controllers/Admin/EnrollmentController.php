@@ -90,7 +90,6 @@ class EnrollmentController extends Controller
     {
         $validated = $request->validate([
             'section_id' => 'required|exists:sections,id',
-            'enrollment_date' => 'required|date',
         ]);
 
         $student = StudentProfile::findOrFail($studentId);
@@ -337,11 +336,13 @@ class EnrollmentController extends Controller
     {
         $schoolYearId = $request->get('school_year_id');
         
-        $enrollments = StudentEnrollmentHistory::with(['student.user', 'section.strand', 'schoolYear'])
+        $enrollments = StudentEnrollmentHistory::with(['student.studentProfile', 'section.strand', 'section.schoolYear', 'academicPeriod'])
             ->when($schoolYearId, function ($query, $schoolYearId) {
-                $query->where('school_year_id', $schoolYearId);
+                $query->whereHas('section', function($q) use ($schoolYearId) {
+                    $q->where('school_year_id', $schoolYearId);
+                });
             })
-            ->latest('enrollment_date')
+            ->latest('created_at')
             ->paginate(50);
 
         return view('admin.registrar-admin.enrollment.history', compact('enrollments'));

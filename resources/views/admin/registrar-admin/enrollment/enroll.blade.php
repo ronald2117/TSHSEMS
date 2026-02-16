@@ -83,19 +83,6 @@
                     @endif
                 </div>
 
-                <!-- Enrollment Date -->
-                <div>
-                    <label for="enrollment_date" class="block text-sm font-medium text-gray-700 mb-2">
-                        Enrollment Date <span class="text-red-500">*</span>
-                    </label>
-                    <input type="date" name="enrollment_date" id="enrollment_date" required
-                           value="{{ old('enrollment_date', date('Y-m-d')) }}"
-                           class="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('enrollment_date') border-red-500 @enderror">
-                    @error('enrollment_date')
-                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <!-- Info Box -->
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                     <div class="flex">

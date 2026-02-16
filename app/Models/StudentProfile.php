@@ -15,6 +15,7 @@ class StudentProfile extends Model
         'lrn',
         'current_section_id',
         'strand_id',
+        'gender',
         'guardian_name',
         'guardian_contact',
         'emergency_contacts',

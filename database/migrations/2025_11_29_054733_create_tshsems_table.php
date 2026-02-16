@@ -112,6 +112,7 @@ return new class extends Migration
             $table->string('lrn')->unique(); // Learner Reference Number
             $table->foreignId('current_section_id')->nullable()->constrained('sections');
             $table->foreignId('strand_id')->constrained();
+            $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->string('guardian_name')->nullable();
             $table->string('guardian_contact')->nullable();
             $table->json('emergency_contacts')->nullable()->comment('Array of emergency contact details');

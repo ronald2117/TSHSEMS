@@ -190,7 +190,7 @@ class DashboardController extends Controller
         ->get();
 
         // Action items based on role
-        if ($user->role === 'registrar_admin' || $user->isSuperAdmin()) {
+        if ($user->role === 'registrar_admin') {
             $data['actionItems']['grades'] = QuarterlyGrade::with(['student', 'classSchedule.subject'])
                 ->where('status', 'Submitted')
                 ->latest()
@@ -198,7 +198,7 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        if ($user->role === 'academic_admin' || $user->isSuperAdmin()) {
+        if ($user->role === 'academic_admin') {
             // Unassigned class schedules
             $data['actionItems']['unassigned'] = \App\Models\ClassSchedule::whereNull('teacher_id')
                 ->with('subject', 'section')

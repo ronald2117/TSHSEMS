@@ -156,10 +156,12 @@ class DashboardController extends Controller
 
         // System status (Technical & Super Admin)
         if ($user->role === 'technical_admin' || $user->isSuperAdmin()) {
-            $backupFiles = \Storage::disk('local')->files('backups');
-            if (!empty($backupFiles)) {
-                $lastBackup = collect($backupFiles)->map(function($file) {
-                    return \Storage::disk('local')->lastModified($file);
+            $backupDir = storage_path('app/backups');
+            $backupFiles = collect(file_exists($backupDir) ? (glob($backupDir . '/*.{sql,sqlite}', GLOB_BRACE) ?: []) : []);
+                
+            if ($backupFiles->isNotEmpty()) {
+                $lastBackup = $backupFiles->map(function($file) {
+                    return filemtime($file);
                 })->max();
                 $data['lastBackup'] = \Carbon\Carbon::createFromTimestamp($lastBackup);
             } else {

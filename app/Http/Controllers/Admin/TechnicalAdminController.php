@@ -125,13 +125,19 @@ class TechnicalAdminController extends Controller
      */
     public function backupsIndex()
     {
-        $backups = collect(Storage::disk('local')->files('backups'))
+        $backupDir = storage_path('app/backups');
+
+        if (!file_exists($backupDir)) {
+            mkdir($backupDir, 0755, true);
+        }
+
+        $backups = collect(glob($backupDir . '/*.{sql,sqlite}', GLOB_BRACE) ?: [])
             ->map(function ($file) {
                 return [
                     'name' => basename($file),
                     'path' => $file,
-                    'size' => Storage::disk('local')->size($file),
-                    'date' => Storage::disk('local')->lastModified($file),
+                    'size' => filesize($file),
+                    'date' => filemtime($file),
                 ];
             })
             ->sortByDesc('date')
@@ -146,44 +152,90 @@ class TechnicalAdminController extends Controller
     public function createBackup()
     {
         try {
-            $filename = 'backup-' . now()->format('Y-m-d-His') . '.sql';
-            $path = storage_path('app/backups/' . $filename);
+            $filename = 'backup-' . now()->format('Y-m-d-His');
+            $backupDir = storage_path('app/backups');
 
             // Ensure backups directory exists
-            if (!file_exists(storage_path('app/backups'))) {
-                mkdir(storage_path('app/backups'), 0755, true);
+            if (!file_exists($backupDir)) {
+                mkdir($backupDir, 0755, true);
             }
 
-            // Create backup using mysqldump
-            $dbHost = config('database.connections.mysql.host');
-            $dbName = config('database.connections.mysql.database');
-            $dbUser = config('database.connections.mysql.username');
-            $dbPass = config('database.connections.mysql.password');
+            $driver = config('database.default');
 
-            $command = sprintf(
-                'mysqldump -h%s -u%s -p%s %s > %s',
-                escapeshellarg($dbHost),
-                escapeshellarg($dbUser),
-                escapeshellarg($dbPass),
-                escapeshellarg($dbName),
-                escapeshellarg($path)
-            );
+            if ($driver === 'sqlite') {
+                // SQLite backup: Simply copy the database file
+                $dbPath = config('database.connections.sqlite.database');
+                
+                if (!file_exists($dbPath)) {
+                    return back()->withErrors(['error' => 'Database file not found at: ' . $dbPath]);
+                }
 
-            exec($command, $output, $returnVar);
+                $backupPath = $backupDir . '/' . $filename . '.sqlite';
+                
+                if (copy($dbPath, $backupPath)) {
+                    // Log the activity
+                    ActivityLog::create([
+                        'user_id' => auth()->id(),
+                        'action' => 'database_backup',
+                        'description' => 'Created database backup: ' . basename($backupPath),
+                        'ip_address' => request()->ip(),
+                    ]);
 
-            if ($returnVar === 0) {
-                // Log the activity
-                ActivityLog::create([
-                    'user_id' => auth()->id(),
-                    'action' => 'database_backup',
-                    'description' => 'Created database backup: ' . $filename,
-                    'ip_address' => request()->ip(),
-                ]);
+                    return back()->with('success', 'Database backup created successfully');
+                } else {
+                    return back()->withErrors(['error' => 'Failed to copy database file']);
+                }
 
-                return back()->with('success', 'Database backup created successfully');
+            } elseif ($driver === 'mysql' || $driver === 'mariadb') {
+                // MySQL/MariaDB backup: Use mysqldump
+                $filename .= '.sql';
+                $path = $backupDir . '/' . $filename;
+
+                $dbHost = config("database.connections.{$driver}.host");
+                $dbName = config("database.connections.{$driver}.database");
+                $dbUser = config("database.connections.{$driver}.username");
+                $dbPass = config("database.connections.{$driver}.password");
+                $dbPort = config("database.connections.{$driver}.port", '3306');
+
+                // Build mysqldump command for Windows
+                $passwordPart = $dbPass ? '--password="' . addslashes($dbPass) . '"' : '';
+                
+                $command = sprintf(
+                    'mysqldump --host=%s --port=%s --user=%s %s --no-tablespaces --skip-lock-tables %s > "%s" 2>&1',
+                    escapeshellarg($dbHost),
+                    escapeshellarg($dbPort),
+                    escapeshellarg($dbUser),
+                    $passwordPart,
+                    escapeshellarg($dbName),
+                    $path
+                );
+
+                exec($command, $output, $returnVar);
+
+                if ($returnVar === 0 && file_exists($path) && filesize($path) > 0) {
+                    // Log the activity
+                    ActivityLog::create([
+                        'user_id' => auth()->id(),
+                        'action' => 'database_backup',
+                        'description' => 'Created database backup: ' . $filename,
+                        'ip_address' => request()->ip(),
+                    ]);
+
+                    return back()->with('success', 'Database backup created successfully');
+                } else {
+                    $errorMsg = 'Failed to create database backup.';
+                    if (!empty($output)) {
+                        $errorMsg .= ' Error: ' . implode(' ', $output);
+                    } else {
+                        $errorMsg .= ' Make sure mysqldump is installed and accessible in your PATH.';
+                    }
+                    return back()->withErrors(['error' => $errorMsg]);
+                }
+
             } else {
-                return back()->withErrors(['error' => 'Failed to create database backup']);
+                return back()->withErrors(['error' => 'Unsupported database driver: ' . $driver]);
             }
+
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Backup error: ' . $e->getMessage()]);
         }
@@ -194,10 +246,10 @@ class TechnicalAdminController extends Controller
      */
     public function downloadBackup($filename)
     {
-        $path = 'backups/' . $filename;
+        $path = storage_path('app/backups/' . $filename);
         
-        if (Storage::disk('local')->exists($path)) {
-            return Storage::disk('local')->download($path);
+        if (file_exists($path)) {
+            return response()->download($path);
         }
 
         return back()->withErrors(['error' => 'Backup file not found']);
@@ -208,10 +260,10 @@ class TechnicalAdminController extends Controller
      */
     public function deleteBackup($filename)
     {
-        $path = 'backups/' . $filename;
+        $path = storage_path('app/backups/' . $filename);
         
-        if (Storage::disk('local')->exists($path)) {
-            Storage::disk('local')->delete($path);
+        if (file_exists($path)) {
+            unlink($path);
 
             ActivityLog::create([
                 'user_id' => auth()->id(),

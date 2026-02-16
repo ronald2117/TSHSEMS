@@ -142,8 +142,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Reports & Analytics
     Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
     Route::get('reports/students', [ReportsController::class, 'studentList'])->name('reports.students');
+    Route::get('reports/students/export', [ReportsController::class, 'exportStudents'])->name('reports.students.export');
     Route::get('reports/grades', [ReportsController::class, 'gradesSummary'])->name('reports.grades');
+    Route::get('reports/grades/export', [ReportsController::class, 'exportGrades'])->name('reports.grades.export');
     Route::get('reports/attendance', [ReportsController::class, 'attendanceSummary'])->name('reports.attendance');
+    Route::get('reports/attendance/export', [ReportsController::class, 'exportAttendance'])->name('reports.attendance.export');
     Route::get('reports/form137/{student}', [ReportsController::class, 'form137'])->name('reports.form137');
     Route::get('reports/form138/{student}', [ReportsController::class, 'form138'])->name('reports.form138');
     Route::get('reports/master-list/{section}', [ReportsController::class, 'masterList'])->name('reports.master-list');

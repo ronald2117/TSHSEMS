@@ -57,12 +57,13 @@
                         @if($quarterFilter) | Quarter {{ $quarterFilter }} @endif
                     </p>
                 </div>
-                <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                <a href="{{ route('admin.reports.grades.export', request()->query()) }}" 
+                   class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    Print
-                </button>
+                    Export to Excel
+                </a>
             </div>
 
             <div class="overflow-x-auto">
@@ -108,19 +109,19 @@
                                             $gradeCount++;
                                         }
                                     @endphp
-                                    <td class="px-4 py-3 text-center {{ $grade && $grade->final_grade < 75 ? 'text-red-600 font-semibold' : 'text-gray-900' }}">
+                                    <td class="px-4 py-3 text-center text-gray-900">
                                         {{ $grade ? number_format($grade->final_grade, 0) : '-' }}
                                     </td>
                                 @endforeach
                                 @php
                                     $gwa = $gradeCount > 0 ? $totalGrade / $gradeCount : null;
                                 @endphp
-                                <td class="px-4 py-3 text-center font-semibold {{ $gwa && $gwa < 75 ? 'text-red-600' : 'text-gray-900' }}">
+                                <td class="px-4 py-3 text-center font-semibold text-gray-900">
                                     {{ $gwa ? number_format($gwa, 2) : '-' }}
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     @if($gwa)
-                                        <span class="text-xs font-semibold {{ $gwa >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                                        <span class="text-xs font-semibold text-gray-900">
                                             {{ $gwa >= 75 ? 'Passed' : 'Failed' }}
                                         </span>
                                     @else
@@ -170,15 +171,15 @@
             </div>
             <div class="bg-white rounded-xl shadow-sm p-4">
                 <p class="text-sm text-gray-500">Passed</p>
-                <p class="text-2xl font-bold text-green-600">{{ $passedCount }}</p>
+                <p class="text-2xl font-bold text-gray-900">{{ $passedCount }}</p>
             </div>
             <div class="bg-white rounded-xl shadow-sm p-4">
                 <p class="text-sm text-gray-500">Failed</p>
-                <p class="text-2xl font-bold text-red-600">{{ $failedCount }}</p>
+                <p class="text-2xl font-bold text-gray-900">{{ $failedCount }}</p>
             </div>
             <div class="bg-white rounded-xl shadow-sm p-4">
                 <p class="text-sm text-gray-500">With Honors (90+)</p>
-                <p class="text-2xl font-bold text-blue-600">{{ $withHonors }}</p>
+                <p class="text-2xl font-bold text-gray-900">{{ $withHonors }}</p>
             </div>
         </div>
     @else

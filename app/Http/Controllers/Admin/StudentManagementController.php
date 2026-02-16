@@ -51,6 +51,11 @@ class StudentManagementController extends Controller
 
     public function create()
     {
+        // Only registrar and super admin can create students
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
         $strands = Strand::all();
         $sections = Section::with('schoolYear', 'strand')
             ->whereHas('schoolYear', function ($query) {
@@ -74,6 +79,11 @@ class StudentManagementController extends Controller
 
     public function store(Request $request)
     {
+        // Only registrar and super admin can create students
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
@@ -129,6 +139,11 @@ class StudentManagementController extends Controller
             abort(404);
         }
 
+        // Only registrar and super admin can edit students
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
         $student->load('studentProfile');
         $strands = Strand::all();
         $sections = Section::with('schoolYear', 'strand')
@@ -144,6 +159,11 @@ class StudentManagementController extends Controller
     {
         if ($student->role !== 'student') {
             abort(404);
+        }
+
+        // Only registrar and super admin can update students
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
         }
 
         $validated = $request->validate([
@@ -226,6 +246,11 @@ class StudentManagementController extends Controller
     {
         if ($student->role !== 'student') {
             abort(404);
+        }
+
+        // Only registrar and super admin can delete students
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
         }
 
         $studentName = $student->full_name;

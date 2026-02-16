@@ -24,13 +24,15 @@
             @endif
         </div>
         
-        <!-- Add Student Button -->
+        <!-- Add Student Button (Registrar & Super Admin Only) -->
+        @if(auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin())
         <a href="{{ route('admin.students.create') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
             Add Student
         </a>
+        @endif
     </div>
 
     <script>

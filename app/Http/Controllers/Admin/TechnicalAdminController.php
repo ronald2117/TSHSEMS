@@ -43,6 +43,11 @@ class TechnicalAdminController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
+        // Date from filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
         $logs = $query->paginate(50)->withQueryString();
 
         return view('admin.technical-admin.logs.activity', compact('logs'));
@@ -56,13 +61,42 @@ class TechnicalAdminController extends Controller
         $query = GradeAuditLog::with(['quarterlyGrade.student.studentProfile', 'user'])
             ->latest();
 
+        // Search filter - student name or ID
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->whereHas('quarterlyGrade.student', function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('middle_name', 'like', "%{$search}%")
+                  ->orWhereHas('studentProfile', function ($profileQuery) use ($search) {
+                      $profileQuery->where('student_id', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Changed by filter - user who made the change
+        if ($request->filled('changed_by')) {
+            $changedBy = $request->changed_by;
+            $query->whereHas('user', function ($q) use ($changedBy) {
+                $q->where('first_name', 'like', "%{$changedBy}%")
+                  ->orWhere('last_name', 'like', "%{$changedBy}%")
+                  ->orWhere('middle_name', 'like', "%{$changedBy}%");
+            });
+        }
+
+        // Date from filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        // Legacy student_id filter (keep for backward compatibility)
         if ($request->has('student_id')) {
             $query->whereHas('quarterlyGrade', function ($q) use ($request) {
                 $q->where('student_id', $request->student_id);
             });
         }
 
-        $logs = $query->paginate(50);
+        $logs = $query->paginate(50)->withQueryString();
 
         return view('admin.technical-admin.logs.grades', compact('logs'));
     }

@@ -54,8 +54,8 @@ class ReportsController extends Controller
     {
         $student = StudentProfile::with([
             'user',
-            'strand',
-            'currentSection'
+            'strand.track',
+            'currentSection.schoolYear'
         ])->findOrFail($studentId);
 
         $grades = QuarterlyGrade::with(['classSchedule.subject', 'classSchedule.academicPeriod'])
@@ -74,8 +74,8 @@ class ReportsController extends Controller
     {
         $student = StudentProfile::with([
             'user',
-            'strand',
-            'currentSection'
+            'strand.track',
+            'currentSection.schoolYear'
         ])->findOrFail($studentId);
 
         $schoolYearId = $request->query('school_year_id');

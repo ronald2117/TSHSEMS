@@ -201,7 +201,7 @@
                 <p><span class="info-label">Date of Birth:</span> {{ $student->birthdate ? \Carbon\Carbon::parse($student->birthdate)->format('F d, Y') : 'N/A' }}</p>
             </div>
             <div>
-                <p><span class="info-label">Track:</span> {{ $student->strand->track->name ?? 'N/A' }}</p>
+                <p><span class="info-label">Track:</span> {{ $student->strand->track->description ?? 'N/A' }}</p>
                 <p><span class="info-label">Strand:</span> {{ $student->strand->name ?? 'N/A' }}</p>
                 <p><span class="info-label">Current Section:</span> {{ $student->currentSection->name ?? 'N/A' }}</p>
                 <p><span class="info-label">Grade Level:</span> {{ $student->grade_level ?? 'N/A' }}</p>
@@ -257,7 +257,7 @@
                                 <td>{{ $q3 ? number_format($q3->final_grade, 0) : '-' }}</td>
                                 <td>{{ $q4 ? number_format($q4->final_grade, 0) : '-' }}</td>
                                 <td><strong>{{ $finalGrade ? number_format($finalGrade, 0) : '-' }}</strong></td>
-                                <td class="{{ $finalGrade && $finalGrade < 75 ? 'text-red' : 'text-green' }}">
+                                <td>
                                     {{ $finalGrade ? ($finalGrade >= 75 ? 'PASSED' : 'FAILED') : '-' }}
                                 </td>
                             </tr>

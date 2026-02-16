@@ -252,7 +252,7 @@
                 <p><span class="info-label">Grade & Section:</span> Grade {{ $student->grade_level ?? '' }} - {{ $student->currentSection->name ?? 'N/A' }}</p>
             </div>
             <div>
-                <p><span class="info-label">Track:</span> {{ $student->strand->track->name ?? 'N/A' }}</p>
+                <p><span class="info-label">Track:</span> {{ $student->strand->track->description ?? 'N/A' }}</p>
                 <p><span class="info-label">Strand:</span> {{ $student->strand->name ?? 'N/A' }}</p>
                 <p><span class="info-label">School Year:</span> {{ $student->currentSection->schoolYear->name ?? 'N/A' }}</p>
             </div>

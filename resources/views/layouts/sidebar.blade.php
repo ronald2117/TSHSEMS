@@ -160,6 +160,9 @@
                     <x-nav-link href="{{ route('admin.announcements.index') }}" :active="request()->routeIs('admin.announcements.*')" icon="bell">
                         Announcements
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
+                        System Statistics
+                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.year-locking.index') }}" :active="request()->routeIs('admin.year-locking.*')" icon="lock-closed">
                         Academic Year Locking
                     </x-nav-link>

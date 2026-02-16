@@ -4,13 +4,7 @@
 @section('page_subtitle', 'Stay updated with important notices and information.')
 
 @section('content')
-<div class="space-y-6">
-    <!-- Page Header -->
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900">Announcements</h1>
-        <p class="text-sm text-gray-600 mt-1">Stay updated with important notices and information</p>
-    </div>
-
+<div class="p-5 space-y-6">
     <!-- Announcements List -->
     <div class="space-y-4">
         @forelse($announcements as $announcement)

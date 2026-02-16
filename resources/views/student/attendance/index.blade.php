@@ -45,12 +45,12 @@
                         <td class="px-6 py-3 text-gray-900">{{ $attendance->date->format('M d, Y') }}</td>
                         <td class="px-6 py-3 text-gray-600">{{ $attendance->classSchedule->subject->name }}</td>
                         <td class="px-6 py-3 text-center">
-                            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ match($attendance->status) {
-                                'Present' => 'bg-green-100 text-green-800',
-                                'Absent' => 'bg-red-100 text-red-800',
-                                'Late' => 'bg-yellow-100 text-yellow-800',
-                                'Excused' => 'bg-blue-100 text-blue-800',
-                                default => 'bg-gray-100 text-gray-800',
+                            <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold {{ match($attendance->status) {
+                                'Present' => 'text-green-800',
+                                'Absent' => 'text-red-800',
+                                'Late' => 'text-yellow-800',
+                                'Excused' => 'text-blue-800',
+                                default => 'text-gray-800',
                             } }}">
                                 {{ $attendance->status }}
                             </span>

@@ -227,11 +227,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($student->current_section_id)
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full text-green-800">
                                         Enrolled
                                     </span>
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full text-yellow-800">
                                         Not Enrolled
                                     </span>
                                 @endif

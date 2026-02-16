@@ -160,10 +160,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 py-1 text-xs font-medium rounded-full 
-                                @if(str_contains($activity->action, 'create')) bg-green-100 text-green-700
-                                @elseif(str_contains($activity->action, 'update')) bg-blue-100 text-blue-700
-                                @elseif(str_contains($activity->action, 'delete')) bg-red-100 text-red-700
-                                @else bg-gray-100 text-gray-700
+                                @if(str_contains($activity->action, 'create')) text-green-700
+                                @elseif(str_contains($activity->action, 'update')) text-blue-700
+                                @elseif(str_contains($activity->action, 'delete')) text-red-700
+                                @else text-gray-700
                                 @endif">
                                 {{ ucfirst($activity->action) }}
                             </span>

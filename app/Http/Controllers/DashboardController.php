@@ -145,6 +145,8 @@ class DashboardController extends Controller
         // Pending grade approvals (Registrar & Super Admin)
         if ($user->role === 'registrar_admin' || $user->isSuperAdmin()) {
             $data['pendingGrades'] = QuarterlyGrade::where('status', 'Submitted')->count();
+            $data['approvedGrades'] = QuarterlyGrade::where('status', 'Approved')->count();
+            $data['pendingDocuments'] = \App\Models\DocumentRequest::where('status', 'Pending')->count();
         }
 
         // Attendance today (Academic & Super Admin)

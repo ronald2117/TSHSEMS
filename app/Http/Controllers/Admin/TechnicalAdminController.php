@@ -197,11 +197,35 @@ class TechnicalAdminController extends Controller
                 $dbPass = config("database.connections.{$driver}.password");
                 $dbPort = config("database.connections.{$driver}.port", '3306');
 
+                // Try to find mysqldump in common locations
+                $mysqldumpPaths = [
+                    'mysqldump', // In PATH
+                    'C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe',
+                    'C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqldump.exe',
+                    'C:\xampp\mysql\bin\mysqldump.exe',
+                    'C:\wamp64\bin\mysql\mysql8.0.31\bin\mysqldump.exe',
+                    'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe',
+                ];
+
+                $mysqldump = null;
+                foreach ($mysqldumpPaths as $testPath) {
+                    exec("where.exe \"$testPath\" 2>nul", $testOutput, $testReturn);
+                    if ($testReturn === 0 || (strpos($testPath, ':') !== false && file_exists($testPath))) {
+                        $mysqldump = $testPath;
+                        break;
+                    }
+                }
+
+                if (!$mysqldump) {
+                    return back()->withErrors(['error' => 'mysqldump not found. Please add MySQL bin directory to your PATH environment variable. Typical location: C:\Program Files\MySQL\MySQL Server 8.0\bin']);
+                }
+
                 // Build mysqldump command for Windows
                 $passwordPart = $dbPass ? '--password="' . addslashes($dbPass) . '"' : '';
                 
                 $command = sprintf(
-                    'mysqldump --host=%s --port=%s --user=%s %s --no-tablespaces --skip-lock-tables %s > "%s" 2>&1',
+                    '"%s" --host=%s --port=%s --user=%s %s --no-tablespaces --skip-lock-tables %s > "%s" 2>&1',
+                    $mysqldump,
                     escapeshellarg($dbHost),
                     escapeshellarg($dbPort),
                     escapeshellarg($dbUser),
@@ -226,8 +250,6 @@ class TechnicalAdminController extends Controller
                     $errorMsg = 'Failed to create database backup.';
                     if (!empty($output)) {
                         $errorMsg .= ' Error: ' . implode(' ', $output);
-                    } else {
-                        $errorMsg .= ' Make sure mysqldump is installed and accessible in your PATH.';
                     }
                     return back()->withErrors(['error' => $errorMsg]);
                 }

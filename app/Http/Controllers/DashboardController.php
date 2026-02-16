@@ -152,6 +152,7 @@ class DashboardController extends Controller
             $todayAttendance = Attendance::whereDate('date', today())->count();
             $totalExpected = StudentProfile::whereHas('currentSection')->count();
             $data['attendanceToday'] = $totalExpected > 0 ? round(($todayAttendance / $totalExpected) * 100, 1) : 0;
+            $data['totalSections'] = \App\Models\Section::count();
         }
 
         // System status (Technical & Super Admin)

@@ -8,7 +8,11 @@ use App\Models\StudentProfile;
 use App\Models\Strand;
 use App\Models\Section;
 use App\Models\ActivityLog;
+use App\Models\ClassSchedule;
+use App\Models\StudentEnrollmentHistory;
+use App\Models\StudentSubjectEnrollment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -294,5 +298,206 @@ class StudentManagementController extends Controller
 
         return redirect()->back()
             ->with('success', "Student account has been {$status} successfully.");
+    }
+
+    /**
+     * Show the bulk import form for creating students + enrollment.
+     */
+    public function bulkImportForm(Request $request)
+    {
+        // Only registrar and super admin can bulk import
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Download CSV template if requested
+        if ($request->has('download') && $request->download === 'template') {
+            $filename = 'student_bulk_import_template.csv';
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            ];
+
+            $columns = ['LRN', 'Last Name', 'First Name', 'Middle Name', 'Email', 'Guardian Name', 'Guardian Contact', 'Birthdate', 'Address'];
+            $sampleData = [
+                ['123456789012', 'Dela Cruz', 'Juan', 'Santos', 'juan.delacruz@email.com', 'Maria Dela Cruz', '09171234567', '2006-05-15', 'Taysan, Batangas'],
+                ['987654321098', 'Santos', 'Maria', 'Garcia', 'maria.santos@email.com', 'Pedro Santos', '09181234567', '2007-02-20', 'Taysan, Batangas'],
+            ];
+
+            $callback = function () use ($columns, $sampleData) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+                foreach ($sampleData as $row) {
+                    fputcsv($file, $row);
+                }
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+        }
+
+        $strands = Strand::all();
+        $sections = Section::with(['strand', 'schoolYear'])
+            ->whereHas('schoolYear', function ($query) {
+                $query->where('is_active', true);
+            })
+            ->get();
+
+        return view('admin.students.bulk-import', compact('strands', 'sections'));
+    }
+
+    /**
+     * Process bulk import — creates student accounts + profiles + enrollment.
+     */
+    public function processBulkImport(Request $request)
+    {
+        // Only registrar and super admin can bulk import
+        if (!auth()->user()->isSuperAdmin() && auth()->user()->role !== 'registrar_admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt|max:2048',
+            'strand_id' => 'required|exists:strands,id',
+            'section_id' => 'required|exists:sections,id',
+        ]);
+
+        $section = Section::with(['schoolYear.academicPeriods'])->findOrFail($request->section_id);
+        $strand = Strand::findOrFail($request->strand_id);
+        $file = $request->file('file');
+
+        // Get active academic period for this school year
+        $academicPeriod = $section->schoolYear->academicPeriods()
+            ->where('status', 'Active')
+            ->first();
+
+        $successCount = 0;
+        $errorCount = 0;
+        $errors = [];
+
+        DB::beginTransaction();
+        try {
+            $fileContent = file_get_contents($file->getRealPath());
+            $rows = array_map('str_getcsv', explode("\n", $fileContent));
+            array_shift($rows); // Remove header row
+
+            foreach ($rows as $index => $row) {
+                if (empty(array_filter($row))) continue; // Skip empty rows
+
+                $rowNumber = $index + 2;
+
+                try {
+                    $lrn = trim($row[0] ?? '');
+                    $lastName = trim($row[1] ?? '');
+                    $firstName = trim($row[2] ?? '');
+                    $middleName = trim($row[3] ?? '');
+                    $email = trim($row[4] ?? '');
+                    $guardianName = trim($row[5] ?? '');
+                    $guardianContact = trim($row[6] ?? '');
+                    $birthdate = trim($row[7] ?? '');
+                    $address = trim($row[8] ?? '');
+
+                    // Validate required fields
+                    if (empty($lrn) || empty($lastName) || empty($firstName)) {
+                        $errors[] = "Row {$rowNumber}: Missing required fields (LRN, Last Name, or First Name)";
+                        $errorCount++;
+                        continue;
+                    }
+
+                    // Check if LRN already exists
+                    if (StudentProfile::where('lrn', $lrn)->exists()) {
+                        $errors[] = "Row {$rowNumber}: Student with LRN {$lrn} already exists";
+                        $errorCount++;
+                        continue;
+                    }
+
+                    // Check if email already exists (if provided)
+                    if (!empty($email) && User::where('email', $email)->exists()) {
+                        $errors[] = "Row {$rowNumber}: Email {$email} is already taken";
+                        $errorCount++;
+                        continue;
+                    }
+
+                    // Generate email if not provided
+                    if (empty($email)) {
+                        $email = strtolower($lrn) . '@student.tshsems.edu';
+                    }
+
+                    // Create user account (default password = LRN)
+                    $user = User::create([
+                        'first_name' => $firstName,
+                        'middle_name' => $middleName ?: null,
+                        'last_name' => $lastName,
+                        'email' => $email,
+                        'password' => Hash::make($lrn),
+                        'role' => 'student',
+                        'login_id' => $lrn,
+                        'is_active' => true,
+                    ]);
+
+                    // Create student profile
+                    StudentProfile::create([
+                        'user_id' => $user->id,
+                        'lrn' => $lrn,
+                        'strand_id' => $strand->id,
+                        'current_section_id' => $section->id,
+                        'grade_level' => $section->grade_level,
+                        'guardian_name' => $guardianName ?: null,
+                        'guardian_contact' => $guardianContact ?: null,
+                        'birthdate' => !empty($birthdate) ? $birthdate : null,
+                        'address' => $address ?: null,
+                    ]);
+
+                    // Create enrollment history record if academic period exists
+                    if ($academicPeriod) {
+                        StudentEnrollmentHistory::create([
+                            'student_id' => $user->id,
+                            'section_id' => $section->id,
+                            'academic_period_id' => $academicPeriod->id,
+                            'grade_level' => $section->grade_level,
+                            'status' => 'Enrolled',
+                        ]);
+
+                        // Enroll in all class schedules for this section
+                        $classSchedules = ClassSchedule::where('section_id', $section->id)->get();
+                        foreach ($classSchedules as $schedule) {
+                            StudentSubjectEnrollment::firstOrCreate([
+                                'student_id' => $user->id,
+                                'class_schedule_id' => $schedule->id,
+                            ]);
+                        }
+                    }
+
+                    $successCount++;
+
+                } catch (\Exception $e) {
+                    $errors[] = "Row {$rowNumber}: " . $e->getMessage();
+                    $errorCount++;
+                }
+            }
+
+            DB::commit();
+
+            ActivityLog::log(
+                'bulk_import',
+                "Bulk imported {$successCount} students to {$section->name} / {$strand->name} ({$errorCount} errors)"
+            );
+
+            $message = "Bulk import completed: {$successCount} students created & enrolled successfully";
+            if ($errorCount > 0) {
+                $message .= ", {$errorCount} errors occurred";
+            }
+
+            return redirect()
+                ->route('admin.students.index')
+                ->with('success', $message)
+                ->with('import_errors', $errors);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()
+                ->withInput()
+                ->withErrors(['error' => 'Bulk import failed: ' . $e->getMessage()]);
+        }
     }
 }

@@ -80,6 +80,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Student Management (with Profiles)
     Route::get('students', [StudentManagementController::class, 'index'])->name('students.index');
+    Route::get('students/bulk-import', [StudentManagementController::class, 'bulkImportForm'])->name('students.bulk-import');
+    Route::post('students/bulk-import', [StudentManagementController::class, 'processBulkImport'])->name('students.bulk-import.process');
     Route::get('students/create', [StudentManagementController::class, 'create'])->name('students.create');
     Route::post('students', [StudentManagementController::class, 'store'])->name('students.store');
     Route::get('students/{student}', [StudentManagementController::class, 'show'])->name('students.show');
@@ -160,14 +162,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         
         // Enrollment Management
         Route::get('enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
+        Route::get('enrollment/history', [EnrollmentController::class, 'history'])->name('enrollment.history');
+
         Route::get('enrollment/{student}/enroll', [EnrollmentController::class, 'enroll'])->name('enrollment.enroll');
         Route::post('enrollment/{student}', [EnrollmentController::class, 'processEnrollment'])->name('enrollment.process');
         Route::get('enrollment/{student}/transfer', [EnrollmentController::class, 'showTransfer'])->name('enrollment.transfer');
         Route::post('enrollment/{student}/transfer', [EnrollmentController::class, 'processTransfer'])->name('enrollment.transfer.process');
         Route::delete('enrollment/{student}/unenroll', [EnrollmentController::class, 'unenroll'])->name('enrollment.unenroll');
-        Route::get('enrollment/history', [EnrollmentController::class, 'history'])->name('enrollment.history');
-        Route::get('enrollment/bulk-import', [EnrollmentController::class, 'bulkImportForm'])->name('enrollment.bulk-import');
-        Route::post('enrollment/bulk-import', [EnrollmentController::class, 'processBulkImport'])->name('enrollment.bulk-import.process');
     });
     
     // Technical Admin Routes

@@ -28,7 +28,7 @@
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="first_name" value="{{ old('first_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('first_name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -41,7 +41,7 @@
                             Middle Name
                         </label>
                         <input type="text" name="middle_name" value="{{ old('middle_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Last Name -->
@@ -50,7 +50,7 @@
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="last_name" value="{{ old('last_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('last_name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -63,7 +63,7 @@
                             Suffix (Jr., Sr., III, etc.)
                         </label>
                         <input type="text" name="suffix" value="{{ old('suffix') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Birthdate -->
@@ -81,7 +81,7 @@
                             Address
                         </label>
                         <textarea name="address" rows="2" 
-                                  class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('address') }}</textarea>
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">{{ old('address') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                             LRN (Learner Reference Number) <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="lrn" value="{{ old('lrn') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
                                required>
                         @error('lrn')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -110,7 +110,7 @@
                             Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" value="{{ old('email') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('email')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -123,7 +123,7 @@
                             Password <span class="text-red-500">*</span>
                         </label>
                         <input type="password" name="password" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('password')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -136,7 +136,7 @@
                             Confirm Password <span class="text-red-500">*</span>
                         </label>
                         <input type="password" name="password_confirmation" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                     </div>
                 </div>
@@ -199,7 +199,7 @@
                             Guardian Name
                         </label>
                         <input type="text" name="guardian_name" value="{{ old('guardian_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Guardian Contact -->
@@ -208,7 +208,7 @@
                             Guardian Contact
                         </label>
                         <input type="text" name="guardian_contact" value="{{ old('guardian_contact') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                placeholder="e.g., 09123456789">
                     </div>
                 </div>
@@ -217,7 +217,7 @@
             <!-- Action Buttons -->
             <div class="flex items-center gap-3">
                 <button type="submit" 
-                        class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
+                        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
                     Create Student
                 </button>
                 <a href="{{ route('admin.students.index') }}" 

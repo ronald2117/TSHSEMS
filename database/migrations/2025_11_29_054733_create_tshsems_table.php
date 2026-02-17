@@ -8,10 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // ==========================================
         // 1. AUTHENTICATION & USERS
-        // ==========================================
-
         Schema::create('users', function (Blueprint $table) {
             $table->comment('Multi-role authentication for students, teachers, and admins');
             $table->id();
@@ -19,13 +16,13 @@ return new class extends Migration
                 ->comment('Student LRN or Employee ID for Hybrid Login');
             $table->string('email')->unique();
             $table->string('password');
-            
+
             $table->enum('role', [
-                'super_admin', 
-                'academic_admin', 
-                'registrar_admin', 
-                'technical_admin', 
-                'teacher', 
+                'super_admin',
+                'academic_admin',
+                'registrar_admin',
+                'technical_admin',
+                'teacher',
                 'student'
             ])->default('student')->index();
 
@@ -39,15 +36,12 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index('last_login_at');
             $table->index(['role', 'is_active']);
         });
 
-        // ==========================================
         // 2. ACADEMIC SETUP
-        // ==========================================
-
         Schema::create('school_years', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // e.g., "2025-2026"
@@ -55,7 +49,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
-            
+
             $table->unique('name');
             $table->unique(['start_date', 'end_date']);
         });
@@ -97,14 +91,11 @@ return new class extends Migration
             $table->integer('max_students')->unsigned()->default(40);
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->unique(['school_year_id', 'name', 'grade_level']);
         });
 
-        // ==========================================
-        // 3. USER PROFILES (Details)
-        // ==========================================
-
+        // 3. USER PROFILES
         Schema::create('student_profiles', function (Blueprint $table) {
             $table->comment('Extended profile information for student users');
             $table->id();
@@ -118,7 +109,7 @@ return new class extends Migration
             $table->date('birthdate')->nullable();
             $table->string('address')->nullable();
             $table->timestamps();
-            
+
             $table->index('lrn');
             $table->index('current_section_id');
         });
@@ -127,19 +118,16 @@ return new class extends Migration
             $table->comment('Extended profile information for teacher users');
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('department')->nullable(); // e.g., "Science Dept"
+            $table->string('department')->nullable();
             $table->string('specialization')->nullable();
             $table->timestamps();
         });
 
-        // ==========================================
-        // 4. SUBJECTS & SCHEDULES (The "Load")
-        // ==========================================
-
+        // 4. SUBJECTS & SCHEDULES
         Schema::create('subjects', function (Blueprint $table) {
             $table->comment('Subject catalog with codes and types');
             $table->id();
-            $table->string('code')->unique(); // e.g., "GENMATH"
+            $table->string('code')->unique()->comment('e.g "GENMATH'); // e.g., "GENMATH"
             $table->string('name');
             $table->enum('type', ['Core', 'Applied', 'Specialized']);
             $table->integer('units')->unsigned()->default(1);
@@ -158,7 +146,7 @@ return new class extends Migration
             $table->enum('semester', ['1st', '2nd'])->nullable();
             $table->boolean('is_required')->default(true);
             $table->timestamps();
-            
+
             $table->unique(['strand_id', 'subject_id', 'grade_level']);
         });
 
@@ -189,7 +177,7 @@ return new class extends Migration
             $table->enum('status', ['enrolled', 'dropped'])->default('enrolled');
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->unique(['student_id', 'class_schedule_id']);
         });
 
@@ -205,9 +193,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // ==========================================
         // 5. GRADING ENGINE (DepEd Compliant)
-        // ==========================================
 
         Schema::create('grading_components', function (Blueprint $table) {
             $table->comment('DepEd-compliant grading weights by subject type');
@@ -222,7 +208,7 @@ return new class extends Migration
         Schema::create('grade_transmutations', function (Blueprint $table) {
             $table->comment('Conversion table from percentage scores to transmuted grades');
             $table->id();
-            $table->decimal('min_score', 5, 2); 
+            $table->decimal('min_score', 5, 2);
             $table->decimal('max_score', 5, 2);
             $table->integer('transmuted_grade'); // 60-100
             $table->timestamps();
@@ -249,7 +235,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users');
             $table->decimal('score', 5, 2);
             $table->timestamps();
-            
+
             $table->unique(['student_id', 'assessment_id']);
             $table->index(['student_id', 'assessment_id']);
         });
@@ -263,7 +249,7 @@ return new class extends Migration
             $table->decimal('initial_grade', 5, 2); // The computed raw score
             $table->integer('final_grade'); // The transmuted grade (75, 80, etc)
             $table->string('remarks')->nullable(); // Passed/Failed
-            
+
             // Workflow Status for Registrar Approval
             $table->enum('status', ['Draft', 'Submitted', 'Approved', 'Returned'])->default('Draft');
             $table->timestamp('submitted_at')->nullable();
@@ -271,10 +257,10 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable();
             $table->foreignId('approved_by')->nullable()->constrained('users');
             $table->text('return_reason')->nullable()->comment('Reason when status is Returned');
-            
+
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->unique(['student_id', 'class_schedule_id', 'quarter']);
             $table->index(['student_id', 'quarter']);
             $table->index('status');
@@ -291,7 +277,7 @@ return new class extends Migration
             $table->string('reason');
             $table->string('ip_address')->nullable();
             $table->timestamps();
-    
+
             $table->index(['quarterly_grade_id', 'created_at']);
         });
 
@@ -305,14 +291,12 @@ return new class extends Migration
             $table->string('honors')->nullable()->comment('With Highest Honors, With High Honors, With Honors');
             $table->timestamp('computed_at');
             $table->timestamps();
-            
+
             $table->unique(['student_id', 'academic_period_id', 'quarter']);
             $table->index(['student_id', 'quarter']);
         });
 
-        // ==========================================
         // 6. OPERATIONS & LOGS
-        // ==========================================
 
         Schema::create('attendances', function (Blueprint $table) {
             $table->comment('Daily attendance records for students in each class');
@@ -343,7 +327,7 @@ return new class extends Migration
             $table->timestamp('claimed_at')->nullable();
             $table->text('rejection_reason')->nullable();
             $table->timestamps();
-            
+
             $table->index(['student_id', 'status']);
         });
 
@@ -359,7 +343,7 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->boolean('is_pinned')->default(false);
             $table->timestamps();
-            
+
             $table->index(['target_role', 'published_at']);
         });
 

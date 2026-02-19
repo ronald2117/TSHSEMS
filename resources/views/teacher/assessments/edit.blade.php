@@ -6,7 +6,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="mb-6">
-        <a href="{{ route('teacher.assessments.index') }}" class="text-green-600 hover:text-green-700 flex items-center gap-2">
+        <a href="{{ route('teacher.assessments.index') }}" class="text-primary-600 hover:text-primary-700 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -119,14 +119,14 @@
                            name="is_published" 
                            value="1"
                            {{ old('is_published', $assessment->is_published) ? 'checked' : '' }}
-                           class="cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500">
+                           class="cursor-pointer rounded border-gray-300 text-primary-600 focus:ring-green-500">
                     <span class="ml-2 text-sm text-gray-700">Publish assessment (visible to students)</span>
                 </label>
             </div>
 
             <div class="flex gap-4">
                 <button type="submit" 
-                        class="cursor-pointer px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                        class="cursor-pointer px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition">
                     Update Assessment
                 </button>
                 <a href="{{ route('teacher.assessments.index') }}" 

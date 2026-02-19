@@ -37,12 +37,12 @@
             </div>
             <div class="text-center">
                 <p class="text-sm text-gray-600 mb-2">Final Grade</p>
-                <p class="text-4xl font-bold text-green-600">{{ $grade->final_grade }}</p>
+                <p class="text-4xl font-bold text-primary-600">{{ $grade->final_grade }}</p>
                 <p class="text-xs text-gray-500 mt-1">(Transmuted)</p>
             </div>
             <div class="text-center">
                 <p class="text-sm text-gray-600 mb-2">Remarks</p>
-                <p class="text-lg font-semibold {{ $grade->remarks === 'Passed' ? 'text-green-600' : 'text-red-600' }}">
+                <p class="text-lg font-semibold {{ $grade->remarks === 'Passed' ? 'text-primary-600' : 'text-red-600' }}">
                     {{ $grade->remarks }}
                 </p>
                 <p class="text-xs text-gray-500 mt-1">{{ $grade->remarks === 'Passed' ? 'Passing' : 'Not passing' }}</p>
@@ -55,7 +55,7 @@
             <div class="space-y-2">
                 <div class="flex items-center justify-between">
                     <span class="text-gray-700">Current Status:</span>
-                    <span class="text-sm font-semibold text-green-600">
+                    <span class="text-sm font-semibold text-primary-600">
                         {{ $grade->status }}
                     </span>
                 </div>
@@ -98,7 +98,7 @@
 
         <!-- Back Button -->
         <div class="mt-8 pt-6 border-t border-gray-100">
-            <a href="{{ route('student.grades.index') }}" class="text-green-600 hover:text-green-700 font-medium">
+            <a href="{{ route('student.grades.index') }}" class="text-primary-600 hover:text-primary-700 font-medium">
                 ← Back to Grades
             </a>
         </div>

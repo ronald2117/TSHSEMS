@@ -17,7 +17,7 @@
                         @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
                             <img src="{{ asset('storage/' . $student->avatar_path) }}" class="w-full h-full object-cover" alt="{{ $student->full_name }}">
                         @else
-                            <div class="w-full h-full bg-green-600 flex items-center justify-center">
+                            <div class="w-full h-full bg-primary-600 flex items-center justify-center">
                                 <span class="text-white font-semibold text-4xl">{{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}</span>
                             </div>
                         @endif
@@ -30,7 +30,7 @@
                     </label>
                     @if($student->avatar_path)
                         <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="remove_avatar" value="1" class="cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500">
+                            <input type="checkbox" name="remove_avatar" value="1" class="cursor-pointer rounded border-gray-300 text-primary-600 focus:ring-green-500">
                             <span class="text-sm text-gray-600">Remove avatar</span>
                         </label>
                     @endif
@@ -246,7 +246,7 @@
                     Cancel
                 </a>
                 <button type="submit" 
-                        class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                        class="cursor-pointer bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Update Student
                 </button>
             </div>

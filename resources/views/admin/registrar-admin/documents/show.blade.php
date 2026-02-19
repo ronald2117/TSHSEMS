@@ -115,7 +115,7 @@
         </div>
 
         <div class="mt-6 flex gap-4">
-            <button type="submit" class="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition">
+            <button type="submit" class="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium transition">
                 Update Status
             </button>
             <a href="{{ route('admin.documents.index') }}" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">

@@ -29,7 +29,7 @@
                     <p class="text-3xl font-bold text-gray-900">{{ $totalStudents }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
                 </div>
@@ -72,7 +72,7 @@
             <div class="bg-white rounded-xl shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900">My Classes</h2>
-                    <a href="{{ route('teacher.grading.index') }}" class="text-green-600 hover:text-green-700 font-medium text-sm">View All</a>
+                    <a href="{{ route('teacher.grading.index') }}" class="text-primary-600 hover:text-primary-700 font-medium text-sm">View All</a>
                 </div>
                 <div class="p-6">
                     @if($classSchedules->isEmpty())
@@ -108,7 +108,7 @@
                                         {{ $schedule->enrollments->count() }} Students
                                     </p>
                                 </div>
-                                <a href="{{ route('teacher.grading.show', $schedule) }}" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition text-sm">
+                                <a href="{{ route('teacher.grading.show', $schedule) }}" class="block text-center bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg font-medium transition text-sm">
                                     Manage Grades
                                 </a>
                             </div>
@@ -139,7 +139,7 @@
                                 <p class="text-xs text-gray-600 mb-2">{{ Str::limit($announcement->content, 100) }}</p>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-500">{{ $announcement->published_at->diffForHumans() }}</span>
-                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-green-600 hover:text-green-700 font-medium">See more →</button>
+                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-primary-600 hover:text-primary-700 font-medium">See more →</button>
                                 </div>
                             </div>
                             @endforeach
@@ -179,7 +179,7 @@
             <div id="modalContent" class="text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
         </div>
         <div class="mt-6 flex justify-end">
-            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium">
                 Close
             </button>
         </div>

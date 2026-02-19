@@ -42,7 +42,7 @@
             <!-- Session Settings -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                    <x-icon name="clock" class="w-5 h-5 mr-2 text-green-600" />
+                    <x-icon name="clock" class="w-5 h-5 mr-2 text-primary-600" />
                     Session & Security
                 </h2>
                 
@@ -62,7 +62,7 @@
                     
                     <div class="flex items-center">
                         <input type="checkbox" name="require_password_change" id="require_password_change" checked
-                               class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                               class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-green-500">
                         <label for="require_password_change" class="ml-2 text-sm text-gray-700">
                             Require password change every 90 days
                         </label>

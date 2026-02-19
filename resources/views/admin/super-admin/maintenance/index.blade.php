@@ -34,7 +34,7 @@
                 <form method="POST" action="{{ route('admin.maintenance.toggle') }}">
                     @csrf
                     <button type="submit" 
-                            class="px-6 py-3 {{ $maintenanceMode ? 'bg-green-600 hover:bg-green-700' : 'bg-orange-600 hover:bg-orange-700' }} text-white font-semibold rounded-lg transition-colors">
+                            class="px-6 py-3 {{ $maintenanceMode ? 'bg-primary-600 hover:bg-primary-700' : 'bg-orange-600 hover:bg-orange-700' }} text-white font-semibold rounded-lg transition-colors">
                         {{ $maintenanceMode ? 'Disable Maintenance Mode' : 'Enable Maintenance Mode' }}
                     </button>
                 </form>

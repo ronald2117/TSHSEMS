@@ -24,7 +24,7 @@
                        class="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
             </div>
             <div class="flex gap-2">
-                <button type="submit" class="px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium transition">
+                <button type="submit" class="px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-medium transition">
                     Generate Report
                 </button>
                 <a href="{{ route('admin.reports.attendance') }}" class="px-4 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium transition">
@@ -100,13 +100,13 @@
                                 <td class="px-4 py-3 whitespace-nowrap text-gray-900 font-medium sticky left-8 bg-white">
                                     {{ $student->user->last_name ?? '' }}, {{ $student->user->first_name ?? '' }}
                                 </td>
-                                <td class="px-3 py-3 text-center text-green-600 font-semibold bg-green-50/50">{{ $present }}</td>
+                                <td class="px-3 py-3 text-center text-primary-600 font-semibold bg-green-50/50">{{ $present }}</td>
                                 <td class="px-3 py-3 text-center text-yellow-600 font-semibold bg-yellow-50/50">{{ $late }}</td>
                                 <td class="px-3 py-3 text-center text-red-600 font-semibold bg-red-50/50">{{ $absent }}</td>
                                 <td class="px-3 py-3 text-center text-blue-600 font-semibold bg-blue-50/50">{{ $excused }}</td>
                                 <td class="px-4 py-3 text-center text-gray-900">{{ $totalRecorded }}</td>
                                 <td class="px-4 py-3 text-center">
-                                    <span class="text-xs font-semibold {{ $percentPresent >= 80 ? 'text-green-600' : ($percentPresent >= 60 ? 'text-yellow-600' : 'text-red-600') }}">
+                                    <span class="text-xs font-semibold {{ $percentPresent >= 80 ? 'text-primary-600' : ($percentPresent >= 60 ? 'text-yellow-600' : 'text-red-600') }}">
                                         {{ number_format($percentPresent, 1) }}%
                                     </span>
                                 </td>

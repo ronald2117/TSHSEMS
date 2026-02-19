@@ -17,7 +17,7 @@
 <div class="p-6">
     <div class="max-w-4xl mx-auto">
         @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            <div class="bg-green-100 border border-green-400 text-primary-700 px-4 py-3 rounded mb-4">
                 {{ session('success') }}
             </div>
         @endif
@@ -111,7 +111,7 @@
                     <h4 class="text-sm font-medium text-gray-500 mb-2">Status</h4>
                     <p class="text-lg font-semibold">
                         @if($subject->is_active)
-                            <span class="text-green-600">Active</span>
+                            <span class="text-primary-600">Active</span>
                         @else
                             <span class="text-gray-600">Inactive</span>
                         @endif

@@ -4,13 +4,13 @@
 @section('content')
 <div class="p-6">
     <div class="flex justify-end items-center mb-6">
-        <a href="{{ route('admin.school-years.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
+        <a href="{{ route('admin.school-years.create') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition">
             + New School Year
         </a>
     </div>
 
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div class="bg-green-100 border border-green-400 text-primary-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif

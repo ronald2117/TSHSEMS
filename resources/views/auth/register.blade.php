@@ -99,7 +99,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="cursor-pointer w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg transition">
+                <button type="submit" class="cursor-pointer w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 rounded-lg transition">
                     Create Account
                 </button>
             </form>
@@ -108,7 +108,7 @@
             <div class="mt-6 text-center text-sm">
                 <p class="text-gray-600">
                     Already have an account?
-                    <a href="{{ route('login') }}" class="text-green-600 hover:text-green-700 font-medium">Sign In</a>
+                    <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-medium">Sign In</a>
                 </p>
             </div>
         </div>

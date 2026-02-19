@@ -9,7 +9,7 @@
 <div class="p-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.classes.index') }}" class="inline-flex items-center text-green-600 hover:text-green-700">
+        <a href="{{ route('teacher.classes.index') }}" class="inline-flex items-center text-primary-600 hover:text-primary-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -24,7 +24,7 @@
                 <h2 class="text-xl font-semibold text-gray-900">{{ $classSchedule->subject->name }}</h2>
                 <p class="text-sm text-gray-600 mt-1">{{ $classSchedule->section->name }} • {{ $students->count() }} Students</p>
             </div>
-            <a href="{{ route('teacher.classes.roster', $classSchedule) }}" target="_blank" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+            <a href="{{ route('teacher.classes.roster', $classSchedule) }}" target="_blank" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
                 Print Roster
             </a>
         </div>
@@ -106,7 +106,7 @@
                                     @if($enrollment->student->avatar_path && file_exists(public_path('storage/' . $enrollment->student->avatar_path)))
                                         <img src="{{ asset('storage/' . $enrollment->student->avatar_path) }}" alt="{{ $enrollment->student->first_name }} {{ $enrollment->student->last_name }}" class="w-10 h-10 rounded-full object-cover">
                                     @else
-                                        <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                        <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
                                             <span class="text-white text-sm">{{ strtoupper(substr($enrollment->student->first_name, 0, 1)) }}{{ strtoupper(substr($enrollment->student->last_name, 0, 1)) }}</span>
                                         </div>
                                     @endif

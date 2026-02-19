@@ -17,7 +17,7 @@
                         @if($user->avatar_path && file_exists(public_path('storage/' . $user->avatar_path)))
                             <img src="{{ asset('storage/' . $user->avatar_path) }}" class="w-full h-full object-cover" alt="{{ $user->full_name }}">
                         @else
-                            <div class="w-full h-full bg-green-600 flex items-center justify-center">
+                            <div class="w-full h-full bg-primary-600 flex items-center justify-center">
                                 <span class="text-white font-semibold text-4xl">{{ strtoupper(substr($user->first_name, 0, 1)) }}{{ strtoupper(substr($user->last_name, 0, 1)) }}</span>
                             </div>
                         @endif
@@ -30,7 +30,7 @@
                     </label>
                     @if($user->avatar_path)
                         <label class="flex items-center space-x-2">
-                            <input type="checkbox" name="remove_avatar" value="1" class="cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500">
+                            <input type="checkbox" name="remove_avatar" value="1" class="cursor-pointer rounded border-gray-300 text-primary-600 focus:ring-green-500">
                             <span class="text-sm text-gray-600">Remove avatar</span>
                         </label>
                     @endif
@@ -152,7 +152,7 @@
                 <a href="{{ route('admin.users.show', $user) }}" class="text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Update User
                 </button>
             </div>

@@ -13,7 +13,7 @@
             <div class="p-6">
                 <div class="flex items-center space-x-4">
                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                        <span class="text-2xl font-bold text-green-600">
+                        <span class="text-2xl font-bold text-primary-600">
                             {{ substr($student->user->first_name ?? 'S', 0, 1) }}{{ substr($student->user->last_name ?? '', 0, 1) }}
                         </span>
                     </div>
@@ -22,7 +22,7 @@
                         <p class="text-sm text-gray-600">LRN: {{ $student->lrn }}</p>
                         <p class="text-sm text-gray-600">
                             Current Section: 
-                            <span class="font-medium text-green-600">
+                            <span class="font-medium text-primary-600">
                                 {{ $student->currentSection->name }} ({{ $student->currentSection->strand->name ?? '' }})
                             </span>
                         </p>

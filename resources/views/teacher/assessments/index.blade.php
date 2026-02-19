@@ -7,7 +7,7 @@
 <div class="container mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">My Assessments</h1>
-        <a href="{{ route('teacher.assessments.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+        <a href="{{ route('teacher.assessments.create') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
@@ -16,7 +16,7 @@
     </div>
 
     @if (session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
+        <div class="bg-green-100 border border-green-400 text-primary-700 px-4 py-3 rounded-lg mb-4">
             {{ session('success') }}
         </div>
     @endif
@@ -41,7 +41,7 @@
                     @endfor
                 </select>
             </div>
-            <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Filter</button>
+            <button type="submit" class="cursor-pointer bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg">Filter</button>
         </form>
     </div>
 
@@ -75,7 +75,7 @@
                         <td class="px-6 py-4 text-sm text-gray-500">{{ $assessment->assessment_date ? $assessment->assessment_date->format('M d, Y') : 'N/A' }}</td>
                         <td class="px-6 py-4">
                             @if ($assessment->is_published)
-                                <span class="text-xs font-semibold text-green-600">Published</span>
+                                <span class="text-xs font-semibold text-primary-600">Published</span>
                             @else
                                 <span class="text-xs font-semibold text-yellow-600">Draft</span>
                             @endif
@@ -91,7 +91,7 @@
                                     </svg>
                                 </a>
                                 <a href="{{ route('teacher.assessments.edit', $assessment) }}" 
-                                   class="text-gray-600 hover:text-green-600 transition" 
+                                   class="text-gray-600 hover:text-primary-600 transition" 
                                    title="Edit">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -114,7 +114,7 @@
                 @empty
                     <tr>
                         <td colspan="8" class="px-6 py-4 text-center text-gray-500">
-                            No assessments found. <a href="{{ route('teacher.assessments.create') }}" class="text-green-600 hover:underline">Create one now</a>
+                            No assessments found. <a href="{{ route('teacher.assessments.create') }}" class="text-primary-600 hover:underline">Create one now</a>
                         </td>
                     </tr>
                 @endforelse

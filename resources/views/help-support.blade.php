@@ -12,7 +12,7 @@
     <x-header active="help-support" />
 
     <!-- Header Section -->
-    <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+    <div class="bg-gradient-to-r from-primary-600 to-emerald-600 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-4xl font-extrabold mb-4">Help & Support</h1>
             <p class="text-xl text-green-100">Find answers to common questions and get assistance with TSHSEMS</p>
@@ -86,7 +86,7 @@
         <!-- Contact Support Section -->
         <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10 border border-gray-100">
             <div class="text-center mb-8">
-                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-green-600 mx-auto mb-4">
+                <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-100 text-primary-600 mx-auto mb-4">
                     <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
@@ -105,7 +105,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Email Support</h3>
                     <p class="text-gray-600 text-sm mb-2">Send us an email anytime</p>
-                    <a href="mailto:tshsems@taysan.edu.ph" class="text-green-600 hover:text-green-700 font-medium">tshsems@taysan.edu.ph</a>
+                    <a href="mailto:tshsems@taysan.edu.ph" class="text-primary-600 hover:text-primary-700 font-medium">tshsems@taysan.edu.ph</a>
                 </div>
 
                 <!-- Phone Support -->
@@ -117,7 +117,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Phone Support</h3>
                     <p class="text-gray-600 text-sm mb-2">Mon-Fri, 8:00 AM - 5:00 PM</p>
-                    <a href="tel:+631234567890" class="text-green-600 hover:text-green-700 font-medium">+63 123 456 7890</a>
+                    <a href="tel:+631234567890" class="text-primary-600 hover:text-primary-700 font-medium">+63 123 456 7890</a>
                 </div>
 
                 <!-- In-Person Support -->
@@ -130,7 +130,7 @@
                     </div>
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Visit Our Office</h3>
                     <p class="text-gray-600 text-sm mb-2">Registrar's Office</p>
-                    <p class="text-green-600 font-medium">Taysan Senior High School<br>Taysan, Batangas</p>
+                    <p class="text-primary-600 font-medium">Taysan Senior High School<br>Taysan, Batangas</p>
                 </div>
             </div>
         </div>

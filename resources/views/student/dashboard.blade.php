@@ -28,7 +28,7 @@
                     <p class="text-3xl font-bold text-gray-900">{{ $totalGrades }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </div>
@@ -71,7 +71,7 @@
             <div class="bg-white rounded-xl shadow-sm">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h2 class="text-lg font-semibold text-gray-900">Recent Grades</h2>
-                    <a href="{{ route('student.grades.index') }}" class="text-green-600 hover:text-green-700 font-medium text-sm">View All</a>
+                    <a href="{{ route('student.grades.index') }}" class="text-primary-600 hover:text-primary-700 font-medium text-sm">View All</a>
                 </div>
                 <div class="p-6">
                     @if($recentGrades->isEmpty())
@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="text-right">
                                         <div class="inline-flex items-center justify-center w-14 h-14 bg-green-100 rounded-lg">
-                                            <span class="text-xl font-bold text-green-600">{{ number_format($grade->final_grade, 0) }}</span>
+                                            <span class="text-xl font-bold text-primary-600">{{ number_format($grade->final_grade, 0) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-gray-500">Status:</span>
                                         @if($grade->status === 'approved')
-                                            <span class="text-green-600 text-xs font-medium">Approved</span>
+                                            <span class="text-primary-600 text-xs font-medium">Approved</span>
                                         @elseif($grade->status === 'submitted')
                                             <span class="text-yellow-600 text-xs font-medium">Pending</span>
                                         @else
@@ -137,7 +137,7 @@
                                 <p class="text-xs text-gray-600 mb-2">{{ Str::limit(strip_tags($announcement->content), 100) }}</p>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-500">{{ $announcement->published_at->diffForHumans() }}</span>
-                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-green-600 hover:text-green-700 font-medium">See more →</button>
+                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-primary-600 hover:text-primary-700 font-medium">See more →</button>
                                 </div>
                             </div>
                             @endforeach
@@ -177,7 +177,7 @@
             <div id="modalContent" class="text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
         </div>
         <div class="mt-6 flex justify-end">
-            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium">
                 Close
             </button>
         </div>

@@ -6,7 +6,7 @@
 @section('content')
 <div class="p-6">
     @if(session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        <div class="bg-green-100 border border-green-400 text-primary-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
@@ -38,7 +38,7 @@
                                 @if($grade->student->avatar_path && file_exists(public_path('storage/' . $grade->student->avatar_path)))
                                     <img src="{{ asset('storage/' . $grade->student->avatar_path) }}" alt="{{ $grade->student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
                                 @else
-                                    <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
+                                    <div class="flex-shrink-0 h-10 w-10 bg-primary-600 rounded-full flex items-center justify-center">
                                         <span class="text-white font-semibold text-sm">
                                             {{ strtoupper(substr($grade->student->first_name, 0, 1)) }}{{ strtoupper(substr($grade->student->last_name, 0, 1)) }}
                                         </span>
@@ -66,7 +66,7 @@
                         <div class="text-sm text-gray-900">Quarter {{ $grade->quarter }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm font-semibold {{ $grade->final_grade >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                        <div class="text-sm font-semibold {{ $grade->final_grade >= 75 ? 'text-primary-600' : 'text-red-600' }}">
                             {{ number_format($grade->final_grade, 2) }}
                         </div>
                         <div class="text-xs text-gray-500">{{ $grade->remarks }}</div>

@@ -61,7 +61,7 @@
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-lg font-semibold text-gray-900">Associated Strands ({{ $track->strands->count() }})</h3>
                 <a href="{{ route('admin.strands.create', ['track' => $track->id]) }}" 
-                   class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                   class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
@@ -87,7 +87,7 @@
                                     </p>
                                 </div>
                                 <a href="{{ route('admin.strands.show', $strand) }}" 
-                                   class="text-green-600 hover:text-green-700">
+                                   class="text-primary-600 hover:text-primary-700">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                     </svg>

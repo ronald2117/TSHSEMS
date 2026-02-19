@@ -107,7 +107,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                    @if(str_contains($log->action, 'create')) bg-green-100 text-green-700
+                                    @if(str_contains($log->action, 'create')) bg-green-100 text-primary-700
                                     @elseif(str_contains($log->action, 'update')) bg-blue-100 text-blue-700
                                     @elseif(str_contains($log->action, 'delete')) bg-red-100 text-red-700
                                     @elseif(str_contains($log->action, 'login')) bg-purple-100 text-purple-700

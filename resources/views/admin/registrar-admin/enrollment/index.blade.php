@@ -15,7 +15,7 @@
                     <p class="text-2xl font-bold text-gray-900">{{ $stats['total_enrolled'] }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
                     </svg>
                 </div>
@@ -64,7 +64,7 @@
 
     <!-- Quick Actions -->
     <div class="flex gap-4">
-        <a href="{{ route('admin.enrollment.bulk-import') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium text-sm transition flex items-center">
+        <a href="{{ route('admin.enrollment.bulk-import') }}" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium text-sm transition flex items-center">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
@@ -195,7 +195,7 @@
                                         @if($student->user && $student->user->avatar_path && file_exists(public_path('storage/' . $student->user->avatar_path)))
                                             <img src="{{ asset('storage/' . $student->user->avatar_path) }}" alt="{{ $student->user->full_name }}" class="w-10 h-10 rounded-full object-cover">
                                         @else
-                                            <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                            <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
                                                 <span class="text-white text-sm">
                                                     {{ strtoupper(substr($student->user->first_name ?? 'S', 0, 1)) }}{{ strtoupper(substr($student->user->last_name ?? '', 0, 1)) }}
                                                 </span>
@@ -245,7 +245,7 @@
                                 <div class="flex items-center justify-end gap-2">
                                     @if(!$student->current_section_id)
                                         <a href="{{ route('admin.enrollment.enroll', $student->id) }}" 
-                                           class="px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs font-medium cursor-pointer">
+                                           class="px-3 py-1.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-xs font-medium cursor-pointer">
                                             Enroll
                                         </a>
                                     @else
@@ -281,7 +281,7 @@
                                     </svg>
                                     <p class="text-sm text-gray-500">No students found</p>
                                     <a href="{{ route('admin.students.create') }}" 
-                                       class="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium">
+                                       class="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm font-medium">
                                         Add New Student
                                     </a>
                                 </div>

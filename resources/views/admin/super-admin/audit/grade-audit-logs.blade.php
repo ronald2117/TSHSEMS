@@ -121,7 +121,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-green-600">
+                                <span class="text-sm font-medium text-primary-600">
                                     {{ $log->new_grade ?? '-' }}
                                 </span>
                             </td>

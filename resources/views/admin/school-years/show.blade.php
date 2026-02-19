@@ -32,7 +32,7 @@
                         <h2 class="text-gray-900 text-2xl font-bold">{{ $schoolYear->name }}</h2>
                         <p class="text-gray-600 mt-1">{{ $schoolYear->year }}</p>
                         <div class="flex items-center gap-3 mt-2">
-                            <span class="text-white px-3 py-1 {{ $schoolYear->is_active ? 'bg-green-700' : 'bg-gray-500' }} rounded-full text-sm">
+                            <span class="text-white px-3 py-1 {{ $schoolYear->is_active ? 'bg-primary-700' : 'bg-gray-500' }} rounded-full text-sm">
                                 {{ $schoolYear->is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </div>
@@ -45,7 +45,7 @@
                     <form method="POST" action="{{ route('admin.school-years.activate', $schoolYear) }}" class="inline">
                         @csrf
                         <button type="submit" 
-                                class="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition shadow-sm" 
+                                class="p-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition shadow-sm" 
                                 title="Activate School Year">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />

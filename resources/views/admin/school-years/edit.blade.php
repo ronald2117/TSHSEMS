@@ -57,7 +57,7 @@
             <div>
                 <label for="is_active" class="flex items-center cursor-pointer">
                     <input type="checkbox" name="is_active" id="is_active" value="1"
-                           class="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                           class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-green-500"
                            {{ old('is_active', $schoolYear->is_active) ? 'checked' : '' }}>
                     <span class="ml-2 text-sm font-medium text-gray-700">Set as Active School Year</span>
                 </label>
@@ -77,7 +77,7 @@
                         <p class="font-medium mb-1">Current Status:</p>
                         <p>Status: 
                             @if($schoolYear->is_active)
-                                <span class="text-green-600 font-semibold">Active</span>
+                                <span class="text-primary-600 font-semibold">Active</span>
                             @else
                                 <span class="text-gray-600 font-semibold">Inactive</span>
                             @endif
@@ -109,7 +109,7 @@
                 <a href="{{ route('admin.school-years.index') }}" class="text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Update School Year
                 </button>
             </div>

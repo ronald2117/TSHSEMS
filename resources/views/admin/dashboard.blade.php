@@ -21,7 +21,7 @@
                     <p class="text-xs text-gray-500 mt-1">Enrolled this year</p>
                 </div>
                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </div>
@@ -89,7 +89,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 font-medium">System Status</p>
-                    <p class="text-xl font-bold text-green-600 mt-2 capitalize">{{ $systemStatus }}</p>
+                    <p class="text-xl font-bold text-primary-600 mt-2 capitalize">{{ $systemStatus }}</p>
                     @if($lastBackup)
                         <p class="text-xs text-gray-500 mt-1">Last backup: {{ $lastBackup->diffForHumans() }}</p>
                     @else
@@ -133,12 +133,12 @@
                                     <p class="text-sm font-medium text-gray-900">{{ $grade->student->full_name ?? 'Unnamed Student' }}</p>
                                     <p class="text-xs text-gray-600">{{ $grade->classSchedule->subject->name }} - Quarter {{ $grade->quarter }}</p>
                                 </div>
-                                <a href="{{ route('admin.grade-approval.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">Review →</a>
+                                <a href="{{ route('admin.grade-approval.index') }}" class="text-primary-600 hover:text-primary-700 text-sm font-medium">Review →</a>
                             </div>
                             @endforeach
                         </div>
                         @if($actionItems['grades']->count() > 3)
-                        <a href="{{ route('admin.grade-approval.index') }}" class="block text-center text-sm text-green-600 hover:text-green-700 font-medium mt-3">
+                        <a href="{{ route('admin.grade-approval.index') }}" class="block text-center text-sm text-primary-600 hover:text-primary-700 font-medium mt-3">
                             View all {{ $actionItems['grades']->count() }} pending grades →
                         </a>
                         @endif
@@ -156,12 +156,12 @@
                                     <p class="text-sm font-medium text-gray-900">{{ $schedule->subject->name }}</p>
                                     <p class="text-xs text-gray-600">{{ $schedule->section->name }}</p>
                                 </div>
-                                <a href="{{ route('admin.class-schedules.index') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">Assign →</a>
+                                <a href="{{ route('admin.class-schedules.index') }}" class="text-primary-600 hover:text-primary-700 text-sm font-medium">Assign →</a>
                             </div>
                             @endforeach
                         </div>
                         @if($actionItems['unassigned']->count() > 3)
-                        <a href="{{ route('admin.class-schedules.index') }}" class="block text-center text-sm text-green-600 hover:text-green-700 font-medium mt-3">
+                        <a href="{{ route('admin.class-schedules.index') }}" class="block text-center text-sm text-primary-600 hover:text-primary-700 font-medium mt-3">
                             View all {{ $actionItems['unassigned']->count() }} unassigned classes →
                         </a>
                         @endif
@@ -185,7 +185,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100">
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h2 class="text-lg font-semibold text-gray-900 flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 mr-2 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                         Quick Actions
@@ -197,8 +197,8 @@
                         <!-- Registrar Actions -->
                         @if(auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin())
                         <a href="{{ route('admin.students.create') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition group">
-                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-600 transition">
-                                <svg class="w-5 h-5 text-green-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 transition">
+                                <svg class="w-5 h-5 text-primary-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                                 </svg>
                             </div>
@@ -313,7 +313,7 @@
                                 <span class="text-sm font-bold text-gray-900">{{ $strand->student_profiles_count }}</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-green-600 h-2 rounded-full" style="width: {{ $enrollmentByStrand->max('student_profiles_count') > 0 ? ($strand->student_profiles_count / $enrollmentByStrand->max('student_profiles_count')) * 100 : 0 }}%"></div>
+                                <div class="bg-primary-600 h-2 rounded-full" style="width: {{ $enrollmentByStrand->max('student_profiles_count') > 0 ? ($strand->student_profiles_count / $enrollmentByStrand->max('student_profiles_count')) * 100 : 0 }}%"></div>
                             </div>
                         </div>
                         @endforeach
@@ -343,12 +343,12 @@
                                 <p class="text-xs text-gray-600 mb-2">{{ Str::limit($announcement->content, 100) }}</p>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs text-gray-500">{{ $announcement->published_at->diffForHumans() }}</span>
-                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-green-600 hover:text-green-700 font-medium">See more →</button>
+                                    <button onclick="showAnnouncementModal({{ $announcement->id }})" class="text-xs text-primary-600 hover:text-primary-700 font-medium">See more →</button>
                                 </div>
                             </div>
                             @endforeach
                         </div>
-                        <a href="{{ route('admin.announcements.index') }}" class="block text-center text-sm text-green-600 hover:text-green-700 font-medium mt-4 pt-4 border-t border-gray-100">
+                        <a href="{{ route('admin.announcements.index') }}" class="block text-center text-sm text-primary-600 hover:text-primary-700 font-medium mt-4 pt-4 border-t border-gray-100">
                             View all announcements →
                         </a>
                     @else
@@ -386,7 +386,7 @@
             <div id="modalContent" class="text-gray-700 leading-relaxed whitespace-pre-wrap"></div>
         </div>
         <div class="mt-6 flex justify-end">
-            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+            <button onclick="closeAnnouncementModal()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium">
                 Close
             </button>
         </div>

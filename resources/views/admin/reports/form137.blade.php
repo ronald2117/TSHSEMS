@@ -7,7 +7,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Print Button -->
         <div class="flex justify-end mb-4 print:hidden">
-            <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
+            <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                 </svg>
@@ -92,7 +92,7 @@
                                     <td class="border border-gray-300 px-2 py-1 text-center">{{ $q3 ? number_format($q3->final_grade, 0) : '-' }}</td>
                                     <td class="border border-gray-300 px-2 py-1 text-center">{{ $q4 ? number_format($q4->final_grade, 0) : '-' }}</td>
                                     <td class="border border-gray-300 px-2 py-1 text-center font-semibold">{{ $finalGrade ? number_format($finalGrade, 0) : '-' }}</td>
-                                    <td class="border border-gray-300 px-2 py-1 text-center {{ $finalGrade && $finalGrade < 75 ? 'text-red-600' : 'text-green-600' }}">
+                                    <td class="border border-gray-300 px-2 py-1 text-center {{ $finalGrade && $finalGrade < 75 ? 'text-red-600' : 'text-primary-600' }}">
                                         {{ $finalGrade ? ($finalGrade >= 75 ? 'PASSED' : 'FAILED') : '-' }}
                                     </td>
                                 </tr>

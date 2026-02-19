@@ -75,7 +75,7 @@
                            name="is_public" 
                            value="1" 
                            {{ old('is_public') ? 'checked' : '' }}
-                           class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                           class="rounded border-gray-300 text-primary-600 focus:ring-green-500">
                     <span class="ml-2 text-sm text-gray-700">Show on public landing page</span>
                 </label>
 
@@ -84,7 +84,7 @@
                            name="is_pinned" 
                            value="1" 
                            {{ old('is_pinned') ? 'checked' : '' }}
-                           class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                           class="rounded border-gray-300 text-primary-600 focus:ring-green-500">
                     <span class="ml-2 text-sm text-gray-700">Pin to top</span>
                 </label>
             </div>
@@ -93,7 +93,7 @@
                 <a href="{{ route('admin.announcements.index') }}" class="text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Create Announcement
                 </button>
             </div>

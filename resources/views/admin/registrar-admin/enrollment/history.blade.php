@@ -87,7 +87,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($enrollment->status === 'active')
-                                <span class="text-xs font-semibold text-green-600">
+                                <span class="text-xs font-semibold text-primary-600">
                                     Active
                                 </span>
                             @elseif($enrollment->status === 'completed')

@@ -16,7 +16,7 @@
 
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.grading.index') }}" class="inline-flex items-center text-green-600 hover:text-green-700">
+        <a href="{{ route('teacher.grading.index') }}" class="inline-flex items-center text-primary-600 hover:text-primary-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -31,7 +31,7 @@
                 <h2 class="text-xl font-semibold text-gray-900">{{ $classSchedule->subject->name }}</h2>
                 <p class="text-sm text-gray-600 mt-1">{{ $classSchedule->section->name }} • {{ $classSchedule->enrollments->count() }} Students</p>
             </div>
-            <a href="{{ route('teacher.grading.edit', $classSchedule) }}" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+            <a href="{{ route('teacher.grading.edit', $classSchedule) }}" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
                 Enter Scores
             </a>
         </div>
@@ -43,7 +43,7 @@
             <nav class="flex -mb-px">
                 @for($q = 1; $q <= 4; $q++)
                     <button onclick="selectQuarter({{ $q }})" 
-                            class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                            class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
                             data-quarter="{{ $q }}">
                         Quarter {{ $q }}
                     </button>
@@ -130,7 +130,7 @@
                                             @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
                                                 <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
                                             @else
-                                                <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
+                                                <div class="flex-shrink-0 h-10 w-10 bg-primary-600 rounded-full flex items-center justify-center">
                                                     <span class="text-white font-semibold text-sm">
                                                         {{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}
                                                     </span>
@@ -163,7 +163,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         @if($displayFinal !== null)
-                                            <span class="inline-block text-sm font-semibold {{ $displayFinal >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                                            <span class="inline-block text-sm font-semibold {{ $displayFinal >= 75 ? 'text-primary-600' : 'text-red-600' }}">
                                                 {{ number_format($displayFinal, 0) }}
                                             </span>
                                             @if(!$grade)
@@ -173,7 +173,7 @@
                                             <span class="text-gray-400">—</span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 text-center text-sm {{ $displayRemarks === 'Passed' ? 'text-green-600 font-medium' : 'text-red-600 font-medium' }}">
+                                    <td class="px-6 py-4 text-center text-sm {{ $displayRemarks === 'Passed' ? 'text-primary-600 font-medium' : 'text-red-600 font-medium' }}">
                                         @if($displayRemarks)
                                             {{ $displayRemarks }}
                                             @if(!$grade)
@@ -188,7 +188,7 @@
                                             <span class="text-xs font-semibold
                                                 {{ $grade->status === 'Draft' ? 'text-gray-600' : '' }}
                                                 {{ $grade->status === 'Submitted' ? 'text-blue-600' : '' }}
-                                                {{ $grade->status === 'Approved' ? 'text-green-600' : '' }}
+                                                {{ $grade->status === 'Approved' ? 'text-primary-600' : '' }}
                                                 {{ $grade->status === 'Returned' ? 'text-red-600' : '' }}">
                                                 {{ $grade->status }}
                                             </span>
@@ -250,9 +250,9 @@ function selectQuarter(quarter) {
     document.querySelectorAll('.quarter-tab').forEach(tab => {
         if (parseInt(tab.dataset.quarter) === quarter) {
             tab.classList.remove('border-transparent', 'text-gray-500');
-            tab.classList.add('border-green-600', 'text-green-600');
+            tab.classList.add('border-primary-600', 'text-primary-600');
         } else {
-            tab.classList.remove('border-green-600', 'text-green-600');
+            tab.classList.remove('border-primary-600', 'text-primary-600');
             tab.classList.add('border-transparent', 'text-gray-500');
         }
     });

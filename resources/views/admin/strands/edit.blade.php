@@ -101,7 +101,7 @@
                             Cancel
                         </a>
                         <button type="submit" 
-                                class="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition shadow-sm hover:shadow-md text-sm font-medium">
+                                class="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition shadow-sm hover:shadow-md text-sm font-medium">
                             Update Strand
                         </button>
                     </div>

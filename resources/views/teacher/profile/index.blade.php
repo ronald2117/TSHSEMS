@@ -5,7 +5,7 @@
 
 @section('toolbar')
     <div class="flex items-center justify-end gap-3 w-full">
-        <a href="{{ route('teacher.profile.edit') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition">
+        <a href="{{ route('teacher.profile.edit') }}" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
@@ -25,13 +25,13 @@
     <!-- Profile Card -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <!-- Header Section -->
-        <div class="px-8 py-6 bg-gradient-to-r from-green-600 to-green-700">
+        <div class="px-8 py-6 bg-gradient-to-r from-primary-600 to-primary-700">
             <div class="flex items-center space-x-6">
                 @if($teacher->avatar_path && file_exists(public_path('storage/' . $teacher->avatar_path)))
                     <img src="{{ asset('storage/' . $teacher->avatar_path) }}" alt="{{ $teacher->full_name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
                 @else
                     <div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg">
-                        <span class="text-green-600 text-2xl font-bold">{{ strtoupper(substr($teacher->first_name, 0, 1)) }}{{ strtoupper(substr($teacher->last_name, 0, 1)) }}</span>
+                        <span class="text-primary-600 text-2xl font-bold">{{ strtoupper(substr($teacher->first_name, 0, 1)) }}{{ strtoupper(substr($teacher->last_name, 0, 1)) }}</span>
                     </div>
                 @endif
                 <div class="text-white">
@@ -93,7 +93,7 @@
                     <div>
                         <label class="text-sm font-medium text-gray-600">Account Status</label>
                         <p class="mt-1">
-                            <span class="text-white px-3 py-1 {{ $teacher->is_active ? 'bg-green-700' : 'bg-red-500' }} rounded-full text-sm">
+                            <span class="text-white px-3 py-1 {{ $teacher->is_active ? 'bg-primary-700' : 'bg-red-500' }} rounded-full text-sm">
                                 {{ $teacher->is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </p>

@@ -30,10 +30,10 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-600">Successful</p>
-                        <p class="text-2xl font-bold text-green-600 mt-1">{{ number_format($stats['successful']) }}</p>
+                        <p class="text-2xl font-bold text-primary-600 mt-1">{{ number_format($stats['successful']) }}</p>
                     </div>
                     <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <x-icon name="check-circle" class="w-6 h-6 text-green-600" />
+                        <x-icon name="check-circle" class="w-6 h-6 text-primary-600" />
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($log->status === 'success')
-                                    <span class="text-xs font-semibold text-green-600 flex items-center w-fit">
+                                    <span class="text-xs font-semibold text-primary-600 flex items-center w-fit">
                                         <x-icon name="check-circle" class="w-3 h-3 mr-1" />
                                         Success
                                     </span>

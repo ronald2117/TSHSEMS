@@ -43,17 +43,17 @@
             @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
                 <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">
             @else
-                <div class="w-24 h-24 rounded-full bg-green-600 flex items-center justify-center border-4 border-gray-200">
+                <div class="w-24 h-24 rounded-full bg-primary-600 flex items-center justify-center border-4 border-gray-200">
                     <span class="text-white text-2xl font-bold">{{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}</span>
                 </div>
             @endif
             <div class="flex-1">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Upload New Photo</label>
-                <input type="file" name="avatar" accept="image/*" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                <input type="file" name="avatar" accept="image/*" class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-primary-700 hover:file:bg-green-100">
                 <p class="text-xs text-gray-500 mt-1">JPG, PNG, or GIF (max 2MB)</p>
                 @if(auth()->user()->avatar_path)
                     <label class="inline-flex items-center mt-2">
-                        <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                        <input type="checkbox" name="remove_avatar" value="1" class="rounded border-gray-300 text-primary-600 focus:ring-green-500">
                         <span class="ml-2 text-sm text-gray-600">Remove current photo</span>
                     </label>
                 @endif
@@ -97,7 +97,7 @@
         </div>
 
         <div class="flex gap-4 pt-4">
-            <button type="submit" class="cursor-pointer px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition">
+            <button type="submit" class="cursor-pointer px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium transition">
                 Save Changes
             </button>
             <a href="{{ route('teacher.profile.index') }}" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">

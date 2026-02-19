@@ -31,7 +31,7 @@
                 @if($user->avatar_path && file_exists(public_path('storage/' . $user->avatar_path)))
                     <img src="{{ asset('storage/' . $user->avatar_path) }}" alt="{{ $user->full_name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
                 @else
-                    <div class="w-24 h-24 rounded-full bg-green-600 flex items-center justify-center border-4 border-white shadow-lg">
+                    <div class="w-24 h-24 rounded-full bg-primary-600 flex items-center justify-center border-4 border-white shadow-lg">
                         <span class="text-white text-2xl font-bold">{{ strtoupper(substr($user->first_name, 0, 1)) }}{{ strtoupper(substr($user->last_name, 0, 1)) }}</span>
                     </div>
                 @endif
@@ -42,7 +42,7 @@
                         <span class="text-gray-900 px-3 py-1 bg-white/20 rounded-full text-sm backdrop-blur-sm">
                             {{ str_replace('_', ' ', ucwords($user->role)) }}
                         </span>
-                        <span class="text-white px-3 py-1 {{ $user->is_active ? 'bg-green-700' : 'bg-red-500' }} rounded-full text-sm">
+                        <span class="text-white px-3 py-1 {{ $user->is_active ? 'bg-primary-700' : 'bg-red-500' }} rounded-full text-sm">
                             {{ $user->is_active ? 'Active' : 'Inactive' }}
                         </span>
                     </div>
@@ -52,7 +52,7 @@
             <!-- Action Icons -->
             <div class="flex items-center gap-2">
                 <a href="{{ route('admin.users.edit', $user) }}" 
-                   class="p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition shadow-sm" 
+                   class="p-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition shadow-sm" 
                    title="Edit User">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -62,7 +62,7 @@
                 <form method="POST" action="{{ route('admin.users.toggle-status', $user) }}" class="inline">
                     @csrf
                     <button type="submit" 
-                            class="cursor-pointer p-2 text-white rounded-lg transition shadow-sm {{ $user->is_active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-600 hover:bg-green-700' }}" 
+                            class="cursor-pointer p-2 text-white rounded-lg transition shadow-sm {{ $user->is_active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-primary-600 hover:bg-primary-700' }}" 
                             title="{{ $user->is_active ? 'Disable Account' : 'Enable Account' }}">
                         @if($user->is_active)
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -9,7 +9,7 @@
     <div class="grid grid-cols-4 gap-4 mb-8">
         <div class="bg-white rounded-xl shadow-sm p-4 text-center">
             <p class="text-gray-600 text-sm mb-2">Present</p>
-            <p class="text-2xl font-bold text-green-600">{{ $summary['present'] }}</p>
+            <p class="text-2xl font-bold text-primary-600">{{ $summary['present'] }}</p>
         </div>
         <div class="bg-white rounded-xl shadow-sm p-4 text-center">
             <p class="text-gray-600 text-sm mb-2">Late</p>

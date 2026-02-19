@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="mb-6">
-        <a href="{{ route('student.documents.index') }}" class="text-green-600 hover:text-green-700 flex items-center gap-2">
+        <a href="{{ route('student.documents.index') }}" class="text-primary-600 hover:text-primary-700 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -30,7 +30,7 @@
                                 text-blue-600
                                 @break
                             @case('Ready')
-                                text-green-600
+                                text-primary-600
                                 @break
                             @case('Released')
                                 text-gray-600
@@ -66,7 +66,7 @@
                         </div>
                         <div>
                             <dt class="text-sm font-medium text-gray-500">Fee</dt>
-                            <dd class="mt-1 text-sm font-semibold text-green-600">₱{{ number_format($document->fee, 2) }}</dd>
+                            <dd class="mt-1 text-sm font-semibold text-primary-600">₱{{ number_format($document->fee, 2) }}</dd>
                         </div>
                         <div>
                             <dt class="text-sm font-medium text-gray-500">Date Requested</dt>
@@ -205,7 +205,7 @@
                     <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    <p class="ml-3 text-sm text-green-700">
+                    <p class="ml-3 text-sm text-primary-700">
                         <strong>Your document is ready!</strong> Please proceed to the Registrar's Office with the fee of ₱{{ number_format($document->fee, 2) }} to claim your document.
                     </p>
                 </div>

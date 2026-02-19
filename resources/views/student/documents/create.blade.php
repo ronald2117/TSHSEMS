@@ -6,7 +6,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="mb-6">
-        <a href="{{ route('student.documents.index') }}" class="text-green-600 hover:text-green-700 flex items-center gap-2">
+        <a href="{{ route('student.documents.index') }}" class="text-primary-600 hover:text-primary-700 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -84,7 +84,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                <button type="submit" class="cursor-pointer bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg">
                     Submit Request
                 </button>
                 <a href="{{ route('student.documents.index') }}" class="text-gray-600 hover:text-gray-800">

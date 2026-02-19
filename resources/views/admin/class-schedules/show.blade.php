@@ -124,7 +124,7 @@
                             <td class="px-6 py-4 text-sm text-gray-600">{{ $loop->iteration }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
-                                    <div class="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center">
                                         <span class="text-white text-xs">{{ strtoupper(substr($enrollment->student->first_name, 0, 1)) }}{{ strtoupper(substr($enrollment->student->last_name, 0, 1)) }}</span>
                                     </div>
                                     <div>

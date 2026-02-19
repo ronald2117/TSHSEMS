@@ -58,7 +58,7 @@
                             };
                             $iconColor = match($group['color']) {
                                 'blue' => 'group-hover:text-blue-600',
-                                'green' => 'group-hover:text-green-600',
+                                'green' => 'group-hover:text-primary-600',
                                 'purple' => 'group-hover:text-purple-600',
                                 'red' => 'group-hover:text-red-600',
                                 'orange' => 'group-hover:text-orange-600',
@@ -66,7 +66,7 @@
                             };
                             $textColor = match($group['color']) {
                                 'blue' => 'group-hover:text-blue-700',
-                                'green' => 'group-hover:text-green-700',
+                                'green' => 'group-hover:text-primary-700',
                                 'purple' => 'group-hover:text-purple-700',
                                 'red' => 'group-hover:text-red-700',
                                 'orange' => 'group-hover:text-orange-700',

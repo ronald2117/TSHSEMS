@@ -6,7 +6,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="mb-6">
-        <a href="{{ route('teacher.assessments.index') }}" class="text-green-600 hover:text-green-700 flex items-center gap-2">
+        <a href="{{ route('teacher.assessments.index') }}" class="text-primary-600 hover:text-primary-700 flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -84,7 +84,7 @@
                 </p>
             </div>
             <a href="{{ route('teacher.grading.show', $assessment->classSchedule) }}" 
-               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-600 bg-green-50 rounded-lg hover:bg-green-100 transition">
+               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-600 bg-green-50 rounded-lg hover:bg-green-100 transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                 </svg>
@@ -116,18 +116,18 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="text-sm font-semibold {{ $percentage >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                                <span class="text-sm font-semibold {{ $percentage >= 75 ? 'text-primary-600' : 'text-red-600' }}">
                                     {{ $score->score }} / {{ $assessment->max_score }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="text-sm {{ $percentage >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                                <span class="text-sm {{ $percentage >= 75 ? 'text-primary-600' : 'text-red-600' }}">
                                     {{ number_format($percentage, 1) }}%
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @if($percentage >= 90)
-                                    <span class="text-sm font-medium text-green-600">Outstanding</span>
+                                    <span class="text-sm font-medium text-primary-600">Outstanding</span>
                                 @elseif($percentage >= 85)
                                     <span class="text-sm font-medium text-blue-600">Very Satisfactory</span>
                                 @elseif($percentage >= 80)
@@ -146,7 +146,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                                 </svg>
                                 No scores recorded yet. 
-                                <a href="{{ route('teacher.grading.show', $assessment->classSchedule) }}" class="text-green-600 hover:text-green-700 font-medium">Start inputting scores</a>
+                                <a href="{{ route('teacher.grading.show', $assessment->classSchedule) }}" class="text-primary-600 hover:text-primary-700 font-medium">Start inputting scores</a>
                             </td>
                         </tr>
                     @endforelse
@@ -167,7 +167,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                     <div class="bg-white rounded-lg p-3 text-center">
                         <p class="text-xs text-gray-500">Highest</p>
-                        <p class="text-lg font-bold text-green-600">{{ $scores->max() }}</p>
+                        <p class="text-lg font-bold text-primary-600">{{ $scores->max() }}</p>
                     </div>
                     <div class="bg-white rounded-lg p-3 text-center">
                         <p class="text-xs text-gray-500">Lowest</p>

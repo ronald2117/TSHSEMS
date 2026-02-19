@@ -94,14 +94,14 @@
                 <!-- Remember Me -->
                 <div class="flex items-center">
                     <input type="checkbox" name="remember" id="remember"
-                           class="cursor-pointer h-4 w-4 text-green-600 rounded">
+                           class="cursor-pointer h-4 w-4 text-primary-600 rounded">
                     <label for="remember" class="ml-2 text-sm text-gray-700">
                         Remember me
                     </label>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="cursor-pointer w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg transition">
+                <button type="submit" class="cursor-pointer w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 rounded-lg transition">
                     Sign In
                 </button>
             </form>

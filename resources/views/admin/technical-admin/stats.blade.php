@@ -30,7 +30,7 @@
                     <p class="text-3xl font-bold text-gray-800 mt-2">{{ number_format($stats['total_students']) }}</p>
                 </div>
                 <div class="bg-green-50 rounded-full p-3">
-                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </div>
@@ -101,15 +101,15 @@
             <div class="space-y-3">
                 <div class="flex items-center justify-between py-2 border-b border-gray-100">
                     <span class="text-gray-600">Application Status</span>
-                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Operational</span>
+                    <span class="px-3 py-1 bg-green-100 text-primary-700 rounded-full text-sm font-medium">Operational</span>
                 </div>
                 <div class="flex items-center justify-between py-2 border-b border-gray-100">
                     <span class="text-gray-600">Database Connection</span>
-                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Connected</span>
+                    <span class="px-3 py-1 bg-green-100 text-primary-700 rounded-full text-sm font-medium">Connected</span>
                 </div>
                 <div class="flex items-center justify-between py-2">
                     <span class="text-gray-600">Queue Status</span>
-                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Running</span>
+                    <span class="px-3 py-1 bg-green-100 text-primary-700 rounded-full text-sm font-medium">Running</span>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 py-1 text-xs font-medium rounded-full 
-                                @if(str_contains($activity->action, 'create')) bg-green-100 text-green-700
+                                @if(str_contains($activity->action, 'create')) bg-green-100 text-primary-700
                                 @elseif(str_contains($activity->action, 'update')) bg-blue-100 text-blue-700
                                 @elseif(str_contains($activity->action, 'delete')) bg-red-100 text-red-700
                                 @else bg-gray-100 text-gray-700
@@ -192,7 +192,7 @@
             </svg>
             View All Activity Logs
         </a>
-        <button onclick="window.location.reload()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center">
+        <button onclick="window.location.reload()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
             </svg>

@@ -23,7 +23,7 @@
                     Streamline academic performance at Taysan Senior High School. Track, grade, and communicate efficiently—anytime, anywhere.
                 </p>
                 <div class="flex justify-center">
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center mt-8 px-10 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center mt-8 px-10 py-4 border border-transparent text-lg font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
                         Access System
                         <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -44,7 +44,7 @@
 
             <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 <div class="bg-white rounded-xl shadow-md p-8 hover:shadow-xl transition-shadow duration-300 border border-gray-100 text-center">
-                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-green-600 text-white mb-6 mx-auto">
+                    <div class="flex items-center justify-center h-14 w-14 rounded-lg bg-primary-600 text-white mb-6 mx-auto">
                         <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
@@ -86,7 +86,7 @@
                 <!-- Students Benefits -->
                 <div class="bg-white rounded-2xl shadow-lg p-8 md:p-10">
                     <div class="flex items-center mb-6">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-green-600 text-white">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary-600 text-white">
                             <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
@@ -95,25 +95,25 @@
                     </div>
                     <ul class="space-y-4">
                         <li class="flex items-start">
-                            <svg class="h-6 w-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-6 w-6 text-primary-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
                             <span class="text-gray-700"><strong class="text-gray-900">Real-time Grade Access:</strong> View approved grades and academic performance anytime, anywhere</span>
                         </li>
                         <li class="flex items-start">
-                            <svg class="h-6 w-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-6 w-6 text-primary-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
                             <span class="text-gray-700"><strong class="text-gray-900">Attendance Monitoring:</strong> Track your attendance records across all subjects</span>
                         </li>
                         <li class="flex items-start">
-                            <svg class="h-6 w-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-6 w-6 text-primary-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
                             <span class="text-gray-700"><strong class="text-gray-900">Document Requests:</strong> Request academic documents digitally without hassle</span>
                         </li>
                         <li class="flex items-start">
-                            <svg class="h-6 w-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-6 w-6 text-primary-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
                             <span class="text-gray-700"><strong class="text-gray-900">Transparent Grading:</strong> Understand how your grades are calculated with detailed breakdowns</span>

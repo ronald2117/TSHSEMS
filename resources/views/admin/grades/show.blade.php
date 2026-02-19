@@ -43,7 +43,7 @@
                             @if($grade->student->avatar_path && file_exists(public_path('storage/' . $grade->student->avatar_path)))
                                 <img src="{{ asset('storage/' . $grade->student->avatar_path) }}" alt="{{ $grade->student->full_name }}" class="w-16 h-16 rounded-full object-cover">
                             @else
-                                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center">
+                                <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center">
                                     <span class="text-white font-bold text-xl">
                                         {{ strtoupper(substr($grade->student->first_name, 0, 1)) }}{{ strtoupper(substr($grade->student->last_name, 0, 1)) }}
                                     </span>
@@ -138,7 +138,7 @@
                             <p class="text-xs text-blue-500 mt-1">{{ $assessmentScores['written_work']['count'] ?? 0 }} assessment(s)</p>
                         </div>
                         <div class="bg-green-50 rounded-lg p-4 text-center">
-                            <p class="text-xs font-medium text-green-600 uppercase mb-1">Performance Task</p>
+                            <p class="text-xs font-medium text-primary-600 uppercase mb-1">Performance Task</p>
                             <p class="text-2xl font-bold text-green-900">
                                 {{ isset($assessmentScores['performance_task']['average']) ? number_format($assessmentScores['performance_task']['average'], 2) . '%' : '—' }}
                             </p>
@@ -161,7 +161,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-gray-600">Final Grade (Transmuted):</span>
-                            <span class="text-3xl font-bold {{ $grade->final_grade >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                            <span class="text-3xl font-bold {{ $grade->final_grade >= 75 ? 'text-primary-600' : 'text-red-600' }}">
                                 {{ number_format($grade->final_grade, 0) }}
                             </span>
                         </div>
@@ -290,7 +290,7 @@
                             @csrf
                             <button type="submit" 
                                     onclick="return confirm('Are you sure you want to approve this grade?')"
-                                    class="cursor-pointer w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-medium transition">
+                                    class="cursor-pointer w-full flex items-center justify-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-3 rounded-lg font-medium transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>

@@ -15,7 +15,7 @@
             <div class="p-6 bg-gray-50 border-b border-gray-200">
                 <div class="flex items-center space-x-4">
                     <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center">
-                        <span class="text-xl font-bold text-green-600">
+                        <span class="text-xl font-bold text-primary-600">
                             {{ substr($user->first_name ?? 'U', 0, 1) }}{{ substr($user->last_name ?? '', 0, 1) }}
                         </span>
                     </div>

@@ -31,7 +31,7 @@
                     @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
                         <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
                     @else
-                        <div class="w-24 h-24 rounded-full bg-green-600 flex items-center justify-center border-4 border-white shadow-lg">
+                        <div class="w-24 h-24 rounded-full bg-primary-600 flex items-center justify-center border-4 border-white shadow-lg">
                             <span class="text-white text-2xl font-bold">{{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}</span>
                         </div>
                     @endif
@@ -44,7 +44,7 @@
                                     {{ $student->studentProfile->strand->code }}
                                 </span>
                             @endif
-                            <span class="text-white px-3 py-1 {{ $student->is_active ? 'bg-green-700' : 'bg-red-500' }} rounded-full text-sm">
+                            <span class="text-white px-3 py-1 {{ $student->is_active ? 'bg-primary-700' : 'bg-red-500' }} rounded-full text-sm">
                                 {{ $student->is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </div>

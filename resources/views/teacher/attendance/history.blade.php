@@ -7,7 +7,7 @@
 <div class="p-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.attendance.index') }}" class="inline-flex items-center text-green-600 hover:text-green-700 transition">
+        <a href="{{ route('teacher.attendance.index') }}" class="inline-flex items-center text-primary-600 hover:text-primary-700 transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
@@ -35,10 +35,10 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600">Present</p>
-                    <p class="text-2xl font-bold text-green-600">{{ $stats['present'] }}</p>
+                    <p class="text-2xl font-bold text-primary-600">{{ $stats['present'] }}</p>
                 </div>
                 <div class="bg-green-100 p-3 rounded-lg">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
@@ -127,7 +127,7 @@
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
                     Apply Filters
                 </button>
                 <a href="{{ route('teacher.attendance.history', $classSchedule) }}" 
@@ -143,7 +143,7 @@
         <div class="border-b border-gray-200">
             <nav class="flex -mb-px">
                 <button onclick="showTab('records')" id="tab-records" 
-                        class="cursor-pointer tab-button active px-6 py-3 border-b-2 border-green-500 text-green-600 font-medium text-sm">
+                        class="cursor-pointer tab-button active px-6 py-3 border-b-2 border-green-500 text-primary-600 font-medium text-sm">
                     Attendance Records
                 </button>
                 <button onclick="showTab('summary')" id="tab-summary" 
@@ -191,7 +191,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($attendance->status === 'Present')
-                                            <span class="text-xs leading-5 font-semibold text-green-600">
+                                            <span class="text-xs leading-5 font-semibold text-primary-600">
                                                 Present
                                             </span>
                                         @elseif($attendance->status === 'Absent')
@@ -311,7 +311,7 @@ function showTab(tabName) {
     
     // Remove active class from all tabs
     document.querySelectorAll('.tab-button').forEach(button => {
-        button.classList.remove('active', 'border-green-500', 'text-green-600');
+        button.classList.remove('active', 'border-green-500', 'text-primary-600');
         button.classList.add('border-transparent', 'text-gray-500');
     });
     
@@ -320,7 +320,7 @@ function showTab(tabName) {
     
     // Add active class to selected tab
     const activeTab = document.getElementById('tab-' + tabName);
-    activeTab.classList.add('active', 'border-green-500', 'text-green-600');
+    activeTab.classList.add('active', 'border-green-500', 'text-primary-600');
     activeTab.classList.remove('border-transparent', 'text-gray-500');
 }
 </script>

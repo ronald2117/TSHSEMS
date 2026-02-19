@@ -59,7 +59,7 @@
                 </div>
 
                 @if(strlen($announcement->content) > 300)
-                    <button onclick="showAnnouncement({{ $announcement->id }})" class="mt-3 text-green-600 hover:text-green-700 text-sm font-medium">
+                    <button onclick="showAnnouncement({{ $announcement->id }})" class="mt-3 text-primary-600 hover:text-primary-700 text-sm font-medium">
                         Read more →
                     </button>
                 @endif

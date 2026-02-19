@@ -68,7 +68,7 @@
                 <a href="{{ route('teacher.attendance.index') }}" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">
                     Cancel
                 </a>
-                <button type="submit" class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
                     Save Attendance
                 </button>
             </div>

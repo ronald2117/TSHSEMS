@@ -25,7 +25,7 @@
         </div>
         
         <!-- Add Teacher Button -->
-        <a href="{{ route('admin.teachers.create') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
+        <a href="{{ route('admin.teachers.create') }}" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -87,7 +87,7 @@
                                     @if($teacher->avatar_path && file_exists(public_path('storage/' . $teacher->avatar_path)))
                                         <img src="{{ asset('storage/' . $teacher->avatar_path) }}" alt="{{ $teacher->full_name }}" class="w-10 h-10 rounded-full object-cover">
                                     @else
-                                        <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center">
+                                        <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
                                             <span class="text-white text-sm">{{ strtoupper(substr($teacher->first_name, 0, 1)) }}{{ strtoupper(substr($teacher->last_name, 0, 1)) }}</span>
                                         </div>
                                     @endif

@@ -45,7 +45,7 @@
                 <a href="{{ route('teacher.grading.show', $schedule) }}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium text-sm transition">
                     View Grades
                 </a>
-                <a href="{{ route('teacher.grading.edit', $schedule) }}" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium text-sm transition">
+                <a href="{{ route('teacher.grading.edit', $schedule) }}" class="block w-full text-center bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg font-medium text-sm transition">
                     Enter Scores
                 </a>
             </div>

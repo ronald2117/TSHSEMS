@@ -7,7 +7,7 @@
 <div class="p-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.attendance.index') }}" class="inline-flex items-center text-green-600 hover:text-green-700">
+        <a href="{{ route('teacher.attendance.index') }}" class="inline-flex items-center text-primary-600 hover:text-primary-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -35,7 +35,7 @@
             <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-gray-900">Student Roster</h3>
                 <div class="flex gap-2">
-                    <button type="button" onclick="markAll('Present')" class="cursor-pointer px-3 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200 transition">
+                    <button type="button" onclick="markAll('Present')" class="cursor-pointer px-3 py-1 text-xs bg-green-100 text-primary-700 rounded hover:bg-green-200 transition">
                         Mark All Present
                     </button>
                     <button type="button" onclick="markAll('Absent')" class="cursor-pointer px-3 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 transition">
@@ -65,7 +65,7 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
-                                            <span class="text-green-700 font-semibold text-sm">
+                                            <span class="text-primary-700 font-semibold text-sm">
                                                 {{ substr($student->first_name, 0, 1) }}{{ substr($student->last_name, 0, 1) }}
                                             </span>
                                         </div>
@@ -80,7 +80,7 @@
                                 <td class="px-6 py-4 text-center">
                                     <input type="radio" name="attendance[{{ $student->id }}]" value="Present" 
                                            {{ $status === 'Present' ? 'checked' : '' }}
-                                           class="cursor-pointer w-4 h-4 text-green-600 focus:ring-green-500">
+                                           class="cursor-pointer w-4 h-4 text-primary-600 focus:ring-green-500">
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <input type="radio" name="attendance[{{ $student->id }}]" value="Absent"
@@ -121,7 +121,7 @@
             <a href="{{ route('teacher.attendance.index') }}" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">
                 Cancel
             </a>
-            <button type="submit" class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+            <button type="submit" class="cursor-pointer px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
                 Save Attendance
             </button>
         </div>

@@ -28,7 +28,7 @@
                 </select>
             </div>
             <div class="flex gap-2">
-                <button type="submit" class="px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium transition">
+                <button type="submit" class="px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-medium transition">
                     Generate Report
                 </button>
                 <a href="{{ route('admin.reports.grades') }}" class="px-4 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium transition">
@@ -120,7 +120,7 @@
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     @if($gwa)
-                                        <span class="text-xs font-semibold {{ $gwa >= 75 ? 'text-green-600' : 'text-red-600' }}">
+                                        <span class="text-xs font-semibold {{ $gwa >= 75 ? 'text-primary-600' : 'text-red-600' }}">
                                             {{ $gwa >= 75 ? 'Passed' : 'Failed' }}
                                         </span>
                                     @else
@@ -170,7 +170,7 @@
             </div>
             <div class="bg-white rounded-xl shadow-sm p-4">
                 <p class="text-sm text-gray-500">Passed</p>
-                <p class="text-2xl font-bold text-green-600">{{ $passedCount }}</p>
+                <p class="text-2xl font-bold text-primary-600">{{ $passedCount }}</p>
             </div>
             <div class="bg-white rounded-xl shadow-sm p-4">
                 <p class="text-sm text-gray-500">Failed</p>

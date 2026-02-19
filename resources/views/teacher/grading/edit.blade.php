@@ -7,7 +7,7 @@
 <div class="p-6">
     <!-- Back Button -->
     <div class="mb-6">
-        <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="inline-flex items-center text-green-600 hover:text-green-700">
+        <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="inline-flex items-center text-primary-600 hover:text-primary-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
@@ -44,7 +44,7 @@
                 <nav class="flex -mb-px">
                     @for($q = 1; $q <= 4; $q++)
                         <button type="button" onclick="selectQuarter({{ $q }})" 
-                                class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
+                                class="cursor-pointer quarter-tab px-6 py-3 text-sm font-medium border-b-2 transition {{ $q == 1 ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}"
                                 data-quarter="{{ $q }}">
                             Quarter {{ $q }}
                         </button>
@@ -69,7 +69,7 @@
                         </svg>
                         <h3 class="text-lg font-medium text-gray-900 mb-1">No assessments for Quarter {{ $quarter }}</h3>
                         <p class="text-sm text-gray-500">Create assessments first before entering scores.</p>
-                        <a href="{{ route('teacher.assessments.create', ['class_schedule_id' => $classSchedule->id]) }}" class="mt-4 inline-block px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium text-sm">
+                        <a href="{{ route('teacher.assessments.create', ['class_schedule_id' => $classSchedule->id]) }}" class="mt-4 inline-block px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium text-sm">
                             Create Assessment
                         </a>
                     </div>
@@ -137,7 +137,7 @@
                                                                 @if($student->avatar_path && file_exists(public_path('storage/' . $student->avatar_path)))
                                                                     <img src="{{ asset('storage/' . $student->avatar_path) }}" alt="{{ $student->full_name }}" class="flex-shrink-0 h-10 w-10 rounded-full object-cover">
                                                                 @else
-                                                                    <div class="flex-shrink-0 h-10 w-10 bg-green-600 rounded-full flex items-center justify-center">
+                                                                    <div class="flex-shrink-0 h-10 w-10 bg-primary-600 rounded-full flex items-center justify-center">
                                                                         <span class="text-white font-semibold text-sm">
                                                                             {{ strtoupper(substr($student->first_name, 0, 1)) }}{{ strtoupper(substr($student->last_name, 0, 1)) }}
                                                                         </span>
@@ -185,7 +185,7 @@
             <a href="{{ route('teacher.grading.show', $classSchedule) }}" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition">
                 Cancel
             </a>
-            <button type="submit" class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+            <button type="submit" class="cursor-pointer px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
                 Save Scores
             </button>
         </div>
@@ -198,9 +198,9 @@ function selectQuarter(quarter) {
     document.querySelectorAll('.quarter-tab').forEach(tab => {
         if (parseInt(tab.dataset.quarter) === quarter) {
             tab.classList.remove('border-transparent', 'text-gray-500');
-            tab.classList.add('border-green-600', 'text-green-600');
+            tab.classList.add('border-primary-600', 'text-primary-600');
         } else {
-            tab.classList.remove('border-green-600', 'text-green-600');
+            tab.classList.remove('border-primary-600', 'text-primary-600');
             tab.classList.add('border-transparent', 'text-gray-500');
         }
     });

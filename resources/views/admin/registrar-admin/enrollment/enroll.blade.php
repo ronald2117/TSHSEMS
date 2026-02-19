@@ -13,7 +13,7 @@
             <div class="p-6">
                 <div class="flex items-center space-x-4">
                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                        <span class="text-2xl font-bold text-green-600">
+                        <span class="text-2xl font-bold text-primary-600">
                             {{ substr($student->user->first_name ?? 'S', 0, 1) }}{{ substr($student->user->last_name ?? '', 0, 1) }}
                         </span>
                     </div>
@@ -116,7 +116,7 @@
                         Cancel
                     </a>
                     <button type="submit" 
-                            class="px-4 py-2.5 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition {{ $sections->isEmpty() ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            class="px-4 py-2.5 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition {{ $sections->isEmpty() ? 'opacity-50 cursor-not-allowed' : '' }}"
                             {{ $sections->isEmpty() ? 'disabled' : '' }}>
                         Enroll Student
                     </button>

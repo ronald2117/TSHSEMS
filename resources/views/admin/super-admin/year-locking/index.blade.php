@@ -61,7 +61,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($year->is_active)
-                                    <span class="text-xs font-semibold text-green-600">
+                                    <span class="text-xs font-semibold text-primary-600">
                                         Active
                                     </span>
                                 @else
@@ -77,7 +77,7 @@
                                         <span class="font-medium">Locked</span>
                                     </div>
                                 @else
-                                    <div class="flex items-center text-sm text-green-600">
+                                    <div class="flex items-center text-sm text-primary-600">
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/>
                                         </svg>
@@ -93,7 +93,7 @@
                                     @csrf
                                     @if($year->is_locked ?? false)
                                         <button type="submit" 
-                                                class="px-4 py-2 bg-green-600 text-white text-xs font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                                                class="px-4 py-2 bg-primary-600 text-white text-xs font-semibold rounded-lg hover:bg-primary-700 transition-colors">
                                             <x-icon name="lock-closed" class="w-4 h-4 inline mr-1" />
                                             Unlock Year
                                         </button>

@@ -17,7 +17,7 @@
         </div>
         
         <!-- Create Button -->
-        <a href="{{ route('admin.academic-periods.create') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
+        <a href="{{ route('admin.academic-periods.create') }}" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition shadow-sm hover:shadow-md whitespace-nowrap">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
@@ -63,7 +63,7 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <span class="text-xs font-semibold {{ $period->status === 'Active' ? 'text-green-600' : 'text-gray-600' }}">
+                                <span class="text-xs font-semibold {{ $period->status === 'Active' ? 'text-primary-600' : 'text-gray-600' }}">
                                     {{ $period->status }}
                                 </span>
                             </td>
@@ -87,7 +87,7 @@
                                     <form action="{{ route('admin.academic-periods.toggle-status', $period) }}" method="POST" class="inline">
                                         @csrf
                                         <button type="submit" 
-                                                class="{{ $period->status === 'Active' ? 'text-yellow-600 hover:text-yellow-700' : 'text-green-600 hover:text-green-700' }} transition" 
+                                                class="{{ $period->status === 'Active' ? 'text-yellow-600 hover:text-yellow-700' : 'text-primary-600 hover:text-primary-700' }} transition" 
                                                 title="{{ $period->status === 'Active' ? 'Close Period' : 'Activate Period' }}">
                                             @if($period->status === 'Active')
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

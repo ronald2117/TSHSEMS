@@ -37,17 +37,17 @@
                             <td class="px-6 py-4 text-gray-600">{{ $grade->classSchedule->section->name }}</td>
                             <td class="px-6 py-4 text-center font-medium text-gray-900">Q{{ $grade->quarter }}</td>
                             <td class="px-6 py-4 text-center">
-                                <span class="font-semibold text-lg text-green-600">
+                                <span class="font-semibold text-lg text-primary-600">
                                     {{ $grade->final_grade }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <span class="text-xs font-semibold {{ $grade->remarks === 'Passed' ? 'text-green-600' : 'text-red-600' }}">
+                                <span class="text-xs font-semibold {{ $grade->remarks === 'Passed' ? 'text-primary-600' : 'text-red-600' }}">
                                     {{ $grade->remarks }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('student.grades.show', $grade) }}" class="text-green-600 hover:text-green-700 font-medium text-sm">
+                                <a href="{{ route('student.grades.show', $grade) }}" class="text-primary-600 hover:text-primary-700 font-medium text-sm">
                                     View Details
                                 </a>
                             </td>

@@ -63,7 +63,7 @@
                             </div>
 
                             <div class="flex gap-2">
-                                <a href="{{ route('teacher.attendance.roster', $schedule) }}" class="flex-1 text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition text-sm">
+                                <a href="{{ route('teacher.attendance.roster', $schedule) }}" class="flex-1 text-center bg-primary-600 hover:bg-primary-700 text-white py-2 rounded-lg font-medium transition text-sm">
                                     Take Attendance
                                 </a>
                                 <a href="{{ route('teacher.attendance.history', $schedule) }}" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition text-sm">

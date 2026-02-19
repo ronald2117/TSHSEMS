@@ -37,7 +37,7 @@
                              alt="{{ auth()->user()->full_name }}" 
                              class="w-8 h-8 lg:w-10 lg:h-10 rounded-full border-2 border-gray-200 object-cover">
                     @else
-                        <div class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-green-600 flex items-center justify-center border-2 border-gray-200">
+                        <div class="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary-600 flex items-center justify-center border-2 border-gray-200">
                             <span class="text-white text-xs lg:text-sm font-semibold">
                                 {{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}
                             </span>

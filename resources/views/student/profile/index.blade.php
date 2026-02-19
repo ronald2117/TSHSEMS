@@ -20,12 +20,12 @@
     <!-- Profile Information Card -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <!-- Header Section -->
-        <div class="bg-gradient-to-r from-green-500 to-green-600 p-8 text-white">
+        <div class="bg-gradient-to-r from-green-500 to-primary-600 p-8 text-white">
             <div class="flex items-center gap-6">
                 @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
                     <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg">
                 @else
-                    <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-green-600 text-3xl font-bold shadow-lg">
+                    <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary-600 text-3xl font-bold shadow-lg">
                         {{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}
                     </div>
                 @endif
@@ -157,7 +157,7 @@
 
             <!-- Action Buttons -->
             <div class="mt-8 pt-6 border-t border-gray-200 flex gap-4">
-                <a href="{{ route('student.profile.edit') }}" class="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium transition">
+                <a href="{{ route('student.profile.edit') }}" class="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium transition">
                     Edit Profile
                 </a>
             </div>

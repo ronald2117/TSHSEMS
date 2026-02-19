@@ -8,7 +8,7 @@
     <!-- Header -->
     <div class="mb-6">
         <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
-            <a href="{{ route('admin.teachers.index') }}" class="hover:text-green-600">Teachers</a>
+            <a href="{{ route('admin.teachers.index') }}" class="hover:text-primary-600">Teachers</a>
             <span>/</span>
             <span class="text-gray-900">Create New Teacher</span>
         </div>
@@ -164,7 +164,7 @@
             <!-- Action Buttons -->
             <div class="flex items-center gap-3">
                 <button type="submit" 
-                        class="cursor-pointer px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition">
+                        class="cursor-pointer px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition">
                     Create Teacher
                 </button>
                 <a href="{{ route('admin.teachers.index') }}" 

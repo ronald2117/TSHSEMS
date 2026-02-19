@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="flex gap-2">
-                <button type="submit" class="px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium transition">
+                <button type="submit" class="px-4 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-medium transition">
                     Apply Filters
                 </button>
                 <a href="{{ route('admin.reports.students') }}" class="px-4 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium transition">
@@ -87,7 +87,7 @@
                                     </a>
                                     <span class="text-gray-300">|</span>
                                     <a href="{{ route('admin.reports.form138', $student->id) }}" 
-                                       class="text-green-600 hover:text-green-800 text-xs font-medium"
+                                       class="text-primary-600 hover:text-green-800 text-xs font-medium"
                                        title="Generate Form 138">
                                         F138
                                     </a>

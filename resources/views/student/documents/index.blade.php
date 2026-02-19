@@ -6,7 +6,7 @@
 <div class="container mx-auto px-4 py-6">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">My Document Requests</h1>
-        <a href="{{ route('student.documents.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+        <a href="{{ route('student.documents.create') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
@@ -15,7 +15,7 @@
     </div>
 
     @if (session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4">
+        <div class="bg-green-100 border border-green-400 text-primary-700 px-4 py-3 rounded-lg mb-4">
             {{ session('success') }}
         </div>
     @endif
@@ -37,7 +37,7 @@
                     <span class="text-sm font-semibold
                         @if($request->status === 'Pending') text-yellow-600
                         @elseif($request->status === 'Processing') text-blue-600
-                        @elseif($request->status === 'Ready') text-green-600
+                        @elseif($request->status === 'Ready') text-primary-600
                         @elseif($request->status === 'Claimed') text-gray-600
                         @else text-red-600 @endif">
                         {{ $request->status }}
@@ -94,7 +94,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
                 <p class="text-gray-500 mb-4">You haven't requested any documents yet.</p>
-                <a href="{{ route('student.documents.create') }}" class="text-green-600 hover:underline font-medium">
+                <a href="{{ route('student.documents.create') }}" class="text-primary-600 hover:underline font-medium">
                     Request your first document
                 </a>
             </div>

@@ -144,12 +144,22 @@ body{
 .front .accent-band{
   position:absolute;
   left:-35%;
-  bottom:30%;
+  bottom:29.5%;
   width:180%;
   height:2.5%;
   background:var(--lite);
   transform:rotate(25deg);
   z-index:2;
+}
+.front .accent-band-dark{
+  position:absolute;
+  left:-35%;
+  bottom:23.5%;
+  width:180%;
+  height:2.5%;
+  background:var(--dark);
+  transform:rotate(25deg);
+  z-index:3;
 }
 .front .accent-line{
   position:absolute;
@@ -551,6 +561,7 @@ body{
       <div class="dots-dark"></div>
       <div class="corner-tr"></div>
       <div class="accent-band"></div>
+      <div class="accent-band-dark"></div>
       <div class="accent-line"></div>
 
       <div class="brand">

@@ -18,11 +18,11 @@
 }
 
 :root{
-  --dark: #0b3b2f;
-  --mid:  #2f7f72;
-  --lite: #7fb0a7;
+  --dark: #03332c;
+  --mid:  #4a8f82;
+  --lite: #619b90;
   --text: #0f172a;
-  --muted:#6b7280;
+  --muted: #6b7280;
 }
 
 body{
@@ -97,6 +97,18 @@ body{
   height:55%;
   background:var(--dark);
   transform:rotate(30deg);
+  z-index:3;
+}
+
+/* mid color diagonal band, higher, shallower angle */
+.front .band-mid{
+  position:absolute;
+  left:-40%;
+  bottom:-46%;
+  width:170%;
+  height:55%;
+  background:var(--mid);
+  transform:rotate(14deg);
   z-index:3;
 }
 
@@ -560,6 +572,7 @@ body{
       <div class="dots"></div>
       <div class="dots-dark"></div>
       <div class="corner-tr"></div>
+      <div class="band-mid"></div>
       <div class="accent-band"></div>
       <div class="accent-band-dark"></div>
       <div class="accent-line"></div>

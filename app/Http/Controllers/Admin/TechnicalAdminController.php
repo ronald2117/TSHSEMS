@@ -88,13 +88,17 @@ class TechnicalAdminController extends Controller
             });
         }
 
-        // Date from filter
+        // Date range filter
         if ($request->filled('date_from')) {
             $query->whereDate('created_at', '>=', $request->date_from);
         }
 
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
         // Legacy student_id filter (keep for backward compatibility)
-        if ($request->has('student_id')) {
+        if ($request->filled('student_id')) {
             $query->whereHas('quarterlyGrade', function ($q) use ($request) {
                 $q->where('student_id', $request->student_id);
             });

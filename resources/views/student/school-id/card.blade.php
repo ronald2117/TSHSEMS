@@ -81,7 +81,7 @@ body{
   left:-25%;
   top:35%;
   width:160%;
-  height:35%;
+  height:30%;
   background:var(--dark);
   transform:rotate(25deg);
   z-index:0;
@@ -91,13 +91,13 @@ body{
 .front::after{
   content:"";
   position:absolute;
-  left:-30%;
-  bottom:-50%;
+  left:-40%;
+  bottom:-66%;
   width:170%;
   height:55%;
-  background:var(--mid);
-  transform:rotate(13deg);
-  z-index:1;
+  background:var(--dark);
+  transform:rotate(30deg);
+  z-index:3;
 }
 
 /* dotted overlay - white-ish above dark backgrounds */
@@ -144,22 +144,22 @@ body{
 .front .accent-band{
   position:absolute;
   left:-35%;
-  bottom:8%;
+  bottom:30%;
   width:180%;
-  height:16%;
+  height:2.5%;
   background:var(--lite);
-  transform:rotate(-13deg);
+  transform:rotate(25deg);
   z-index:2;
 }
 .front .accent-line{
   position:absolute;
   left:-35%;
-  bottom:20%;
+  bottom:-14%;
   width:180%;
-  height:1.8%;
-  background:#ffffff;
-  transform:rotate(-13deg);
-  z-index:3;
+  height:40%;
+  background:var(--lite);
+  transform:rotate(25deg);
+  z-index:2;
 }
 
 /* Header block (top-left) */
@@ -538,6 +538,9 @@ body{
   <div class="no-print">
     <button onclick="window.print()" class="btn btn-primary">🖨️ Print ID Card</button>
     <a href="{{ route('student.school-id.upload') }}" class="btn btn-secondary">← Back to Upload</a>
+    <p style="margin-top:10px;font-size:13px;color:#6b7280;">
+      ⚠️ In the print dialog, set <strong>Scale to 100%</strong> (not "Fit to page") to ensure the card prints at standard CR80 size (54 × 86 mm).
+    </p>
   </div>
 
   <div class="id-wrapper">

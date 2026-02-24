@@ -110,6 +110,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('lrn')->unique(); // Learner Reference Number
+            $table->string('school_id', 6)->unique()->nullable()->comment('6-digit school ID: YYNNNN (YY=year, NNNN=seq)');
             $table->foreignId('current_section_id')->nullable()->constrained('sections');
             $table->foreignId('strand_id')->constrained();
             $table->enum('gender', ['Male', 'Female'])->nullable();
@@ -118,9 +119,12 @@ return new class extends Migration
             $table->json('emergency_contacts')->nullable()->comment('Array of emergency contact details');
             $table->date('birthdate')->nullable();
             $table->string('address')->nullable();
+            $table->string('id_photo_path')->nullable()->comment('Path to uploaded ID photo');
+            $table->string('signature_path')->nullable()->comment('Path to student signature');
             $table->timestamps();
             
             $table->index('lrn');
+            $table->index('school_id');
             $table->index('current_section_id');
         });
 

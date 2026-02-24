@@ -205,6 +205,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 1; $i <= 25; $i++) {
             $section = $sections[($i - 1) % 4];
             $lrn = '10982390' . str_pad($i, 4, '0', STR_PAD_LEFT);
+            $schoolId = '25' . str_pad($i, 4, '0', STR_PAD_LEFT); // 25 for year 2025, sequential 4-digit number
             
             $student = User::create([
                 'first_name' => $firstNames[$i - 1],
@@ -220,6 +221,7 @@ class DatabaseSeeder extends Seeder
             StudentProfile::create([
                 'user_id' => $student->id,
                 'lrn' => $lrn,
+                'school_id' => $schoolId,
                 'strand_id' => $section->strand_id,
                 'current_section_id' => $section->id,
                 'gender' => $i % 2 === 0 ? 'Male' : 'Female',
@@ -478,6 +480,7 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++) {
             $lrn = '10982399' . str_pad($i + 1, 4, '0', STR_PAD_LEFT);
+            $schoolId = '25' . str_pad($i + 26, 4, '0', STR_PAD_LEFT); // Continue from 250026 to avoid duplicates
             
             $student = User::create([
                 'first_name' => $studentNames[$i]['first'],
@@ -493,6 +496,7 @@ class DatabaseSeeder extends Seeder
             StudentProfile::create([
                 'user_id' => $student->id,
                 'lrn' => $lrn,
+                'school_id' => $schoolId,
                 'strand_id' => $stem->id,
                 'current_section_id' => $completeSection->id,
                 'gender' => $i % 2 === 0 ? 'Male' : 'Female',

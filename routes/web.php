@@ -29,6 +29,7 @@ use App\Http\Controllers\Student\AnnouncementController as StudentAnnouncementCo
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\ScheduleController;
 use App\Http\Controllers\Student\DocumentRequestController as StudentDocumentRequestController;
+use App\Http\Controllers\Student\SchoolIdController;
 use App\Http\Controllers\Teacher\ClassesController;
 use Illuminate\Support\Facades\Route;
 
@@ -270,5 +271,13 @@ Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->gro
     // Document Requests
     Route::resource('documents', StudentDocumentRequestController::class)->only(['index', 'create', 'store', 'show']);
     Route::post('documents/{document}/cancel', [StudentDocumentRequestController::class, 'cancel'])->name('documents.cancel');
+    
+    // School ID Card
+    Route::get('school-id/upload', [SchoolIdController::class, 'upload'])->name('school-id.upload');
+    Route::post('school-id/photo', [SchoolIdController::class, 'storePhoto'])->name('school-id.store-photo');
+    Route::post('school-id/signature', [SchoolIdController::class, 'storeSignature'])->name('school-id.store-signature');
+    Route::delete('school-id/photo', [SchoolIdController::class, 'deletePhoto'])->name('school-id.delete-photo');
+    Route::delete('school-id/signature', [SchoolIdController::class, 'deleteSignature'])->name('school-id.delete-signature');
+    Route::get('school-id/card', [SchoolIdController::class, 'show'])->name('school-id.card');
 });
 

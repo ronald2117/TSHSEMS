@@ -13,6 +13,7 @@ class StudentProfile extends Model
     protected $fillable = [
         'user_id',
         'lrn',
+        'school_id',
         'current_section_id',
         'strand_id',
         'gender',
@@ -21,6 +22,8 @@ class StudentProfile extends Model
         'emergency_contacts',
         'birthdate',
         'address',
+        'id_photo_path',
+        'signature_path',
     ];
 
     protected function casts(): array

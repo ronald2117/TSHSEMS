@@ -42,6 +42,9 @@
                 <x-nav-link href="{{ route('student.documents.index') }}" :active="request()->routeIs('student.documents.*')" icon="document">
                     Document Requests
                 </x-nav-link>
+                <x-nav-link href="{{ route('student.school-id.upload') }}" :active="request()->routeIs('student.school-id.*')" icon="identification">
+                    School ID Card
+                </x-nav-link>
 
             @elseif(auth()->user()->isTeacher())
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">

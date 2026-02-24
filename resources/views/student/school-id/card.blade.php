@@ -79,11 +79,11 @@ body{
   content:"";
   position:absolute;
   left:-25%;
-  top:30%;
+  top:40%;
   width:160%;
   height:42%;
   background:var(--dark);
-  transform:rotate(18deg);
+  transform:rotate(25deg);
   z-index:0;
 }
 
@@ -110,6 +110,18 @@ body{
   background-size: 10px 10px;
   pointer-events:none;
   mix-blend-mode:soft-light;
+}
+
+/* small top-right corner accent */
+.front .corner-tr{
+  position:absolute;
+  right:-20px;
+  top:-26px;
+  width:50px;
+  height:40px;
+  background:var(--dark);
+  transform:rotate(29deg);
+  z-index:4;
 }
 
 /* extra lighter band + thin white stripe (lower-left) */
@@ -140,6 +152,7 @@ body{
   top:10px;
   left:18px;
   right:70px; /* leave space for seal */
+  bottom: 1px;
   z-index:5;
   font-family:Montserrat, Arial, sans-serif;
 }
@@ -163,12 +176,42 @@ body{
   width:60%;
 }
 
-.front .brand .vertline{
-  width:1px;
-  background:var(--dark);
-  align-self:stretch;
-  flex-shrink:0;
+.below-topline {
+  display:flex;
+  align-items:stretch;
+  height:100%;
+}
+
+.vertlines{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
   margin-right:5px;
+  flex-shrink:0;
+  width:2px;
+}
+
+.dark-vertline1,
+.lightvertline,
+.dark-vertline2{
+  width:1px;
+  flex-shrink:0;
+}
+
+.dark-vertline1{
+  background:var(--dark);
+  height:25%;
+}
+
+.lightvertline{
+  background:var(--lite);
+  height:25%;
+}
+
+.dark-vertline2{
+  background:var(--dark);
+  height:50%;
 }
 
 .front .brand .text-block{
@@ -465,21 +508,28 @@ body{
     <!-- FRONT -->
     <div class="id front">
       <div class="dots"></div>
+      <div class="corner-tr"></div>
       <div class="accent-band"></div>
       <div class="accent-line"></div>
 
       <div class="brand">
         <div class="dots3"><span></span><span></span><span></span></div>
         <div class="topline"></div>
-        <div class="text-block">
-          <div class="vertline"></div>
-          <div>
-            <div class="title">TAYSAN SENIOR<br/>HIGH SCHOOL</div>
-            <div class="meta">
-              SCHOOL ID - {{ $profile->school_id }}<br/>
-              BRGY. MAHANADIONG, TAYSAN, BATANGAS
+        <div class="below-topline">
+            <div class="vertlines">
+                <div class="dark-vertline1"></div>
+                <div class="lightvertline"></div>
+                <div class="dark-vertline2"></div>
             </div>
-          </div>
+            <div class="text-block">
+              <div>
+                <div class="title">TAYSAN SENIOR<br/>HIGH SCHOOL</div>
+                <div class="meta">
+                  SCHOOL ID - {{ $profile->school_id }}<br/>
+                  BRGY. MAHANADIONG, TAYSAN, BATANGAS
+                </div>
+              </div>
+            </div>
         </div>
       </div>
 

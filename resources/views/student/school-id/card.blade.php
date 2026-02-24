@@ -138,8 +138,8 @@ body{
 .front .brand{
   position:absolute;
   top:10px;
-  left:12px;
-  right:80px; /* leave space for seal */
+  left:18px;
+  right:70px; /* leave space for seal */
   z-index:5;
   font-family:Montserrat, Arial, sans-serif;
 }
@@ -161,7 +161,19 @@ body{
   height:1px;
   background:var(--dark);
   width:60%;
-  margin-bottom:2px;
+}
+
+.front .brand .vertline{
+  width:1px;
+  background:var(--dark);
+  align-self:stretch;
+  flex-shrink:0;
+  margin-right:5px;
+}
+
+.front .brand .text-block{
+  display:flex;
+  align-items:stretch;
 }
 
 .front .brand .title{
@@ -169,13 +181,14 @@ body{
   letter-spacing:1px;
   color:var(--mid);
   font-size:10px;
-  line-height:1.05;
+  line-height:0.9;
   width:100%;
   text-transform:uppercase;
+  margin-top: 1px;
 }
 .front .brand .meta{
   margin-top:1px;
-  font-size:5px;
+  font-size:4px;
   letter-spacing:.6px;
   color:#0f172a;
   text-transform:uppercase;
@@ -187,8 +200,8 @@ body{
   position:absolute;
   top:8px;
   right:1px;
-  width:78px;
-  height:78px;
+  width:72px;
+  height:72px;
   z-index:6;
 }
 .front .seal img{
@@ -458,10 +471,15 @@ body{
       <div class="brand">
         <div class="dots3"><span></span><span></span><span></span></div>
         <div class="topline"></div>
-        <div class="title">TAYSAN SENIOR<br/>HIGH SCHOOL</div>
-        <div class="meta">
-          SCHOOL ID - {{ $profile->school_id }}<br/>
-          BRGY. MAHANADIONG, TAYSAN, BATANGAS
+        <div class="text-block">
+          <div class="vertline"></div>
+          <div>
+            <div class="title">TAYSAN SENIOR<br/>HIGH SCHOOL</div>
+            <div class="meta">
+              SCHOOL ID - {{ $profile->school_id }}<br/>
+              BRGY. MAHANADIONG, TAYSAN, BATANGAS
+            </div>
+          </div>
         </div>
       </div>
 

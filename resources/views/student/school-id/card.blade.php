@@ -148,6 +148,7 @@ body{
   display:flex;
   gap:2px;
   margin-bottom:2px;
+  margin-left: 2px;
   margin-top: 11px;
 }
 .front .brand .dots3 span{
@@ -173,8 +174,8 @@ body{
   text-transform:uppercase;
 }
 .front .brand .meta{
-  margin-top:6px;
-  font-size:9px;
+  margin-top:1px;
+  font-size:5px;
   letter-spacing:.6px;
   color:#0f172a;
   text-transform:uppercase;

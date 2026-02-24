@@ -285,10 +285,10 @@ body{
   position:absolute;
   left:50%;
   transform:translateX(-50%);
-  top:110px;
-  width:78%;
-  height:52%;
-  z-index:6;
+  top:50px;
+  width:70%;
+  height:70%;
+  z-index:1;
   display:flex;
   align-items:flex-end;
   justify-content:center;

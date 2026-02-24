@@ -100,16 +100,32 @@ body{
   z-index:1;
 }
 
-/* dotted overlay similar to sample */
+/* dotted overlay - white-ish above dark backgrounds */
 .front .dots{
   position:absolute;
+  margin-top: 30px;
   inset:0;
   z-index:1;
-  opacity:.35;
-  background-image: radial-gradient(#ffffff 1px, transparent 1px);
+  opacity:.55;
+  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px);
   background-size: 10px 10px;
   pointer-events:none;
-  mix-blend-mode:soft-light;
+  mix-blend-mode:screen;
+  /* filter:blur(0.6px); */
+}
+
+/* dotted overlay - grayish above white backgrounds */
+.front .dots-dark{
+  position:absolute;
+  margin-top: 30px;
+  inset:0;
+  z-index:1;
+  opacity:.25;
+  background-image: radial-gradient(#888888 0.5px, transparent 0.5px);
+  background-size: 10px 10px;
+  pointer-events:none;
+  mix-blend-mode:multiply;
+  /* filter:blur(0.6px); */
 }
 
 /* small top-right corner accent */
@@ -529,6 +545,7 @@ body{
     <!-- FRONT -->
     <div class="id front">
       <div class="dots"></div>
+      <div class="dots-dark"></div>
       <div class="corner-tr"></div>
       <div class="accent-band"></div>
       <div class="accent-line"></div>

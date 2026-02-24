@@ -35,17 +35,21 @@ class TechnicalAdminController extends Controller
             });
         }
 
-        if ($request->has('action')) {
+        if ($request->filled('action')) {
             $query->where('action', $request->action);
         }
 
-        if ($request->has('user_id')) {
+        if ($request->filled('user_id')) {
             $query->where('user_id', $request->user_id);
         }
 
-        // Date from filter
+        // Date range filter
         if ($request->filled('date_from')) {
             $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
         }
 
         $logs = $query->paginate(50)->withQueryString();

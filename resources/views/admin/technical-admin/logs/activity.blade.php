@@ -10,7 +10,7 @@
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-gray-900">Filter Records</h3>
         </div>
-        <form method="GET" action="{{ route('admin.audit.activity') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <form method="GET" action="{{ route('admin.audit.activity') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
                 <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
                 <input type="text" id="search" name="search" value="{{ request('search') }}" 
@@ -42,6 +42,12 @@
                        class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
+            <div>
+                <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Date To</label>
+                <input type="date" id="date_to" name="date_to" value="{{ request('date_to') }}" 
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            </div>
+
             <div class="flex items-end gap-2">
                 <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
                     Apply Filters
@@ -70,7 +76,7 @@
                     @forelse($logs as $log)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ $log->created_at->format('M d, Y g:i A') }}
+                                {{ $log->created_at->format('M d, Y h:i A') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-gray-900">{{ $log->user->full_name ?? 'System' }}</div>
@@ -99,8 +105,8 @@
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center text-gray-600">
-                                @if(request()->hasAny(['search', 'action']))
-                                    No activity logs found matching your search criteria.
+                                @if(request()->hasAny(['search', 'action', 'date_from', 'date_to']))
+                                    No activity logs found matching your filter criteria.
                                 @else
                                     No activity logs found.
                                 @endif

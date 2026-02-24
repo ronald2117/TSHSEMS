@@ -79,9 +79,9 @@ body{
   content:"";
   position:absolute;
   left:-25%;
-  top:40%;
+  top:35%;
   width:160%;
-  height:42%;
+  height:35%;
   background:var(--dark);
   transform:rotate(25deg);
   z-index:0;
@@ -151,7 +151,7 @@ body{
   position:absolute;
   top:10px;
   left:18px;
-  right:70px; /* leave space for seal */
+  right:0;
   bottom: 1px;
   z-index:5;
   font-family:Montserrat, Arial, sans-serif;
@@ -180,6 +180,7 @@ body{
   display:flex;
   align-items:stretch;
   height:100%;
+  margin-right: 20px;
 }
 
 .vertlines{
@@ -205,7 +206,7 @@ body{
 }
 
 .lightvertline{
-  background:var(--lite);
+  background:white;
   height:25%;
 }
 
@@ -217,6 +218,37 @@ body{
 .front .brand .text-block{
   display:flex;
   align-items:stretch;
+  flex:1;
+}
+
+.vertlines-right{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
+  margin-left:auto;
+  margin-top:30%;
+  margin-right:5px;
+  flex-shrink:0;
+  width:1px;
+}
+
+.vertlines-right .dark-vertline1{
+  background:var(--dark);
+  height:25%;
+  width:1px;
+}
+
+.vertlines-right .lightvertline{
+  background:white;
+  height:15%;
+  width:1px;
+}
+
+.vertlines-right .dark-vertline2{
+  background:var(--dark);
+  height:50%;
+  width:1px;
 }
 
 .front .brand .title{
@@ -243,8 +275,8 @@ body{
   position:absolute;
   top:8px;
   right:1px;
-  width:72px;
-  height:72px;
+  width:65px;
+  height:65px;
   z-index:6;
 }
 .front .seal img{
@@ -268,17 +300,6 @@ body{
   z-index:7;
   opacity:.9;
 }
-
-/* decorative vertical bars similar to sample */
-.front .vbar{
-  position:absolute;
-  width:2px;
-  background:#ffffff;
-  opacity:.65;
-  z-index:2;
-}
-.front .vbar.left{ left:16px; top:34%; height:34%; }
-.front .vbar.right{ right:16px; top:34%; height:34%; }
 
 /* Photo */
 .front .photo-area{
@@ -529,6 +550,11 @@ body{
                   BRGY. MAHANADIONG, TAYSAN, BATANGAS
                 </div>
               </div>
+            </div>
+            <div class="vertlines-right">
+                <div class="dark-vertline1"></div>
+                <div class="lightvertline"></div>
+                <div class="dark-vertline2"></div>
             </div>
         </div>
       </div>

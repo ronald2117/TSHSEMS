@@ -534,7 +534,7 @@ body{
 
 .back .side-code{
   top:85%;
-  font-size:8px;
+  font-size:7px;
 }
 
 /* PRINT */

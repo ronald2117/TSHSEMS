@@ -140,6 +140,7 @@
                 Please upload both your ID photo and signature to generate your school ID card.
             </p>
         </div>
+        <div></div>
     @endif
 </div>
 @endsection

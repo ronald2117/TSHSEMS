@@ -244,17 +244,17 @@ body{
 
 .dark-vertline1{
   background:var(--dark);
-  height:25%;
+  height:20%;
 }
 
 .lightvertline{
   background:white;
-  height:25%;
+  height:15%;
 }
 
 .dark-vertline2{
   background:var(--dark);
-  height:50%;
+  height:65%;
 }
 
 .front .brand .text-block{
@@ -277,7 +277,7 @@ body{
 
 .vertlines-right .dark-vertline1{
   background:var(--dark);
-  height:25%;
+  height:28%;
   width:1px;
 }
 
@@ -289,7 +289,7 @@ body{
 
 .vertlines-right .dark-vertline2{
   background:var(--dark);
-  height:50%;
+  height:40%;
   width:1px;
 }
 
@@ -330,14 +330,13 @@ body{
 /* Side vertical code (right edge) */
 .side-code{
   position:absolute;
-  right:6px;
-  top:44%;
+  right:3px;
+  top:39%;
   transform:translateY(-50%) rotate(180deg);
   writing-mode:vertical-rl;
   font-family:Montserrat, Arial, sans-serif;
   font-weight:700;
-  font-size:12px;
-  letter-spacing:2px;
+  font-size:6px;
   color:#0f172a;
   z-index:7;
   opacity:.9;
@@ -398,6 +397,7 @@ body{
   font-size:6px;
   color:#fff;
   margin-right: 50px;
+  text-shadow:1px 1px 0 rgba(0,0,0,.7);
 }
 
 /* Signature bottom-right */
@@ -432,51 +432,42 @@ body{
   color:#111827;
 }
 
-/* subtle inner border like the sample */
-.back .inner{
-  border:1.5px solid #9ca3af;
-  border-radius:2mm;
-  padding:12px;
-  height:100%;
-}
 
 .back .em-title{
   font-style:italic;
   text-transform:uppercase;
   text-align:center;
-  font-size:11px;
-  letter-spacing:.8px;
+  font-size:6px;
   margin-bottom:10px;
   font-family:Montserrat, Arial, sans-serif;
 }
 
 .back .em-box{
-  border:1.5px solid #9ca3af;
-  padding:12px 10px;
+  border:1px solid #9ca3af;
+  margin: 5px;
+  padding:6px 2px;
   text-align:center;
-  margin-bottom:14px;
 }
 
 .back .em-box .em-name{
-  font-weight:900;
+  font-weight:800;
   font-family:Montserrat, Arial, sans-serif;
   text-transform:uppercase;
-  font-size:16px;
+  font-size:10px;
   line-height:1.1;
 }
 .back .em-box .em-contact{
-  margin-top:8px;
-  font-weight:900;
+  margin-top:4px;
+  font-weight:800;
   font-family:Montserrat, Arial, sans-serif;
-  font-size:18px;
+  font-size:10px;
   letter-spacing:1px;
 }
 .back .em-box .em-addr{
-  margin-top:6px;
-  font-weight:900;
+  font-weight:800;
   font-family:Montserrat, Arial, sans-serif;
   text-transform:uppercase;
-  font-size:14px;
+  font-size:10px;
   line-height:1.15;
 }
 
@@ -484,38 +475,37 @@ body{
   text-align:center;
   font-family:Montserrat, Arial, sans-serif;
   text-transform:uppercase;
-  font-size:12px;
-  letter-spacing:.8px;
-  margin:10px 0 12px;
+  font-size:6px;
+  margin:3px 0 12px;
 }
 
 .back .years{
   text-align:center;
   font-family:Montserrat, Arial, sans-serif;
-  font-weight:900;
-  font-size:18px;
+  font-weight:800;
+  font-size:10px;
   letter-spacing:1px;
   line-height:1.9;
-  margin-bottom:10px;
+  margin-bottom:5px;
 }
 
 .back .important{
   text-align:center;
   font-family:Montserrat, Arial, sans-serif;
-  font-weight:900;
-  font-size:16px;
-  margin:6px 0 10px;
+  font-weight:800;
+  font-size:10px;
+  margin-bottom:5px;
   text-transform:uppercase;
 }
 
 .back ul.notes{
   margin:0;
   padding-left:18px;
-  font-size:12px;
+  font-size:8px;
   line-height:1.35;
   color:#111827;
 }
-.back ul.notes li{ margin-bottom:8px; }
+.back ul.notes li{ margin-bottom:1px; }
 
 .back .principal{
   position:absolute;
@@ -533,18 +523,18 @@ body{
   margin:0 auto 6px;
 }
 .back .principal .pname{
-  font-weight:900;
-  font-size:16px;
+  font-weight:800;
+  font-size:8px;
   text-transform:uppercase;
 }
 .back .principal .ptitle{
   font-weight:800;
-  font-size:14px;
+  font-size:8px;
 }
 
 .back .side-code{
-  top:62%;
-  font-size:12px;
+  top:85%;
+  font-size:8px;
 }
 
 /* PRINT */
@@ -642,10 +632,8 @@ body{
     <!-- BACK -->
     <div class="id back">
       <div class="inner">
-
-        <div class="em-title">PERSON TO BE NOTIFIED IN CASE OF EMERGENCY</div>
-
         <div class="em-box">
+        <div class="em-title">PERSON TO BE NOTIFIED IN CASE OF EMERGENCY</div>
           @if($emergencyContact)
             <div class="em-name">{{ $emergencyContact['name'] }}</div>
             <div class="em-contact">{{ $emergencyContact['contact'] }}</div>

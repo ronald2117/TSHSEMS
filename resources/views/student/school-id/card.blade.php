@@ -91,7 +91,7 @@ body{
   z-index:0;
 }
 
-/* bottom teal diagonal band */
+/* bottom left dark diagonal band */
 .front::after{
   content:"";
   position:absolute;
@@ -101,7 +101,7 @@ body{
   height:55%;
   background:var(--dark);
   transform:rotate(30deg);
-  z-index:3;
+  z-index:7;
 }
 
 /* mid color diagonal band, higher, shallower angle */
@@ -113,7 +113,7 @@ body{
   height:55%;
   background:var(--mid);
   transform:rotate(14deg);
-  z-index:3;
+  z-index:7;
 }
 
 /* dotted overlay - white-ish above dark backgrounds */
@@ -153,7 +153,7 @@ body{
   height:40px;
   background:var(--dark);
   transform:rotate(29deg);
-  z-index:4;
+  z-index:8;
 }
 
 /* extra lighter band + thin white stripe (lower-left) */
@@ -165,7 +165,7 @@ body{
   height:2.5%;
   background:var(--lite);
   transform:rotate(25deg);
-  z-index:2;
+  z-index:6;
 }
 .front .accent-band-dark{
   position:absolute;
@@ -175,7 +175,7 @@ body{
   height:2.5%;
   background:var(--dark);
   transform:rotate(25deg);
-  z-index:3;
+  z-index:8;
 }
 .front .accent-line{
   position:absolute;
@@ -185,7 +185,7 @@ body{
   height:40%;
   background:var(--lite);
   transform:rotate(25deg);
-  z-index:2;
+  z-index:6;
 }
 
 /* Header block (top-left) */

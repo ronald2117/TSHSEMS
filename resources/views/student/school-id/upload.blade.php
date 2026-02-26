@@ -38,7 +38,7 @@
                           onsubmit="return confirm('Are you sure you want to delete this photo?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition">
+                        <button type="submit" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition cursor-pointer">
                             Delete Photo
                         </button>
                     </form>
@@ -52,7 +52,7 @@
                         Upload ID Photo
                     </label>
                     <input type="file" id="id_photo" name="id_photo" accept="image/jpeg,image/jpg,image/png" required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer file:cursor-pointer file:border-0 file:border-r file:border-gray-300 file:px-3 file:py-2 file:mr-3 file:bg-gray-50 file:text-gray-700 file:rounded-l-lg">
                     @error('id_photo')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -65,7 +65,7 @@
                     </p>
                 </div>
 
-                <button type="submit" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition cursor-pointer">
                     {{ $profile->id_photo_path ? 'Update Photo' : 'Upload Photo' }}
                 </button>
             </form>
@@ -84,7 +84,7 @@
                           onsubmit="return confirm('Are you sure you want to delete this signature?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition">
+                        <button type="submit" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition cursor-pointer">
                             Delete Signature
                         </button>
                     </form>
@@ -98,7 +98,7 @@
                         Upload Signature
                     </label>
                     <input type="file" id="signature" name="signature" accept="image/jpeg,image/jpg,image/png" required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent cursor-pointer file:cursor-pointer file:border-0 file:border-r file:border-gray-300 file:px-3 file:py-2 file:mr-3 file:bg-gray-50 file:text-gray-700 file:rounded-l-lg">
                     @error('signature')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -110,7 +110,7 @@
                     </p>
                 </div>
 
-                <button type="submit" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+                <button type="submit" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition cursor-pointer">
                     {{ $profile->signature_path ? 'Update Signature' : 'Upload Signature' }}
                 </button>
             </form>
@@ -127,7 +127,7 @@
                 Your ID card is ready! You can now view and print it.
             </p>
             <a href="{{ route('student.school-id.card') }}" 
-               class="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+               class="inline-block px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition cursor-pointer">
                 View School ID Card
             </a>
         </div>

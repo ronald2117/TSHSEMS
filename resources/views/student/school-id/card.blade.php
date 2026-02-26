@@ -25,6 +25,10 @@
   --muted: #6b7280;
 }
 
+.dark-text {
+  color: var(--dark);
+}
+
 body{
   font-family: Arial, sans-serif;
   background:#f3f4f6;
@@ -368,33 +372,31 @@ body{
 /* Name + ID + Strand (on the lower bands) */
 .front .info{
   position:absolute;
-  left:16px;
+  left:32px;
   right:16px;
-  bottom:22px;
+  bottom:20px;
   z-index:8;
   font-family:Montserrat, Arial, sans-serif;
 }
 .front .info .name{
   color:#ffffff;
-  font-weight:900;
-  font-size:20px;
+  font-weight:800;
+  font-size:12px;
   letter-spacing:1px;
   text-transform:uppercase;
   line-height:1.05;
-  text-shadow:0 2px 0 rgba(0,0,0,.25);
+  text-shadow:2px 0 0 rgba(0,0,0,.7);
 }
 .front .info .school-id{
-  margin-top:10px;
   font-weight:800;
-  font-size:16px;
+  font-size:10px;
   letter-spacing:1px;
-  color:#0b1220;
+  color:var(--dark);
 }
 .front .info .strand{
-  margin-top:6px;
   font-weight:700;
-  font-size:11px;
-  color:#0b1220;
+  font-size:7px;
+  color:#fff;
 }
 
 /* Signature bottom-right */
@@ -588,7 +590,7 @@ body{
             </div>
             <div class="text-block">
               <div>
-                <div class="title">TAYSAN SENIOR<br/>HIGH SCHOOL</div>
+                <div class="title">TAYSAN SENIOR<br/><span class="dark-text">HIGH SCHOOL</span></div>
                 <div class="meta">
                   SCHOOL ID - {{ $profile->school_id }}<br/>
                   BRGY. MAHANADIONG, TAYSAN, BATANGAS

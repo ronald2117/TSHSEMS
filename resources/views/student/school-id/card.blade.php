@@ -374,7 +374,7 @@ body{
   position:absolute;
   left:32px;
   right:16px;
-  bottom:20px;
+  bottom:30px;
   z-index:8;
   font-family:Montserrat, Arial, sans-serif;
 }
@@ -394,9 +394,10 @@ body{
   color:var(--dark);
 }
 .front .info .strand{
-  font-weight:700;
-  font-size:7px;
+  font-weight:600;
+  font-size:6px;
   color:#fff;
+  margin-right: 50px;
 }
 
 /* Signature bottom-right */

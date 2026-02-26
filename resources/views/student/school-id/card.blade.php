@@ -412,13 +412,13 @@ body{
 }
 .front .signature img{
   height:24px;
-  max-width:110px;
+  max-width:100px;
   object-fit:contain;
   display:block;
-  margin:0 auto 3px;
+  margin:0 auto;
 }
-.front .signature span{
-  font-size:9px;
+.front .signature p{
+  font-size:7px;
   font-weight:700;
 }
 
@@ -525,9 +525,9 @@ body{
   text-align:center;
   font-family:Montserrat, Arial, sans-serif;
 }
-.back .principal .sign{
-  height:28px;
-  max-width:160px;
+.back .principal .signature{
+  height:20px;
+  max-width:100px;
   object-fit:contain;
   display:block;
   margin:0 auto 6px;
@@ -635,7 +635,7 @@ body{
 
       <div class="signature">
         <img src="{{ Storage::url($profile->signature_path) }}" alt="Signature">
-        <span>Student Signature</span>
+        <p>Student Signature</p>
       </div>
     </div>
 

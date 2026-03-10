@@ -45,7 +45,7 @@
                         </div>
                         <input type="text" name="login_id" id="login_id" required
                                placeholder="Enter your email or login ID"
-                               class="cursor-pointer w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('login_id') border-red-500 @enderror"
+                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('login_id') border-red-500 @enderror"
                                value="{{ old('login_id') }}">
                     </div>
                     @error('login_id')
@@ -73,7 +73,7 @@
                         </div>
                         <input type="password" name="password" id="password" required
                                placeholder="Enter your password"
-                               class="cursor-pointer w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         <button type="button" 
                                 onclick="togglePassword()" 
                                 class="cursor-pointer absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">

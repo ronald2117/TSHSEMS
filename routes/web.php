@@ -74,13 +74,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Student Management (with Profiles)
     Route::get('students', [StudentManagementController::class, 'index'])->name('students.index');
-    Route::get('students/create', [StudentManagementController::class, 'create'])->name('students.create');
-    Route::post('students', [StudentManagementController::class, 'store'])->name('students.store');
     Route::get('students/{student}', [StudentManagementController::class, 'show'])->name('students.show');
-    Route::get('students/{student}/edit', [StudentManagementController::class, 'edit'])->name('students.edit');
-    Route::put('students/{student}', [StudentManagementController::class, 'update'])->name('students.update');
-    Route::delete('students/{student}', [StudentManagementController::class, 'destroy'])->name('students.destroy');
-    Route::post('students/{student}/toggle-status', [StudentManagementController::class, 'toggleStatus'])->name('students.toggle-status');
 
     // Teacher Management (with Profiles)
     Route::get('teachers', [TeacherManagementController::class, 'index'])->name('teachers.index');

@@ -31,7 +31,7 @@
                             First Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="first_name" value="{{ old('first_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('first_name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -44,7 +44,7 @@
                             Middle Name
                         </label>
                         <input type="text" name="middle_name" value="{{ old('middle_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
 
                     <!-- Last Name -->
@@ -53,7 +53,7 @@
                             Last Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="last_name" value="{{ old('last_name') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('last_name')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -66,7 +66,7 @@
                             Suffix (Jr., Sr., III, etc.)
                         </label>
                         <input type="text" name="suffix" value="{{ old('suffix') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                             Employee ID <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="employee_id" value="{{ old('employee_id') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono"
                                placeholder="e.g., T-2025-001"
                                required>
                         @error('employee_id')
@@ -96,7 +96,7 @@
                             Email <span class="text-red-500">*</span>
                         </label>
                         <input type="email" name="email" value="{{ old('email') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('email')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -109,7 +109,7 @@
                             Password <span class="text-red-500">*</span>
                         </label>
                         <input type="password" name="password" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                         @error('password')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -122,7 +122,7 @@
                             Confirm Password <span class="text-red-500">*</span>
                         </label>
                         <input type="password" name="password_confirmation" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                required>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
                             Department
                         </label>
                         <input type="text" name="department" value="{{ old('department') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                placeholder="e.g., Science Department, Mathematics">
                         @error('department')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -152,7 +152,7 @@
                             Specialization
                         </label>
                         <input type="text" name="specialization" value="{{ old('specialization') }}" 
-                               class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                placeholder="e.g., Biology, Calculus, English Literature">
                         @error('specialization')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

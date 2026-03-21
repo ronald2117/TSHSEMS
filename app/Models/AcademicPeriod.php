@@ -22,6 +22,11 @@ class AcademicPeriod extends Model
         return $this->belongsTo(SchoolYear::class);
     }
 
+    public function sections(): HasMany
+    {
+        return $this->hasMany(Section::class, 'school_year_id', 'school_year_id');
+    }
+
     public function classSchedules(): HasMany
     {
         return $this->hasMany(ClassSchedule::class);

@@ -104,6 +104,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('sections/{section}/edit', [AcademicStructureController::class, 'editSection'])->name('sections.edit');
     Route::put('sections/{section}', [AcademicStructureController::class, 'updateSection'])->name('sections.update');
     Route::delete('sections/{section}', [AcademicStructureController::class, 'destroySection'])->name('sections.destroy');
+    Route::post('sections/{section}/toggle-status', [AcademicStructureController::class, 'toggleSectionStatus'])->name('sections.toggle-status');
     
     // Academic Structure - Tracks
     Route::resource('tracks', TracksController::class);

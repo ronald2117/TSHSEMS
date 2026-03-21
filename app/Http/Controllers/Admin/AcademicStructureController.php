@@ -118,6 +118,21 @@ class AcademicStructureController extends Controller
         return redirect()->route('admin.sections.index')->with('success', 'Section deleted.');
     }
 
+    public function toggleSectionStatus(Section $section): RedirectResponse
+    {
+        $newStatus = !$section->is_active;
+        $section->update(['is_active' => $newStatus]);
+        
+        $statusText = $newStatus ? 'activated' : 'deactivated';
+        
+        \App\Models\ActivityLog::log(
+            'update',
+            "Section $statusText: {$section->name}"
+        );
+
+        return back()->with('success', "Section successfully $statusText.");
+    }
+
     // Strands
     public function indexStrands(): View
     {

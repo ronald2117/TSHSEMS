@@ -19,6 +19,7 @@ class Section extends Model
         'strand_id',
         'adviser_id',
         'max_students',
+        'is_active',
     ];
 
     protected function casts(): array
@@ -26,6 +27,7 @@ class Section extends Model
         return [
             'grade_level' => 'integer',
             'max_students' => 'integer',
+            'is_active' => 'boolean',
         ];
     }
 

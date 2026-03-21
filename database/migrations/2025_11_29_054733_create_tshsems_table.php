@@ -89,6 +89,7 @@ return new class extends Migration
             $table->foreignId('strand_id')->constrained();
             $table->foreignId('adviser_id')->nullable()->constrained('users');
             $table->integer('max_students')->unsigned()->default(40);
+            $table->boolean('is_active')->default(true)->comment('Toggle for archiving sections');
             $table->timestamps();
             $table->softDeletes();
 

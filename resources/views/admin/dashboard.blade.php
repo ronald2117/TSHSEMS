@@ -196,17 +196,6 @@
 
                         <!-- Registrar Actions -->
                         @if(auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin())
-                        <a href="{{ route('admin.students.create') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition group">
-                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-600 transition">
-                                <svg class="w-5 h-5 text-primary-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 text-sm">Enroll Student</h3>
-                                <p class="text-xs text-gray-600">Add new student</p>
-                            </div>
-                        </a>
 
                         <a href="{{ route('admin.grade-approval.index') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition group">
                             <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-600 transition">

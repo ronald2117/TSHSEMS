@@ -107,12 +107,12 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                    @if(str_contains($log->action, 'create')) bg-green-100 text-primary-700
-                                    @elseif(str_contains($log->action, 'update')) bg-blue-100 text-blue-700
-                                    @elseif(str_contains($log->action, 'delete')) bg-red-100 text-red-700
-                                    @elseif(str_contains($log->action, 'login')) bg-purple-100 text-purple-700
-                                    @elseif(str_contains($log->action, 'logout')) bg-gray-100 text-gray-700
-                                    @elseif(str_contains($log->action, 'approve')) bg-teal-100 text-teal-700
+                                    @if(str_contains($log->action, 'create')) text-primary-700
+                                    @elseif(str_contains($log->action, 'update')) text-blue-700
+                                    @elseif(str_contains($log->action, 'delete')) text-red-700
+                                    @elseif(str_contains($log->action, 'login')) text-purple-700
+                                    @elseif(str_contains($log->action, 'logout')) text-gray-700
+                                    @elseif(str_contains($log->action, 'approve')) text-teal-700
                                     @else bg-gray-100 text-gray-700
                                     @endif">
                                     {{ ucfirst(str_replace('_', ' ', $log->action)) }}

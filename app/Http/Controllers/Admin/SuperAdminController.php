@@ -66,7 +66,7 @@ class SuperAdminController extends Controller
                 'color' => 'red',
                 'links' => [
                     ['name' => 'System Settings', 'route' => 'admin.settings.index', 'icon' => 'cog', 'description' => 'Configure system-wide settings and preferences'],
-                    ['name' => 'Feature Toggles', 'route' => 'admin.features.index', 'icon' => 'adjustments', 'description' => 'Enable or disable system features'],
+                    // ['name' => 'Feature Toggles', 'route' => 'admin.features.index', 'icon' => 'adjustments', 'description' => 'Enable or disable system features'],
                     ['name' => 'Maintenance Mode', 'route' => 'admin.maintenance.index', 'icon' => 'exclamation', 'description' => 'Control system maintenance mode'],
                     ['name' => 'Academic Year Locking', 'route' => 'admin.year-locking.index', 'icon' => 'lock-closed', 'description' => 'Lock/unlock academic years globally'],
                 ],

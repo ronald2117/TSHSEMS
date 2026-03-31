@@ -67,8 +67,7 @@
                 <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
                     <h3 class="text-xl font-semibold text-gray-900 mb-3">How do I reset my password?</h3>
                     <p class="text-gray-600 leading-relaxed">
-                        Click "Forgot Password" on the login page and enter your registered email address. You'll receive a password reset link. 
-                        If you don't receive the email, contact the Technical Admin for assistance.
+                        Contact your administrators to reset your password.
                     </p>
                 </div>
 

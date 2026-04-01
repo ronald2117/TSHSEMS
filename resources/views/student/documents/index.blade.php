@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Document Requests')
+@section('page_title', 'My Document Requests')
+@section('page_subtitle', 'Stay updated with important notices and information.')
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">My Document Requests</h1>
+    <div class="flex justify-end items-center mb-6">
         <a href="{{ route('student.documents.create') }}" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>

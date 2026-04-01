@@ -166,9 +166,9 @@
                     <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
                         System Statistics
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.year-locking.index') }}" :active="request()->routeIs('admin.year-locking.*')" icon="lock-closed">
+                    <!-- <x-nav-link href="{{ route('admin.year-locking.index') }}" :active="request()->routeIs('admin.year-locking.*')" icon="lock-closed">
                         Academic Year Locking
-                    </x-nav-link>
+                    </x-nav-link> -->
                     <x-nav-link href="{{ route('admin.audit.activity') }}" :active="request()->routeIs('admin.audit.activity')" icon="clipboard-list">
                         Activity Logs
                     </x-nav-link>

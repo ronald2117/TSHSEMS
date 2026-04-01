@@ -1,4 +1,4 @@
-SuperAdminController@extends('layouts.app')
+@extends('layouts.app')
 
 @section('page_title', 'Edit Profile')
 @section('page_subtitle', 'Update your personal and security information')

@@ -38,8 +38,8 @@
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
-                    Apply Filters
+                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
+                    Apply
                 </button>
                 <a href="{{ route('admin.audit.grades') }}" 
                    class="cursor-pointer px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition">

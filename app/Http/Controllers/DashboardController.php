@@ -160,7 +160,7 @@ class DashboardController extends Controller
         // System status (Technical & Super Admin)
         if ($user->role === 'technical_admin' || $user->isSuperAdmin()) {
             $backupDir = storage_path('app/backups');
-            $backupFiles = collect(file_exists($backupDir) ? (glob($backupDir . '/*.{sql,sqlite}', GLOB_BRACE) ?: []) : []);
+            $backupFiles = collect(file_exists($backupDir) ? array_merge(glob($backupDir . '/*.sql') ?: [], glob($backupDir . '/*.sqlite') ?: []) : []);
                 
             if ($backupFiles->isNotEmpty()) {
                 $lastBackup = $backupFiles->map(function($file) {

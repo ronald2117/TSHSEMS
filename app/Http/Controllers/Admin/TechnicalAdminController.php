@@ -213,6 +213,9 @@ class TechnicalAdminController extends Controller
                 // Try to find mysqldump in common locations
                 $mysqldumpPaths = [
                     'mysqldump', // In PATH
+                    '/usr/bin/mysqldump',
+                    '/usr/local/bin/mysqldump',
+                    '/opt/homebrew/bin/mysqldump',
                     'C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe',
                     'C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqldump.exe',
                     'C:\xampp\mysql\bin\mysqldump.exe',
@@ -220,17 +223,25 @@ class TechnicalAdminController extends Controller
                     'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe',
                 ];
 
+                $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
                 $mysqldump = null;
+                
                 foreach ($mysqldumpPaths as $testPath) {
-                    exec("where.exe \"$testPath\" 2>nul", $testOutput, $testReturn);
-                    if ($testReturn === 0 || (strpos($testPath, ':') !== false && file_exists($testPath))) {
+                    if ($testPath === 'mysqldump') {
+                        $cmd = $isWindows ? "where.exe mysqldump 2>nul" : "which mysqldump 2>/dev/null";
+                        exec($cmd, $testOutput, $testReturn);
+                        if ($testReturn === 0) {
+                            $mysqldump = 'mysqldump';
+                            break;
+                        }
+                    } elseif (file_exists($testPath)) {
                         $mysqldump = $testPath;
                         break;
                     }
                 }
 
                 if (!$mysqldump) {
-                    return back()->withErrors(['error' => 'mysqldump not found. Please add MySQL bin directory to your PATH environment variable. Typical location: C:\Program Files\MySQL\MySQL Server 8.0\bin']);
+                    return back()->withErrors(['error' => 'mysqldump not found. Please ensure MySQL is installed and added to your system PATH.']);
                 }
 
                 // Build mysqldump command for Windows

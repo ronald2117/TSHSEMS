@@ -6,12 +6,6 @@
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Grade Audit Logs</h1>
-            <p class="text-gray-600 mt-2">Track all grade modifications for compliance and accountability</p>
-        </div>
-
         <!-- Info Alert -->
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <div class="flex">

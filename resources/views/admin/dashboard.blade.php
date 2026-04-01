@@ -12,7 +12,7 @@
     <!-- Summary Cards Row -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Total Students (Super Admin, Registrar) -->
-        @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'registrar_admin' || auth()->user()->role === 'academic_admin')
+        @if(auth()->user()->role === 'registrar_admin' || auth()->user()->role === 'academic_admin')
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
@@ -30,7 +30,7 @@
         @endif
 
         <!-- Active Teachers (Super Admin, Academic) -->
-        @if(auth()->user()->isSuperAdmin() || auth()->user()->role === 'academic_admin')
+        @if(auth()->user()->role === 'academic_admin')
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
@@ -48,7 +48,7 @@
         @endif
 
         <!-- Pending Grade Approvals (Registrar) -->
-        @if((auth()->user()->role === 'registrar_admin' || auth()->user()->isSuperAdmin()) && isset($pendingGrades))
+        @if((auth()->user()->role === 'registrar_admin') && isset($pendingGrades))
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div class="flex items-center justify-between">
                 <div>
@@ -59,6 +59,38 @@
                 <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Approved Grades (Registrar) -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Approved Grades</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($approvedGrades) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Total approved</p>
+                </div>
+                <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Document Requests (Registrar) -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Document Requests</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($pendingDocuments) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Pending requests</p>
+                </div>
+                <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                 </div>
             </div>
@@ -81,6 +113,22 @@
                 </div>
             </div>
         </div>
+
+        <!-- Total Sections (Academic) -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Total Sections</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($totalSections) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Active sections</p>
+                </div>
+                <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
         @endif
 
         <!-- System Status (Technical, Super Admin) -->
@@ -99,6 +147,54 @@
                 <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total System Users (Technical, Super Admin) -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Total System Users</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($totalSystemUsers) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">All user accounts</p>
+                </div>
+                <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Logs Today (Technical, Super Admin) -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Activity Logs Today</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($activityLogsToday) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">System activities logged</p>
+                </div>
+                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Backups (Technical, Super Admin) -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600 font-medium">Total Backups</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ number_format($totalBackups) }}</p>
+                    <p class="text-xs text-gray-500 mt-1">Database backup files</p>
+                </div>
+                <div class="w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
                     </svg>
                 </div>
             </div>
@@ -251,7 +347,7 @@
                             </div>
                         </a>
 
-                        <a href="{{ route('admin.logs.activity') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition group">
+                        <a href="{{ route('admin.audit.activity') }}" class="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:shadow-md transition group">
                             <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-orange-600 transition">
                                 <svg class="w-5 h-5 text-orange-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>

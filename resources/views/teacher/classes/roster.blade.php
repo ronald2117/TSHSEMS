@@ -139,7 +139,7 @@
                     <td style="text-align: center;">{{ $index + 1 }}</td>
                     <td>{{ $enrollment->student->studentProfile->lrn ?? 'N/A' }}</td>
                     <td>{{ $enrollment->student->full_name }}</td>
-                    <td></td>
+                    <td style="text-align: center;">{{ $enrollment->student->studentProfile->gender ? strtoupper(substr($enrollment->student->studentProfile->gender, 0, 1)) : '-' }}</td>
                     <td></td>
                 </tr>
             @endforeach

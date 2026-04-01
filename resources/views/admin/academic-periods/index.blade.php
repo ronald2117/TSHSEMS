@@ -68,7 +68,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <div class="flex items-center justify-center space-x-3">
+                                <div class="flex items-center justify-center">
                                     <a href="{{ route('admin.academic-periods.show', $period) }}" 
                                        class="text-gray-600 hover:text-gray-700 transition" 
                                        title="View Details">

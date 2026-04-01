@@ -54,8 +54,8 @@ class SuperAdminController extends Controller
                 'links' => [
                     ['name' => 'User Management', 'route' => 'admin.users.index', 'icon' => 'users', 'description' => 'Manage all user accounts'],
                     ['name' => 'Database Backups', 'route' => 'admin.backups.index', 'icon' => 'database', 'description' => 'Create and manage database backups'],
-                    ['name' => 'Activity Logs', 'route' => 'admin.logs.activity', 'icon' => 'clipboard-list', 'description' => 'View system activity logs'],
-                    ['name' => 'Grade Audit Logs', 'route' => 'admin.logs.grades', 'icon' => 'chart-bar', 'description' => 'View grade modification audit trail'],
+                    ['name' => 'Activity Logs', 'route' => 'admin.audit.activity', 'icon' => 'clipboard-list', 'description' => 'View system activity logs'],
+                    ['name' => 'Grade Audit Logs', 'route' => 'admin.audit.grades', 'icon' => 'chart-bar', 'description' => 'View grade modification audit trail'],
                     ['name' => 'System Statistics', 'route' => 'admin.system.stats', 'icon' => 'chart-square-bar', 'description' => 'View system statistics and metrics'],
                 ],
             ],

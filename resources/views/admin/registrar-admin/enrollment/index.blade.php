@@ -5,7 +5,7 @@
 @section('page_subtitle', 'Manage student enrollments and section assignments' )
 
 @section('content')
-<div class="space-y-6">
+<div class="p-5 space-y-6">
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-xl shadow-sm p-6">
@@ -64,12 +64,6 @@
 
     <!-- Quick Actions -->
     <div class="flex gap-4">
-        <a href="{{ route('admin.enrollment.bulk-import') }}" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium text-sm transition flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-            </svg>
-            Bulk Import Students
-        </a>
         <a href="{{ route('admin.enrollment.history') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium text-sm transition">
             View Enrollment History
         </a>
@@ -232,11 +226,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($student->current_section_id)
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full text-green-800">
                                         Enrolled
                                     </span>
                                 @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full text-yellow-800">
                                         Not Enrolled
                                     </span>
                                 @endif

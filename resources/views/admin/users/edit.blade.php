@@ -48,7 +48,7 @@
                         First Name *
                     </label>
                     <input type="text" name="first_name" id="first_name" required
-                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('first_name', $user->first_name) }}">
                     @error('first_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -61,7 +61,7 @@
                         Middle Name
                     </label>
                     <input type="text" name="middle_name" id="middle_name"
-                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('middle_name', $user->middle_name) }}">
                     @error('middle_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -74,7 +74,7 @@
                         Last Name *
                     </label>
                     <input type="text" name="last_name" id="last_name" required
-                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('last_name', $user->last_name) }}">
                     @error('last_name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -87,7 +87,7 @@
                         Suffix
                     </label>
                     <input type="text" name="suffix" id="suffix"
-                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                            value="{{ old('suffix', $user->suffix) }}"
                            placeholder="Jr., Sr., III, etc.">
                     @error('suffix')
@@ -102,7 +102,7 @@
                     Email Address *
                 </label>
                 <input type="email" name="email" id="email" required
-                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                        value="{{ old('email', $user->email) }}">
                 @error('email')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -115,7 +115,7 @@
                     Login ID (Optional)
                 </label>
                 <input type="text" name="login_id" id="login_id"
-                       class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                        value="{{ old('login_id', $user->login_id) }}">
                 <p class="text-xs text-gray-500 mt-1">e.g., T-2025-001 or ACAD001</p>
                 @error('login_id')
@@ -139,7 +139,7 @@
                 <h3 class="text-sm font-medium text-gray-700 mb-4">Change Password (Optional)</h3>
                 <div>
                     <input type="password" name="password" id="password"
-                           class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                     <p class="text-xs text-gray-500 mt-1">Leave blank to keep current password. Minimum 8 characters if changing.</p>
                     @error('password')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -149,10 +149,10 @@
 
             <!-- Buttons -->
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                <a href="{{ route('admin.users.show', $user) }}" class="text-gray-600 hover:text-gray-700 font-medium">
+                <a href="{{ route('admin.users.show', $user) }}" class="cursor-pointer text-gray-600 hover:text-gray-700 font-medium">
                     Cancel
                 </a>
-                <button type="submit" class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-medium transition">
+                <button type="submit" class="cursor-pointer bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition">
                     Update User
                 </button>
             </div>

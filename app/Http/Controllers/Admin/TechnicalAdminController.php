@@ -35,12 +35,21 @@ class TechnicalAdminController extends Controller
             });
         }
 
-        if ($request->has('action')) {
+        if ($request->filled('action')) {
             $query->where('action', $request->action);
         }
 
-        if ($request->has('user_id')) {
+        if ($request->filled('user_id')) {
             $query->where('user_id', $request->user_id);
+        }
+
+        // Date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
         }
 
         $logs = $query->paginate(50)->withQueryString();
@@ -56,15 +65,67 @@ class TechnicalAdminController extends Controller
         $query = GradeAuditLog::with(['quarterlyGrade.student.studentProfile', 'user'])
             ->latest();
 
-        if ($request->has('student_id')) {
+        // Search filter - student name or ID
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->whereHas('quarterlyGrade.student', function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('middle_name', 'like', "%{$search}%")
+                  ->orWhereHas('studentProfile', function ($profileQuery) use ($search) {
+                      $profileQuery->where('student_id', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Changed by filter - user who made the change
+        if ($request->filled('changed_by')) {
+            $changedBy = $request->changed_by;
+            $query->whereHas('user', function ($q) use ($changedBy) {
+                $q->where('first_name', 'like', "%{$changedBy}%")
+                  ->orWhere('last_name', 'like', "%{$changedBy}%")
+                  ->orWhere('middle_name', 'like', "%{$changedBy}%");
+            });
+        }
+
+        // Date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Legacy student_id filter (keep for backward compatibility)
+        if ($request->filled('student_id')) {
             $query->whereHas('quarterlyGrade', function ($q) use ($request) {
                 $q->where('student_id', $request->student_id);
             });
         }
 
-        $logs = $query->paginate(50);
+        $logs = $query->paginate(50)->withQueryString();
 
         return view('admin.technical-admin.logs.grades', compact('logs'));
+    }
+
+    /**
+     * Display login logs
+     */
+    public function loginLogs()
+    {
+        $logs = \App\Models\LoginLog::with('user')
+            ->orderBy('logged_in_at', 'desc')
+            ->paginate(50);
+        
+        $stats = [
+            'total' => \App\Models\LoginLog::count(),
+            'successful' => \App\Models\LoginLog::successful()->count(),
+            'failed' => \App\Models\LoginLog::failed()->count(),
+            'today' => \App\Models\LoginLog::whereDate('logged_in_at', today())->count(),
+        ];
+        
+        return view('admin.technical-admin.logs.login', compact('logs', 'stats'));
     }
 
     /**
@@ -72,13 +133,19 @@ class TechnicalAdminController extends Controller
      */
     public function backupsIndex()
     {
-        $backups = collect(Storage::disk('local')->files('backups'))
+        $backupDir = storage_path('app/backups');
+
+        if (!file_exists($backupDir)) {
+            mkdir($backupDir, 0755, true);
+        }
+
+        $backups = collect(glob($backupDir . '/*.{sql,sqlite}', GLOB_BRACE) ?: [])
             ->map(function ($file) {
                 return [
                     'name' => basename($file),
                     'path' => $file,
-                    'size' => Storage::disk('local')->size($file),
-                    'date' => Storage::disk('local')->lastModified($file),
+                    'size' => filesize($file),
+                    'date' => filemtime($file),
                 ];
             })
             ->sortByDesc('date')
@@ -93,44 +160,112 @@ class TechnicalAdminController extends Controller
     public function createBackup()
     {
         try {
-            $filename = 'backup-' . now()->format('Y-m-d-His') . '.sql';
-            $path = storage_path('app/backups/' . $filename);
+            $filename = 'backup-' . now()->format('Y-m-d-His');
+            $backupDir = storage_path('app/backups');
 
             // Ensure backups directory exists
-            if (!file_exists(storage_path('app/backups'))) {
-                mkdir(storage_path('app/backups'), 0755, true);
+            if (!file_exists($backupDir)) {
+                mkdir($backupDir, 0755, true);
             }
 
-            // Create backup using mysqldump
-            $dbHost = config('database.connections.mysql.host');
-            $dbName = config('database.connections.mysql.database');
-            $dbUser = config('database.connections.mysql.username');
-            $dbPass = config('database.connections.mysql.password');
+            $driver = config('database.default');
 
-            $command = sprintf(
-                'mysqldump -h%s -u%s -p%s %s > %s',
-                escapeshellarg($dbHost),
-                escapeshellarg($dbUser),
-                escapeshellarg($dbPass),
-                escapeshellarg($dbName),
-                escapeshellarg($path)
-            );
+            if ($driver === 'sqlite') {
+                // SQLite backup: Simply copy the database file
+                $dbPath = config('database.connections.sqlite.database');
+                
+                if (!file_exists($dbPath)) {
+                    return back()->withErrors(['error' => 'Database file not found at: ' . $dbPath]);
+                }
 
-            exec($command, $output, $returnVar);
+                $backupPath = $backupDir . '/' . $filename . '.sqlite';
+                
+                if (copy($dbPath, $backupPath)) {
+                    // Log the activity
+                    ActivityLog::create([
+                        'user_id' => auth()->id(),
+                        'action' => 'database_backup',
+                        'description' => 'Created database backup: ' . basename($backupPath),
+                        'ip_address' => request()->ip(),
+                    ]);
 
-            if ($returnVar === 0) {
-                // Log the activity
-                ActivityLog::create([
-                    'user_id' => auth()->id(),
-                    'action' => 'database_backup',
-                    'description' => 'Created database backup: ' . $filename,
-                    'ip_address' => request()->ip(),
-                ]);
+                    return back()->with('success', 'Database backup created successfully');
+                } else {
+                    return back()->withErrors(['error' => 'Failed to copy database file']);
+                }
 
-                return back()->with('success', 'Database backup created successfully');
+            } elseif ($driver === 'mysql' || $driver === 'mariadb') {
+                // MySQL/MariaDB backup: Use mysqldump
+                $filename .= '.sql';
+                $path = $backupDir . '/' . $filename;
+
+                $dbHost = config("database.connections.{$driver}.host");
+                $dbName = config("database.connections.{$driver}.database");
+                $dbUser = config("database.connections.{$driver}.username");
+                $dbPass = config("database.connections.{$driver}.password");
+                $dbPort = config("database.connections.{$driver}.port", '3306');
+
+                // Try to find mysqldump in common locations
+                $mysqldumpPaths = [
+                    'mysqldump', // In PATH
+                    'C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe',
+                    'C:\Program Files\MySQL\MySQL Server 8.4\bin\mysqldump.exe',
+                    'C:\xampp\mysql\bin\mysqldump.exe',
+                    'C:\wamp64\bin\mysql\mysql8.0.31\bin\mysqldump.exe',
+                    'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysqldump.exe',
+                ];
+
+                $mysqldump = null;
+                foreach ($mysqldumpPaths as $testPath) {
+                    exec("where.exe \"$testPath\" 2>nul", $testOutput, $testReturn);
+                    if ($testReturn === 0 || (strpos($testPath, ':') !== false && file_exists($testPath))) {
+                        $mysqldump = $testPath;
+                        break;
+                    }
+                }
+
+                if (!$mysqldump) {
+                    return back()->withErrors(['error' => 'mysqldump not found. Please add MySQL bin directory to your PATH environment variable. Typical location: C:\Program Files\MySQL\MySQL Server 8.0\bin']);
+                }
+
+                // Build mysqldump command for Windows
+                $passwordPart = $dbPass ? '--password="' . addslashes($dbPass) . '"' : '';
+                
+                $command = sprintf(
+                    '"%s" --host=%s --port=%s --user=%s %s --no-tablespaces --skip-lock-tables %s > "%s" 2>&1',
+                    $mysqldump,
+                    escapeshellarg($dbHost),
+                    escapeshellarg($dbPort),
+                    escapeshellarg($dbUser),
+                    $passwordPart,
+                    escapeshellarg($dbName),
+                    $path
+                );
+
+                exec($command, $output, $returnVar);
+
+                if ($returnVar === 0 && file_exists($path) && filesize($path) > 0) {
+                    // Log the activity
+                    ActivityLog::create([
+                        'user_id' => auth()->id(),
+                        'action' => 'database_backup',
+                        'description' => 'Created database backup: ' . $filename,
+                        'ip_address' => request()->ip(),
+                    ]);
+
+                    return back()->with('success', 'Database backup created successfully');
+                } else {
+                    $errorMsg = 'Failed to create database backup.';
+                    if (!empty($output)) {
+                        $errorMsg .= ' Error: ' . implode(' ', $output);
+                    }
+                    return back()->withErrors(['error' => $errorMsg]);
+                }
+
             } else {
-                return back()->withErrors(['error' => 'Failed to create database backup']);
+                return back()->withErrors(['error' => 'Unsupported database driver: ' . $driver]);
             }
+
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Backup error: ' . $e->getMessage()]);
         }
@@ -141,10 +276,10 @@ class TechnicalAdminController extends Controller
      */
     public function downloadBackup($filename)
     {
-        $path = 'backups/' . $filename;
+        $path = storage_path('app/backups/' . $filename);
         
-        if (Storage::disk('local')->exists($path)) {
-            return Storage::disk('local')->download($path);
+        if (file_exists($path)) {
+            return response()->download($path);
         }
 
         return back()->withErrors(['error' => 'Backup file not found']);
@@ -155,10 +290,10 @@ class TechnicalAdminController extends Controller
      */
     public function deleteBackup($filename)
     {
-        $path = 'backups/' . $filename;
+        $path = storage_path('app/backups/' . $filename);
         
-        if (Storage::disk('local')->exists($path)) {
-            Storage::disk('local')->delete($path);
+        if (file_exists($path)) {
+            unlink($path);
 
             ActivityLog::create([
                 'user_id' => auth()->id(),
@@ -233,16 +368,27 @@ class TechnicalAdminController extends Controller
      */
     private function getDatabaseSize()
     {
-        $dbName = config('database.connections.mysql.database');
+        $driver = config('database.default');
         
-        $result = DB::select(
-            "SELECT SUM(data_length + index_length) as size 
-             FROM information_schema.TABLES 
-             WHERE table_schema = ?",
-            [$dbName]
-        );
+        if ($driver === 'sqlite') {
+            // For SQLite, get the file size directly
+            $dbPath = config('database.connections.sqlite.database');
+            return file_exists($dbPath) ? filesize($dbPath) : 0;
+        } elseif ($driver === 'mysql') {
+            // For MySQL, query information_schema
+            $dbName = config('database.connections.mysql.database');
+            
+            $result = DB::select(
+                "SELECT SUM(data_length + index_length) as size 
+                 FROM information_schema.TABLES 
+                 WHERE table_schema = ?",
+                [$dbName]
+            );
 
-        return $result[0]->size ?? 0;
+            return $result[0]->size ?? 0;
+        }
+        
+        return 0;
     }
 
     /**

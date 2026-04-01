@@ -42,6 +42,9 @@
                 <x-nav-link href="{{ route('student.documents.index') }}" :active="request()->routeIs('student.documents.*')" icon="document">
                     Document Requests
                 </x-nav-link>
+                <x-nav-link href="{{ route('student.school-id.upload') }}" :active="request()->routeIs('student.school-id.*')" icon="identification">
+                    School ID Card
+                </x-nav-link>
 
             @elseif(auth()->user()->isTeacher())
                 <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" icon="home">
@@ -142,9 +145,6 @@
                     <x-nav-link href="{{ route('admin.audit.activity') }}" :active="request()->routeIs('admin.audit.activity')" icon="clipboard-list">
                         Activity Logs
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.audit.login') }}" :active="request()->routeIs('admin.audit.login')" icon="shield-check">
-                        Login Logs
-                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.audit.grades') }}" :active="request()->routeIs('admin.audit.grades')" icon="chart-bar">
                         Grade Audit Logs
                     </x-nav-link>
@@ -160,10 +160,16 @@
                     <x-nav-link href="{{ route('admin.announcements.index') }}" :active="request()->routeIs('admin.announcements.*')" icon="bell">
                         Announcements
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.backups.index') }}" :active="request()->routeIs('admin.backups.*')" icon="database">
+                        Database Backups
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.system.stats') }}" :active="request()->routeIs('admin.system.stats')" icon="chart-square-bar">
+                        System Statistics
+                    </x-nav-link>
                     <x-nav-link href="{{ route('admin.year-locking.index') }}" :active="request()->routeIs('admin.year-locking.*')" icon="lock-closed">
                         Academic Year Locking
                     </x-nav-link>
-                    <x-nav-link href="{{ route('admin.logs.activity') }}" :active="request()->routeIs('admin.logs.activity')" icon="clipboard-list">
+                    <x-nav-link href="{{ route('admin.audit.activity') }}" :active="request()->routeIs('admin.audit.activity')" icon="clipboard-list">
                         Activity Logs
                     </x-nav-link>
                     <x-nav-link href="{{ route('admin.audit.grades') }}" :active="request()->routeIs('admin.audit.grades')" icon="chart-bar">

@@ -1,3 +1,14 @@
+@php
+    function formatBytes($bytes, $precision = 2) {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= (1 << (10 * $pow));
+        return round($bytes, $precision) . ' ' . $units[$pow];
+    }
+@endphp
+
 @extends('layouts.app')
 @section('page_title', 'System Statistics')
 @section('title', 'System Statistics')
@@ -57,7 +68,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600 font-medium">Database Size</p>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ \Illuminate\Support\Number::fileSize($stats['database_size']) }}</p>
+                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ formatBytes($stats['database_size']) }}</p>
                 </div>
                 <div class="bg-orange-50 rounded-full p-3">
                     <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +92,7 @@
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
                     <span class="text-gray-600">Total Used</span>
-                    <span class="text-xl font-bold text-gray-800">{{ \Illuminate\Support\Number::fileSize($stats['storage_used']) }}</span>
+                    <span class="text-xl font-bold text-gray-800">{{ formatBytes($stats['storage_used']) }}</span>
                 </div>
                 <div class="bg-gray-100 rounded-full h-3 overflow-hidden">
                     <div class="bg-green-500 h-full rounded-full" style="width: 35%"></div>
@@ -149,10 +160,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 py-1 text-xs font-medium rounded-full 
-                                @if(str_contains($activity->action, 'create')) bg-green-100 text-primary-700
-                                @elseif(str_contains($activity->action, 'update')) bg-blue-100 text-blue-700
-                                @elseif(str_contains($activity->action, 'delete')) bg-red-100 text-red-700
-                                @else bg-gray-100 text-gray-700
+                                @if(str_contains($activity->action, 'create')) text-green-700
+                                @elseif(str_contains($activity->action, 'update')) text-blue-700
+                                @elseif(str_contains($activity->action, 'delete')) text-red-700
+                                @else text-gray-700
                                 @endif">
                                 {{ ucfirst($activity->action) }}
                             </span>
@@ -186,7 +197,7 @@
 
     <!-- Action Buttons -->
     <div class="mt-6 flex justify-end space-x-4">
-        <a href="{{ route('admin.logs.activity') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center">
+        <a href="{{ route('admin.audit.activity') }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>

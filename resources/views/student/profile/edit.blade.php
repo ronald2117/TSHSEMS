@@ -1,25 +1,29 @@
 @extends('layouts.app')
 
 @section('page_title', 'Edit Profile')
-@section('page_subtitle', 'Update your personal information and settings.')
+@section('page_subtitle', 'Update your personal and security information')
+
+@section('toolbar')
+    <div class="flex items-center justify-end gap-3 w-full">
+        <a href="{{ route('student.profile.index') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Profile
+        </a>
+    </div>
+@endsection
 
 @section('content')
-<div class="space-y-6 max-w-4xl">
-    <!-- Page Header -->
-    <div class="flex items-center gap-4">
-        <a href="{{ route('student.profile.index') }}" class="p-2 hover:bg-gray-100 rounded-lg transition">
-            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-            </svg>
-        </a>
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Edit Profile</h1>
-            <p class="text-sm text-gray-600 mt-1">Update your personal information</p>
+<div class="p-6 max-w-4xl">
+    @if(session('success'))
+        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+            {{ session('success') }}
         </div>
-    </div>
+    @endif
 
     @if($errors->any())
-        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+        <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
             <ul class="list-disc list-inside text-sm">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -61,36 +65,37 @@
         <div class="pt-6 border-t border-gray-200">
             <h2 class="text-lg font-semibold text-gray-900 mb-6">Contact Information</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                     <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" 
-                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                    <p class="text-xs text-gray-500 mt-1">Used for system notifications and communication</p>
                 </div>
-            </div>
 
-            <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                <textarea name="address" rows="3" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="House No., Street, Barangay, City, Province">{{ old('address', $student->address) }}</textarea>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <textarea name="address" rows="3" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        placeholder="House No., Street, Barangay, City, Province">{{ old('address', $student->address) }}</textarea>
+                </div>
             </div>
         </div>
 
         <div class="pt-6 border-t border-gray-200">
             <h2 class="text-lg font-semibold text-gray-900 mb-6">Guardian Information</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Guardian Name</label>
                     <input type="text" name="guardian_name" value="{{ old('guardian_name', $student->guardian_name) }}" 
-                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Guardian Contact Number</label>
                     <input type="text" name="guardian_contact" value="{{ old('guardian_contact', $student->guardian_contact) }}" 
-                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         placeholder="+63 XXX XXX XXXX">
                 </div>
             </div>
@@ -107,52 +112,60 @@
     </form>
 
     <!-- Change Password Form -->
-    <form action="{{ route('student.profile.password') }}" method="POST" class="bg-white rounded-xl shadow-sm p-6 space-y-6">
+    <form action="{{ route('student.profile.password') }}" method="POST" class="bg-white rounded-xl shadow-sm p-6 space-y-6 mt-6">
         @csrf
         @method('PUT')
 
-        <h2 class="text-lg font-semibold text-gray-900">Change Password</h2>
-        <p class="text-sm text-gray-600">Update your password to keep your account secure</p>
+        <h2 class="text-lg font-semibold text-gray-900">Change Password (Optional)</h2>
+        <p class="text-sm text-gray-600">Leave blank if you don't want to change your password</p>
 
         <div class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Current Password *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
                 <input type="password" name="current_password" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">New Password *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
                 <input type="password" name="password" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
-                    required minlength="8">
-                <p class="text-xs text-gray-500 mt-1">Minimum 8 characters</p>
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    minlength="8">
+                <p class="text-xs text-gray-500 mt-1">Minimum 8 characters if changing</p>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
                 <input type="password" name="password_confirmation" 
-                    class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
-                    required minlength="8">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" 
+                    minlength="8">
             </div>
         </div>
 
         <button type="submit" class="cursor-pointer px-6 py-2.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium transition">
             Update Password
         </button>
+
+        <p class="text-xs text-gray-500">
+            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            If you forgot your password, contact Technical Admin for assistance.
+        </p>
     </form>
 </div>
 
 <script>
 function previewAvatar(event) {
     const file = event.target.files[0];
-    const avatarPreview = document.getElementById('avatar-preview');
+    const preview = document.getElementById('avatar-preview');
     
-    if (file && avatarPreview) {
+    if (file && file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Profile Photo" class="w-24 h-24 rounded-full object-cover border-4 border-gray-200">`;
-        }
+            preview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview">`;
+            preview.classList.remove('bg-green-600');
+        };
         reader.readAsDataURL(file);
     }
 }

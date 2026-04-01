@@ -100,7 +100,7 @@
                                     @else
                                         <button type="submit" 
                                                 onclick="return confirm('Are you sure you want to lock this academic year? This will prevent all modifications to grades and enrollments.')"
-                                                class="px-4 py-2 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-colors">
+                                                class="cursor-pointer px-4 py-2 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition-colors">
                                             <x-icon name="lock-closed" class="w-4 h-4 inline mr-1" />
                                             Lock Year
                                         </button>

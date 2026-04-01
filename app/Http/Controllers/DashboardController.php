@@ -145,6 +145,8 @@ class DashboardController extends Controller
         // Pending grade approvals (Registrar & Super Admin)
         if ($user->role === 'registrar_admin' || $user->isSuperAdmin()) {
             $data['pendingGrades'] = QuarterlyGrade::where('status', 'Submitted')->count();
+            $data['approvedGrades'] = QuarterlyGrade::where('status', 'Approved')->count();
+            $data['pendingDocuments'] = \App\Models\DocumentRequest::where('status', 'Pending')->count();
         }
 
         // Attendance today (Academic & Super Admin)
@@ -152,20 +154,28 @@ class DashboardController extends Controller
             $todayAttendance = Attendance::whereDate('date', today())->count();
             $totalExpected = StudentProfile::whereHas('currentSection')->count();
             $data['attendanceToday'] = $totalExpected > 0 ? round(($todayAttendance / $totalExpected) * 100, 1) : 0;
+            $data['totalSections'] = \App\Models\Section::count();
         }
 
         // System status (Technical & Super Admin)
         if ($user->role === 'technical_admin' || $user->isSuperAdmin()) {
-            $backupFiles = \Storage::disk('local')->files('backups');
-            if (!empty($backupFiles)) {
-                $lastBackup = collect($backupFiles)->map(function($file) {
-                    return \Storage::disk('local')->lastModified($file);
+            $backupDir = storage_path('app/backups');
+            $backupFiles = collect(file_exists($backupDir) ? (glob($backupDir . '/*.{sql,sqlite}', GLOB_BRACE) ?: []) : []);
+                
+            if ($backupFiles->isNotEmpty()) {
+                $lastBackup = $backupFiles->map(function($file) {
+                    return filemtime($file);
                 })->max();
                 $data['lastBackup'] = \Carbon\Carbon::createFromTimestamp($lastBackup);
             } else {
                 $data['lastBackup'] = null;
             }
             $data['systemStatus'] = 'operational'; // You can expand this with actual health checks
+            
+            // Additional stats for technical admin
+            $data['totalBackups'] = $backupFiles->count();
+            $data['activityLogsToday'] = \App\Models\ActivityLog::whereDate('created_at', today())->count();
+            $data['totalSystemUsers'] = User::count();
         }
 
         // Recent announcements for all admins
@@ -183,7 +193,7 @@ class DashboardController extends Controller
         ->get();
 
         // Action items based on role
-        if ($user->role === 'registrar_admin' || $user->isSuperAdmin()) {
+        if ($user->role === 'registrar_admin') {
             $data['actionItems']['grades'] = QuarterlyGrade::with(['student', 'classSchedule.subject'])
                 ->where('status', 'Submitted')
                 ->latest()
@@ -191,7 +201,7 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        if ($user->role === 'academic_admin' || $user->isSuperAdmin()) {
+        if ($user->role === 'academic_admin') {
             // Unassigned class schedules
             $data['actionItems']['unassigned'] = \App\Models\ClassSchedule::whereNull('teacher_id')
                 ->with('subject', 'section')

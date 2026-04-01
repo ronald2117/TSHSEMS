@@ -28,7 +28,7 @@
                 <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Document Type *</label>
                 <select name="type" 
                         id="type" 
-                        class="cursor-pointer w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('type') border-red-500 @enderror" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 @error('type') border-red-500 @enderror" 
                         required>
                     <option value="">Select document type</option>
                     <option value="Form 137" {{ old('type') == 'Form 137' ? 'selected' : '' }}>Form 137 (Permanent Record) - ₱50.00</option>

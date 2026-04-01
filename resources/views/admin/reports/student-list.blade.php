@@ -31,17 +31,47 @@
 
     <!-- Results -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between flex-wrap gap-4">
             <div>
                 <h2 class="text-lg font-semibold text-gray-900">Student List</h2>
                 <p class="text-sm text-gray-600">{{ $students->total() }} students found</p>
             </div>
-            <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                </svg>
-                Print
-            </button>
+            <div class="flex items-center gap-3">
+                <form method="GET" action="{{ route('admin.reports.students') }}" class="flex items-center gap-2">
+                    @if(request('section_id'))
+                        <input type="hidden" name="section_id" value="{{ request('section_id') }}">
+                    @endif
+                    @if(request('strand_id'))
+                        <input type="hidden" name="strand_id" value="{{ request('strand_id') }}">
+                    @endif
+                    <div class="relative">
+                        <input type="text" 
+                               name="search" 
+                               value="{{ request('search') }}"
+                               placeholder="Search by name, LRN, section, strand..."
+                               class="w-80 pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <svg class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
+                        Search
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('admin.reports.students', request()->except('search')) }}" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-800">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </a>
+                    @endif
+                </form>
+                <a href="{{ route('admin.reports.students.export', request()->query()) }}" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Export to Excel
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -54,7 +84,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Section</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Strand</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Grade Level</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider print:hidden">Actions</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -78,7 +108,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 Grade {{ $student->grade_level ?? 'N/A' }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center print:hidden">
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
                                 <div class="flex items-center justify-center gap-2">
                                     <a href="{{ route('admin.reports.form137', $student->id) }}" 
                                        class="text-blue-600 hover:text-blue-800 text-xs font-medium"
@@ -112,12 +142,4 @@
         @endif
     </div>
 </div>
-
-<style>
-@media print {
-    .print\:hidden {
-        display: none !important;
-    }
-}
-</style>
 @endsection

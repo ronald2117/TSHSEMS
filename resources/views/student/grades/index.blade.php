@@ -34,21 +34,24 @@
                                 <p class="font-medium text-gray-900">{{ $grade->classSchedule->subject->name }}</p>
                                 <p class="text-sm text-gray-600">{{ $grade->classSchedule->subject->type }}</p>
                             </td>
-                            <td class="px-6 py-4 text-gray-600">{{ $grade->classSchedule->section->name }}</td>
-                            <td class="px-6 py-4 text-center font-medium text-gray-900">Q{{ $grade->quarter }}</td>
+                            <td class="px-6 py-4 text-gray-900">{{ $grade->classSchedule->section->name }}</td>
+                            <td class="px-6 py-4 text-center text-gray-900">Q{{ $grade->quarter }}</td>
                             <td class="px-6 py-4 text-center">
-                                <span class="font-semibold text-lg text-primary-600">
+                                <span class="text-lg text-gray-900">
                                     {{ $grade->final_grade }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <span class="text-xs font-semibold {{ $grade->remarks === 'Passed' ? 'text-primary-600' : 'text-red-600' }}">
+                                <span class="font-semibold {{ $grade->remarks === 'Passed' ? 'text-green-600' : 'text-red-600' }}">
                                     {{ $grade->remarks }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <a href="{{ route('student.grades.show', $grade) }}" class="text-primary-600 hover:text-primary-700 font-medium text-sm">
-                                    View Details
+                                <a href="{{ route('student.grades.show', $grade) }}" class="text-gray-600 inline-flex items-center justify-center" title="View Details">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
                                 </a>
                             </td>
                         </tr>

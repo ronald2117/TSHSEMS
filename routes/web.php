@@ -29,6 +29,7 @@ use App\Http\Controllers\Student\AnnouncementController as StudentAnnouncementCo
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\ScheduleController;
 use App\Http\Controllers\Student\DocumentRequestController as StudentDocumentRequestController;
+use App\Http\Controllers\Student\SchoolIdController;
 use App\Http\Controllers\Teacher\ClassesController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
 // Super Admin & Academic Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Admin Profile
+    // Admin Profile (Self-Service - All Admin Roles)
     Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile.index');
     Route::get('profile/edit', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
@@ -80,6 +81,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Student Management (with Profiles)
     Route::get('students', [StudentManagementController::class, 'index'])->name('students.index');
+    Route::get('students/bulk-import', [StudentManagementController::class, 'bulkImportForm'])->name('students.bulk-import');
+    Route::post('students/bulk-import', [StudentManagementController::class, 'processBulkImport'])->name('students.bulk-import.process');
+    Route::get('students/create', [StudentManagementController::class, 'create'])->name('students.create');
+    Route::post('students', [StudentManagementController::class, 'store'])->name('students.store');
     Route::get('students/{student}', [StudentManagementController::class, 'show'])->name('students.show');
 
     // Teacher Management (with Profiles)
@@ -135,8 +140,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Reports & Analytics
     Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
     Route::get('reports/students', [ReportsController::class, 'studentList'])->name('reports.students');
+    Route::get('reports/students/export', [ReportsController::class, 'exportStudents'])->name('reports.students.export');
     Route::get('reports/grades', [ReportsController::class, 'gradesSummary'])->name('reports.grades');
+    Route::get('reports/grades/export', [ReportsController::class, 'exportGrades'])->name('reports.grades.export');
     Route::get('reports/attendance', [ReportsController::class, 'attendanceSummary'])->name('reports.attendance');
+    Route::get('reports/attendance/export', [ReportsController::class, 'exportAttendance'])->name('reports.attendance.export');
     Route::get('reports/form137/{student}', [ReportsController::class, 'form137'])->name('reports.form137');
     Route::get('reports/form138/{student}', [ReportsController::class, 'form138'])->name('reports.form138');
     Route::get('reports/master-list/{section}', [ReportsController::class, 'masterList'])->name('reports.master-list');
@@ -155,14 +163,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         
         // Enrollment Management
         Route::get('enrollment', [EnrollmentController::class, 'index'])->name('enrollment.index');
+        Route::get('enrollment/history', [EnrollmentController::class, 'history'])->name('enrollment.history');
+
         Route::get('enrollment/{student}/enroll', [EnrollmentController::class, 'enroll'])->name('enrollment.enroll');
         Route::post('enrollment/{student}', [EnrollmentController::class, 'processEnrollment'])->name('enrollment.process');
         Route::get('enrollment/{student}/transfer', [EnrollmentController::class, 'showTransfer'])->name('enrollment.transfer');
         Route::post('enrollment/{student}/transfer', [EnrollmentController::class, 'processTransfer'])->name('enrollment.transfer.process');
         Route::delete('enrollment/{student}/unenroll', [EnrollmentController::class, 'unenroll'])->name('enrollment.unenroll');
-        Route::get('enrollment/history', [EnrollmentController::class, 'history'])->name('enrollment.history');
-        Route::get('enrollment/bulk-import', [EnrollmentController::class, 'bulkImportForm'])->name('enrollment.bulk-import');
-        Route::post('enrollment/bulk-import', [EnrollmentController::class, 'processBulkImport'])->name('enrollment.bulk-import.process');
     });
     
     // Technical Admin Routes
@@ -173,9 +180,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('backups/{filename}/download', [TechnicalAdminController::class, 'downloadBackup'])->name('backups.download');
         Route::delete('backups/{filename}', [TechnicalAdminController::class, 'deleteBackup'])->name('backups.delete');
         
-        // Activity Logs
-        Route::get('logs/activity', [TechnicalAdminController::class, 'activityLogs'])->name('logs.activity');
-        Route::get('logs/grades', [TechnicalAdminController::class, 'gradeAuditLogs'])->name('logs.grades');
+        // Audit & Logs
+        Route::get('audit/activity', [TechnicalAdminController::class, 'activityLogs'])->name('audit.activity');
+        Route::get('audit/login', [TechnicalAdminController::class, 'loginLogs'])->name('audit.login');
+        Route::get('audit/grades', [TechnicalAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
         
         // User Management Tools
         Route::get('users/{user}/reset-password', [TechnicalAdminController::class, 'passwordResetForm'])->name('users.reset-password');
@@ -204,11 +212,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         // Academic Year Locking
         Route::get('year-locking', [SuperAdminController::class, 'yearLocking'])->name('year-locking.index');
         Route::post('year-locking/{schoolYear}/toggle', [SuperAdminController::class, 'toggleYearLock'])->name('year-locking.toggle');
-        
-        // Security & Audit Logs
-        Route::get('audit/activity', [SuperAdminController::class, 'activityLogs'])->name('audit.activity');
-        Route::get('audit/login', [SuperAdminController::class, 'loginLogs'])->name('audit.login');
-        Route::get('audit/grades', [SuperAdminController::class, 'gradeAuditLogs'])->name('audit.grades');
     });
 });
 
@@ -265,5 +268,13 @@ Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->gro
     // Document Requests
     Route::resource('documents', StudentDocumentRequestController::class)->only(['index', 'create', 'store', 'show']);
     Route::post('documents/{document}/cancel', [StudentDocumentRequestController::class, 'cancel'])->name('documents.cancel');
+    
+    // School ID Card
+    Route::get('school-id/upload', [SchoolIdController::class, 'upload'])->name('school-id.upload');
+    Route::post('school-id/photo', [SchoolIdController::class, 'storePhoto'])->name('school-id.store-photo');
+    Route::post('school-id/signature', [SchoolIdController::class, 'storeSignature'])->name('school-id.store-signature');
+    Route::delete('school-id/photo', [SchoolIdController::class, 'deletePhoto'])->name('school-id.delete-photo');
+    Route::delete('school-id/signature', [SchoolIdController::class, 'deleteSignature'])->name('school-id.delete-signature');
+    Route::get('school-id/card', [SchoolIdController::class, 'show'])->name('school-id.card');
 });
 

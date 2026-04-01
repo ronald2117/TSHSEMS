@@ -4,7 +4,8 @@
 @section('page_subtitle', 'View your class schedule and timetable.')
 
 @section('content')
-<div class="space-y-6">
+<div class="p-5 space-y-6">
+
     <!-- Weekly Schedule -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">

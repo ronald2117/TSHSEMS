@@ -6,11 +6,6 @@
 @section('content')
 <div class="min-h-screen bg-slate-50 p-6">
     <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-900">Maintenance Mode</h1>
-            <p class="text-gray-600 mt-2">Control system maintenance mode and accessibility</p>
-        </div>
 
         <!-- Success Message -->
         @if(session('success'))
@@ -34,7 +29,7 @@
                 <form method="POST" action="{{ route('admin.maintenance.toggle') }}">
                     @csrf
                     <button type="submit" 
-                            class="px-6 py-3 {{ $maintenanceMode ? 'bg-primary-600 hover:bg-primary-700' : 'bg-orange-600 hover:bg-orange-700' }} text-white font-semibold rounded-lg transition-colors">
+                            class="cursor-pointer px-6 py-3 {{ $maintenanceMode ? 'bg-green-600 hover:bg-green-700' : 'bg-orange-600 hover:bg-orange-700' }} text-white font-semibold rounded-lg transition-colors">
                         {{ $maintenanceMode ? 'Disable Maintenance Mode' : 'Enable Maintenance Mode' }}
                     </button>
                 </form>
@@ -67,7 +62,7 @@
                 
                 <div class="pt-4">
                     <button type="submit" 
-                            class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                            class="cursor-pointer px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                         Save Settings
                     </button>
                 </div>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class AcademicPeriod extends Model
 {
@@ -30,6 +31,21 @@ class AcademicPeriod extends Model
     public function classSchedules(): HasMany
     {
         return $this->hasMany(ClassSchedule::class);
+    }
+
+    /**
+     * Get sections that have class schedules in this academic period
+     */
+    public function sections()
+    {
+        return $this->hasManyThrough(
+            Section::class,
+            ClassSchedule::class,
+            'academic_period_id', // Foreign key on class_schedules table
+            'id', // Foreign key on sections table
+            'id', // Local key on academic_periods table
+            'section_id' // Local key on class_schedules table
+        )->distinct();
     }
 
     public function enrollmentHistory(): HasMany

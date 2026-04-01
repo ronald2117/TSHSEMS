@@ -138,10 +138,21 @@
 
 <style>
 @media print {
+    body, html { margin: 0 !important; padding: 0 !important; }
+    /* Hide layout components */
+    aside, nav, .sidebar, header, .header { display: none !important; }
+    /* Hide non-document elements */
+    .print\:hidden, .no-print { display: none !important; }
+    /* Make main content full page */
+    main, [role="main"] { margin: 0 !important; padding: 0 !important; }
+    /* Style the page for printing */
     body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    .print\:hidden { display: none !important; }
-    .print\:shadow-none { box-shadow: none !important; }
-    .print\:p-4 { padding: 1rem !important; }
+    .p-6 { padding: 0 !important; }
+    .max-w-4xl { max-width: 100% !important; margin: 0 !important; }
+    .bg-white { background-color: white !important; box-shadow: none !important; }
+    .rounded-xl { border-radius: 0 !important; }
+    .shadow-sm { box-shadow: none !important; }
+    table { width: 100% !important; border-collapse: collapse !important; }
 }
 </style>
 @endsection

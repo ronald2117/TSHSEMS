@@ -91,6 +91,13 @@
                     </div>
                     @endif
 
+                    @if($student->studentProfile && $student->studentProfile->gender)
+                    <div>
+                        <label class="text-sm font-medium text-gray-600">Sex</label>
+                        <p class="text-gray-900 mt-1">{{ $student->studentProfile->gender }}</p>
+                    </div>
+                    @endif
+
                     @if($student->studentProfile && $student->studentProfile->address)
                     <div>
                         <label class="text-sm font-medium text-gray-600">Address</label>

@@ -15,13 +15,13 @@
                 <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
                 <input type="text" id="search" name="search" value="{{ request('search') }}" 
                        placeholder="User, description, or IP..."
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
             </div>
 
             <div>
                 <label for="action" class="block text-sm font-medium text-gray-700 mb-1">Action Type</label>
                 <select id="action" name="action" 
-                        class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
                     <option value="">All Actions</option>
                     <option value="login" {{ request('action') === 'login' ? 'selected' : '' }}>Login</option>
                     <option value="logout" {{ request('action') === 'logout' ? 'selected' : '' }}>Logout</option>
@@ -39,18 +39,18 @@
             <div>
                 <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Date From</label>
                 <input type="date" id="date_from" name="date_from" value="{{ request('date_from') }}" 
-                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
             </div>
 
             <div>
                 <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Date To</label>
                 <input type="date" id="date_to" name="date_to" value="{{ request('date_to') }}" 
-                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                       class="cursor-pointer w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
-                    Apply Filters
+                <button type="submit" class="cursor-pointer flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition">
+                    Apply
                 </button>
                 <a href="{{ route('admin.audit.activity') }}" 
                    class="cursor-pointer px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition">
@@ -84,7 +84,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full 
-                                    @if(str_contains($log->action, 'create')) text-green-700
+                                    @if(str_contains($log->action, 'create')) text-primary-700
                                     @elseif(str_contains($log->action, 'update')) text-blue-700
                                     @elseif(str_contains($log->action, 'delete')) text-red-700
                                     @elseif(str_contains($log->action, 'login')) text-purple-700

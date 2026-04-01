@@ -36,7 +36,7 @@ class AcademicPeriod extends Model
     /**
      * Get sections that have class schedules in this academic period
      */
-    public function sections()
+    public function scheduledSections()
     {
         return $this->hasManyThrough(
             Section::class,

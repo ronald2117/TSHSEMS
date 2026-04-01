@@ -139,7 +139,12 @@ class TechnicalAdminController extends Controller
             mkdir($backupDir, 0755, true);
         }
 
-        $backups = collect(glob($backupDir . '/*.{sql,sqlite}', GLOB_BRACE) ?: [])
+        $files = array_merge(
+            glob($backupDir . '/*.sql') ?: [],
+            glob($backupDir . '/*.sqlite') ?: []
+        );
+
+        $backups = collect($files)
             ->map(function ($file) {
                 return [
                     'name' => basename($file),

@@ -87,6 +87,18 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
+        // Create Technical Admin
+        $technical = User::create([
+            'first_name' => 'Technical',
+            'last_name' => 'Admin',
+            'email' => 'technical@tshsems.local',
+            'login_id' => 'TECH001',
+            'password' => Hash::make('password123'),
+            'role' => 'technical_admin',
+            'is_active' => true,
+        ]);
+
+        /*
         // Create Teachers
         $teachers = [];
         $departments = ['Science Department', 'Mathematics Department', 'English Department', 'Social Studies', 'Filipino Department'];
@@ -729,5 +741,6 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
+        */
     }
 }

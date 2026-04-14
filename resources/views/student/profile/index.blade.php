@@ -5,7 +5,7 @@
 
 @section('toolbar')
     <div class="flex items-center justify-end gap-3 w-full">
-        <a href="{{ route('student.profile.edit') }}" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition">
+        <a href="{{ route('student.profile.edit') }}" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
@@ -17,7 +17,7 @@
 @section('content')
 <div class="p-6">
     @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+        <div class="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg text-green-800">
             {{ session('success') }}
         </div>
     @endif
@@ -25,7 +25,7 @@
     <!-- Profile Card -->
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
         <!-- Header Section -->
-        <div class="px-8 py-6 bg-gradient-to-r from-green-600 to-green-700">
+        <div class="px-8 py-6 bg-gradient-to-r from-primary-600 to-primary-700">
             <div class="flex items-center space-x-6">
                 @if(auth()->user()->avatar_path && file_exists(public_path('storage/' . auth()->user()->avatar_path)))
                     <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="{{ auth()->user()->full_name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">

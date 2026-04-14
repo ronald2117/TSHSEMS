@@ -36,7 +36,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-
             $table->index('last_login_at');
             $table->index(['role', 'is_active']);
         });
@@ -49,7 +48,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
-
+            $table->softDeletes();
             $table->unique('name');
             $table->unique(['start_date', 'end_date']);
         });
@@ -61,6 +60,7 @@ return new class extends Migration
             $table->string('name'); // e.g., "1st Semester"
             $table->enum('status', ['Active', 'Closed'])->default('Active');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('tracks', function (Blueprint $table) {
@@ -69,6 +69,7 @@ return new class extends Migration
             $table->string('code')->unique(); // e.g., "ACAD", "TVL"
             $table->string('description');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('strands', function (Blueprint $table) {
@@ -78,6 +79,7 @@ return new class extends Migration
             $table->string('code')->unique(); // e.g., "STEM", "ABM"
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('sections', function (Blueprint $table) {
@@ -118,6 +120,7 @@ return new class extends Migration
             $table->index('lrn');
             $table->index('school_id');
             $table->index('current_section_id');
+            $table->softDeletes();
         });
 
         Schema::create('teacher_profiles', function (Blueprint $table) {
@@ -127,6 +130,7 @@ return new class extends Migration
             $table->string('department')->nullable();
             $table->string('specialization')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // 4. SUBJECTS & SCHEDULES
@@ -152,6 +156,7 @@ return new class extends Migration
             $table->enum('semester', ['1st', '2nd'])->nullable();
             $table->boolean('is_required')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['strand_id', 'subject_id', 'grade_level']);
         });
@@ -197,6 +202,7 @@ return new class extends Migration
             $table->integer('grade_level');
             $table->string('status'); // Enrolled, Transferred Out, etc.
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // 5. GRADING ENGINE (DepEd Compliant)
@@ -209,6 +215,7 @@ return new class extends Migration
             $table->decimal('performance_weight', 3, 2); // 0.50
             $table->decimal('exam_weight', 3, 2); // 0.25
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('grade_transmutations', function (Blueprint $table) {
@@ -218,6 +225,7 @@ return new class extends Migration
             $table->decimal('max_score', 5, 2);
             $table->integer('transmuted_grade'); // 60-100
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('assessments', function (Blueprint $table) {
@@ -241,6 +249,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users');
             $table->decimal('score', 5, 2);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['student_id', 'assessment_id']);
             $table->index(['student_id', 'assessment_id']);
@@ -283,6 +292,7 @@ return new class extends Migration
             $table->string('reason');
             $table->string('ip_address')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['quarterly_grade_id', 'created_at']);
         });
@@ -297,6 +307,7 @@ return new class extends Migration
             $table->string('honors')->nullable()->comment('With Highest Honors, With High Honors, With Honors');
             $table->timestamp('computed_at');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['student_id', 'academic_period_id', 'quarter']);
             $table->index(['student_id', 'quarter']);
@@ -314,6 +325,7 @@ return new class extends Migration
             $table->string('remarks')->nullable();
             $table->foreignId('recorded_by')->nullable()->constrained('users')->comment('Teacher who recorded');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['student_id', 'class_schedule_id', 'date']);
             $table->index(['student_id', 'date']);
@@ -333,6 +345,7 @@ return new class extends Migration
             $table->timestamp('claimed_at')->nullable();
             $table->text('rejection_reason')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['student_id', 'status']);
         });
@@ -349,6 +362,7 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->boolean('is_pinned')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['target_role', 'published_at']);
         });
@@ -361,6 +375,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('ip_address')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('system_settings', function (Blueprint $table) {
@@ -371,6 +386,7 @@ return new class extends Migration
             $table->string('type')->default('string'); // 'string', 'boolean', 'integer', 'json'
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

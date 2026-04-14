@@ -97,8 +97,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'technical_admin',
             'is_active' => true,
         ]);
-
-        /*
         // Create Teachers
         $teachers = [];
         $departments = ['Science Department', 'Mathematics Department', 'English Department', 'Social Studies', 'Filipino Department'];
@@ -741,6 +739,5 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
-        */
     }
 }

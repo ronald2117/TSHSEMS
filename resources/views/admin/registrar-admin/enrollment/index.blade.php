@@ -259,10 +259,10 @@
                                             </button>
                                         </form>
                                     @endif
-                                    <a href="{{ route('admin.students.show', $student->id) }}" 
+                                    <!-- <a href="{{ route('admin.students.show', $student->id) }}" 
                                        class="px-3 py-1.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-xs font-medium cursor-pointer">
                                         View
-                                    </a>
+                                    </a> -->
                                 </div>
                             </td>
                         </tr>

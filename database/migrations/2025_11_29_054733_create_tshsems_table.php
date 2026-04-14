@@ -120,7 +120,6 @@ return new class extends Migration
             $table->index('lrn');
             $table->index('school_id');
             $table->index('current_section_id');
-            $table->softDeletes();
         });
 
         Schema::create('teacher_profiles', function (Blueprint $table) {

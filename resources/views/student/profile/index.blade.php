@@ -31,14 +31,14 @@
                     <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="{{ auth()->user()->full_name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
                 @else
                     <div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg">
-                        <span class="text-green-600 text-2xl font-bold">{{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}</span>
+                        <span class="text-primary-600 text-2xl font-bold">{{ strtoupper(substr(auth()->user()->first_name, 0, 1)) }}{{ strtoupper(substr(auth()->user()->last_name, 0, 1)) }}</span>
                     </div>
                 @endif
                 <div class="text-white">
                     <h2 class="text-2xl font-bold">{{ auth()->user()->full_name }}</h2>
-                    <p class="text-green-100 mt-1">LRN: {{ $student->lrn ?? 'N/A' }}</p>
+                    <p class="text-primary-100 mt-1">LRN: {{ $student->lrn ?? 'N/A' }}</p>
                     @if($student->currentSection)
-                        <p class="text-green-100 text-sm mt-1">{{ $student->currentSection->name }}</p>
+                        <p class="text-primary-100 text-sm mt-1">{{ $student->currentSection->name }}</p>
                     @endif
                 </div>
             </div>

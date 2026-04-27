@@ -1,4 +1,4 @@
-# TSHSEMS
+# Taysan Senior Highschool Evaluation System (TSHSEMS)
 
 A Laravel + Vite application.
 

@@ -23,13 +23,14 @@ use App\Models\Attendance;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Disable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // Disable foreign key checks for mysql
+        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         // Truncate tables in correct order (children first, parents last)
         Attendance::truncate();
@@ -51,8 +52,6 @@ class DatabaseSeeder extends Seeder
         TeacherProfile::truncate();
         User::truncate();
 
-        // Re-enable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         // Create Super Admin
         User::create([
@@ -101,7 +100,7 @@ class DatabaseSeeder extends Seeder
         $teachers = [];
         $departments = ['Science Department', 'Mathematics Department', 'English Department', 'Social Studies', 'Filipino Department'];
         $specializations = ['Biology', 'Algebra & Calculus', 'English Literature', 'Philippine History', 'Filipino Language'];
-        
+
         for ($i = 1; $i <= 5; $i++) {
             $teacher = User::create([
                 'first_name' => "Teacher",
@@ -113,13 +112,13 @@ class DatabaseSeeder extends Seeder
                 'role' => 'teacher',
                 'is_active' => true,
             ]);
-            
+
             TeacherProfile::create([
                 'user_id' => $teacher->id,
                 'department' => $departments[$i - 1],
                 'specialization' => $specializations[$i - 1],
             ]);
-            
+
             $teachers[] = $teacher;
         }
 
@@ -195,7 +194,7 @@ class DatabaseSeeder extends Seeder
 
         // Create Students with complete profiles
         $students = [];
-        $firstNames = ['Juan', 'Maria', 'Jose', 'Ana', 'Pedro', 'Rosa', 'Antonio', 'Carmen', 'Miguel', 'Elena', 
+        $firstNames = ['Juan', 'Maria', 'Jose', 'Ana', 'Pedro', 'Rosa', 'Antonio', 'Carmen', 'Miguel', 'Elena',
                        'Carlos', 'Sofia', 'Luis', 'Isabel', 'Fernando', 'Lucia', 'Rafael', 'Paula', 'Gabriel', 'Andrea',
                        'Diego', 'Valentina', 'Javier', 'Camila', 'Daniel'];
         $lastNames = ['Dela Cruz', 'Santos', 'Reyes', 'Garcia', 'Ramos', 'Mendoza', 'Torres', 'Flores', 'Gonzales', 'Rivera',
@@ -209,14 +208,14 @@ class DatabaseSeeder extends Seeder
             'Barangay Mabayabas, Taysan, Batangas',
             'Barangay San Isidro, Taysan, Batangas'
         ];
-        
+
         $sections = [$section11Diamond, $section11Ruby, $section12Diamond, $section12Ruby];
-        
+
         for ($i = 1; $i <= 25; $i++) {
             $section = $sections[($i - 1) % 4];
             $lrn = '10982390' . str_pad($i, 4, '0', STR_PAD_LEFT);
             $schoolId = '25' . str_pad($i, 4, '0', STR_PAD_LEFT); // 25 for year 2025, sequential 4-digit number
-            
+
             $student = User::create([
                 'first_name' => $firstNames[$i - 1],
                 'middle_name' => 'M.',
@@ -227,7 +226,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'student',
                 'is_active' => true,
             ]);
-            
+
             StudentProfile::create([
                 'user_id' => $student->id,
                 'lrn' => $lrn,
@@ -240,7 +239,7 @@ class DatabaseSeeder extends Seeder
                 'birthdate' => now()->subYears(rand(16, 18))->format('Y-m-d'),
                 'address' => $addresses[$i % 5],
             ]);
-            
+
             $students[] = $student;
         }
 
@@ -331,10 +330,10 @@ class DatabaseSeeder extends Seeder
         foreach ($students as $student) {
             $profile = $student->studentProfile;
             $section = $profile->currentSection;
-            
+
             // Get all class schedules for this section
             $schedules = ClassSchedule::where('section_id', $section->id)->get();
-            
+
             foreach ($schedules as $schedule) {
                 StudentSubjectEnrollment::create([
                     'student_id' => $student->id,
@@ -402,10 +401,10 @@ class DatabaseSeeder extends Seeder
 
         // Add scores for enrolled students in schedule1
         $enrolledStudents = StudentSubjectEnrollment::where('class_schedule_id', $schedule1->id)->get();
-        
+
         foreach ($enrolledStudents as $enrollment) {
             $student = $enrollment->student;
-            
+
             StudentScore::create([
                 'assessment_id' => $assessment1->id,
                 'student_id' => $student->id,
@@ -428,11 +427,11 @@ class DatabaseSeeder extends Seeder
             $writtenScore = rand(35, 50);
             $performanceScore = rand(70, 95);
             $examScore = rand(60, 95);
-            
-            $initialGrade = ($writtenScore / 50 * 100 * 0.25) + 
-                          ($performanceScore / 100 * 100 * 0.50) + 
+
+            $initialGrade = ($writtenScore / 50 * 100 * 0.25) +
+                          ($performanceScore / 100 * 100 * 0.50) +
                           ($examScore / 100 * 100 * 0.25);
-                          
+
             $finalGrade = 75 + ($initialGrade - 60) * (100 - 75) / (100 - 60); // Simple transmutation
 
             QuarterlyGrade::create([
@@ -462,7 +461,7 @@ class DatabaseSeeder extends Seeder
         // ========================================
         // COMPLETE SECTION WITH FULL ASSESSMENTS
         // ========================================
-        
+
         // Create a complete test section for Grade 11 STEM
         $completeSection = Section::create([
             'school_year_id' => $schoolYear->id,
@@ -491,7 +490,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $lrn = '10982399' . str_pad($i + 1, 4, '0', STR_PAD_LEFT);
             $schoolId = '25' . str_pad($i + 26, 4, '0', STR_PAD_LEFT); // Continue from 250026 to avoid duplicates
-            
+
             $student = User::create([
                 'first_name' => $studentNames[$i]['first'],
                 'middle_name' => 'T.',
@@ -502,7 +501,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'student',
                 'is_active' => true,
             ]);
-            
+
             StudentProfile::create([
                 'user_id' => $student->id,
                 'lrn' => $lrn,
@@ -515,7 +514,7 @@ class DatabaseSeeder extends Seeder
                 'birthdate' => now()->subYears(16)->subMonths($i)->format('Y-m-d'),
                 'address' => $addresses[$i % 5],
             ]);
-            
+
             $completeStudents[] = $student;
         }
 
@@ -553,7 +552,7 @@ class DatabaseSeeder extends Seeder
 
         // Create class schedules for each subject
         $completeSchedules = [];
-        
+
         $completeSchedules[] = ClassSchedule::create([
             'section_id' => $completeSection->id,
             'subject_id' => $generalMath->id,
@@ -701,8 +700,8 @@ class DatabaseSeeder extends Seeder
                     $examPercentage = ($qaScore / 100) * 100;
 
                     // Calculate initial grade (weighted average)
-                    $initialGrade = ($writtenAvg * 0.25) + 
-                                  ($performanceAvg * 0.50) + 
+                    $initialGrade = ($writtenAvg * 0.25) +
+                                  ($performanceAvg * 0.50) +
                                   ($examPercentage * 0.25);
 
                     // Transmute to final grade (60-100 scale)
@@ -726,7 +725,7 @@ class DatabaseSeeder extends Seeder
                 foreach ($completeStudents as $student) {
                     $startDay = ($quarter - 1) * 25;
                     for ($day = 1; $day <= 20; $day++) {
-                        $statuses = ['Present', 'Present', 'Present', 'Present', 'Present', 
+                        $statuses = ['Present', 'Present', 'Present', 'Present', 'Present',
                                    'Present', 'Present', 'Present', 'Late', 'Absent'];
                         Attendance::create([
                             'student_id' => $student->id,

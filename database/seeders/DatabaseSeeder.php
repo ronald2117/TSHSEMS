@@ -22,38 +22,11 @@ use App\Models\QuarterlyGrade;
 use App\Models\Attendance;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Disable foreign key checks so truncation order doesn't matter
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        // Truncate tables in correct order (children first, parents last)
-        Attendance::truncate();
-        StudentScore::truncate();
-        QuarterlyGrade::truncate();
-        Assessment::truncate();
-        StudentSubjectEnrollment::truncate();
-        ClassSchedule::truncate();
-        StrandSubject::truncate();
-        GradeTransmutation::truncate();
-        GradingComponent::truncate();
-        Subject::truncate();
-        Section::truncate();
-        AcademicPeriod::truncate();
-        Strand::truncate();
-        Track::truncate();
-        SchoolYear::truncate();
-        StudentProfile::truncate();
-        TeacherProfile::truncate();
-        User::truncate();
-
-        // Re-enable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
 
         // Create Super Admin

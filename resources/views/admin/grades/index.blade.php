@@ -11,6 +11,39 @@
         </div>
     @endif
 
+    {{-- Filter Tabs --}}
+    <div class="mb-4 border-b border-gray-200">
+        <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+            <a href="{{ route('admin.grade-approval.index', ['filter' => 'pending']) }}"
+               class="whitespace-nowrap pb-3 px-1 border-b-2 text-sm font-medium transition
+                      {{ $filter === 'pending' ? 'border-primary-600 text-primary-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                Pending Approval
+                <span class="ml-1.5 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                             {{ $filter === 'pending' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-600' }}">
+                    {{ $counts['pending'] }}
+                </span>
+            </a>
+            <a href="{{ route('admin.grade-approval.index', ['filter' => 'approved']) }}"
+               class="whitespace-nowrap pb-3 px-1 border-b-2 text-sm font-medium transition
+                      {{ $filter === 'approved' ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                Approved
+                <span class="ml-1.5 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                             {{ $filter === 'approved' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' }}">
+                    {{ $counts['approved'] }}
+                </span>
+            </a>
+            <a href="{{ route('admin.grade-approval.index', ['filter' => 'all']) }}"
+               class="whitespace-nowrap pb-3 px-1 border-b-2 text-sm font-medium transition
+                      {{ $filter === 'all' ? 'border-gray-800 text-gray-800' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }}">
+                All Grades
+                <span class="ml-1.5 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                             {{ $filter === 'all' ? 'bg-gray-200 text-gray-800' : 'bg-gray-100 text-gray-600' }}">
+                    {{ $counts['all'] }}
+                </span>
+            </a>
+        </nav>
+    </div>
+
     <div class="bg-white rounded-xl shadow-sm overflow-hidden">
 
         <table class="min-w-full divide-y divide-gray-200">
@@ -21,7 +54,9 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quarter</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Final Grade</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submitted</th>
+                    @if($filter === 'approved')
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approved By</th>
+                    @endif
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
@@ -68,7 +103,11 @@
                         <div class="text-xs text-gray-500">{{ $grade->remarks }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        @if($grade->status === 'Submitted')
+                        @if($grade->status === 'Approved')
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Approved
+                            </span>
+                        @elseif($grade->status === 'Submitted')
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
                                 Submitted
                             </span>
@@ -82,23 +121,34 @@
                             </span>
                         @endif
                     </td>
+
+                    @if($filter === 'approved')
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-500">{{ $grade->submitted_at?->format('M d, Y') ?? '-' }}</div>
+                        <div class="text-sm text-gray-700">{{ $grade->approver?->full_name ?? '-' }}</div>
                     </td>
+                    @endif
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <a href="{{ route('admin.grade-approval.show', $grade) }}" class="text-blue-600 hover:text-blue-900">
-                            Review
+                            {{ $filter === 'approved' ? 'View' : 'Review' }}
                         </a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                    <td colspan="{{ $filter === 'approved' ? 7 : 6 }}" class="px-6 py-8 text-center text-gray-500">
                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <p class="mt-2 text-sm font-medium">No grades pending approval</p>
-                        <p class="text-xs text-gray-400 mt-1">All submitted grades have been processed</p>
+                        @if($filter === 'approved')
+                            <p class="mt-2 text-sm font-medium">No approved grades yet</p>
+                            <p class="text-xs text-gray-400 mt-1">Approved grades will appear here for historical reference</p>
+                        @elseif($filter === 'all')
+                            <p class="mt-2 text-sm font-medium">No grades found</p>
+                            <p class="text-xs text-gray-400 mt-1">No quarterly grades have been created yet</p>
+                        @else
+                            <p class="mt-2 text-sm font-medium">No grades pending approval</p>
+                            <p class="text-xs text-gray-400 mt-1">All submitted grades have been processed</p>
+                        @endif
                     </td>
                 </tr>
                 @endforelse

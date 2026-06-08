@@ -12,20 +12,42 @@ use Illuminate\View\View;
 
 class GradeManagementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $grades = QuarterlyGrade::with([
-                'student' => function ($query) {
-                    $query->withTrashed();
+        $filter = $request->input('filter', 'pending');
+
+        $query = QuarterlyGrade::with([
+                'student' => function ($q) {
+                    $q->withTrashed();
                 },
                 'student.studentProfile',
-                'classSchedule.subject'
-            ])
-            ->where('status', '!=', 'Approved')
-            ->orderByDesc('created_at')
-            ->paginate(20);
+                'classSchedule.subject',
+                'approver',
+            ]);
 
-        return view('admin.grades.index', ['grades' => $grades]);
+        if ($filter === 'approved') {
+            $query->where('status', 'Approved');
+        } elseif ($filter === 'all') {
+            // no status filter
+        } else {
+            // default: pending (anything not approved)
+            $filter = 'pending';
+            $query->where('status', '!=', 'Approved');
+        }
+
+        $grades = $query->orderByDesc('created_at')->paginate(20)->withQueryString();
+
+        $counts = [
+            'pending'  => QuarterlyGrade::where('status', '!=', 'Approved')->count(),
+            'approved' => QuarterlyGrade::where('status', 'Approved')->count(),
+            'all'      => QuarterlyGrade::count(),
+        ];
+
+        return view('admin.grades.index', [
+            'grades'  => $grades,
+            'filter'  => $filter,
+            'counts'  => $counts,
+        ]);
     }
 
     public function show(QuarterlyGrade $grade_approval): View

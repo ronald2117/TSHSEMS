@@ -124,6 +124,12 @@
                     <li>Test backup restoration periodically</li>
                     <li>Keep at least 3 recent backups</li>
                 </ul>
+                <p class="font-medium mt-3 mb-1">Supported Database Drivers</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li><span class="font-semibold">SQLite</span> — copies the database file directly</li>
+                    <li><span class="font-semibold">MySQL / MariaDB</span> — uses <code class="bg-blue-100 px-1 rounded">mysqldump</code></li>
+                    <li><span class="font-semibold">PostgreSQL</span> — uses <code class="bg-blue-100 px-1 rounded">pg_dump</code> (password passed via <code class="bg-blue-100 px-1 rounded">PGPASSWORD</code>)</li>
+                </ul>
             </div>
         </div>
     </div>

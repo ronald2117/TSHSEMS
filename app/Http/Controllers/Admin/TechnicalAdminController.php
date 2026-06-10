@@ -141,7 +141,8 @@ class TechnicalAdminController extends Controller
 
         $files = array_merge(
             glob($backupDir . '/*.sql') ?: [],
-            glob($backupDir . '/*.sqlite') ?: []
+            glob($backupDir . '/*.sqlite') ?: [],
+            glob($backupDir . '/*.dump') ?: []
         );
 
         $backups = collect($files)
@@ -278,6 +279,86 @@ class TechnicalAdminController extends Controller
                     return back()->withErrors(['error' => $errorMsg]);
                 }
 
+            } elseif ($driver === 'pgsql') {
+                // PostgreSQL backup: Use pg_dump
+                $filename .= '.sql';
+                $path = $backupDir . '/' . $filename;
+
+                $dbHost = config('database.connections.pgsql.host');
+                $dbName = config('database.connections.pgsql.database');
+                $dbUser = config('database.connections.pgsql.username');
+                $dbPass = config('database.connections.pgsql.password');
+                $dbPort = config('database.connections.pgsql.port', '5432');
+
+                // Try to find pg_dump in common locations
+                $pgdumpPaths = [
+                    'pg_dump', // In PATH
+                    '/usr/bin/pg_dump',
+                    '/usr/local/bin/pg_dump',
+                    '/opt/homebrew/bin/pg_dump',
+                    '/opt/homebrew/opt/postgresql@16/bin/pg_dump',
+                    '/opt/homebrew/opt/postgresql@15/bin/pg_dump',
+                    'C:\Program Files\PostgreSQL\16\bin\pg_dump.exe',
+                    'C:\Program Files\PostgreSQL\15\bin\pg_dump.exe',
+                    'C:\Program Files\PostgreSQL\14\bin\pg_dump.exe',
+                ];
+
+                $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+                $pgdump = null;
+
+                foreach ($pgdumpPaths as $testPath) {
+                    if ($testPath === 'pg_dump') {
+                        $cmd = $isWindows ? 'where.exe pg_dump 2>nul' : 'which pg_dump 2>/dev/null';
+                        exec($cmd, $testOutput, $testReturn);
+                        if ($testReturn === 0) {
+                            $pgdump = 'pg_dump';
+                            break;
+                        }
+                    } elseif (file_exists($testPath)) {
+                        $pgdump = $testPath;
+                        break;
+                    }
+                }
+
+                if (!$pgdump) {
+                    return back()->withErrors(['error' => 'pg_dump not found. Please ensure PostgreSQL client tools are installed and added to your system PATH.']);
+                }
+
+                // Pass password via environment variable (avoids .pgpass requirement)
+                $env = $isWindows
+                    ? 'set PGPASSWORD=' . escapeshellarg($dbPass) . ' &&'
+                    : 'PGPASSWORD=' . escapeshellarg($dbPass);
+
+                $command = sprintf(
+                    '%s "%s" --host=%s --port=%s --username=%s --no-password --format=plain --clean --if-exists %s > "%s" 2>&1',
+                    $env,
+                    $pgdump,
+                    escapeshellarg($dbHost),
+                    escapeshellarg($dbPort),
+                    escapeshellarg($dbUser),
+                    escapeshellarg($dbName),
+                    $path
+                );
+
+                exec($command, $output, $returnVar);
+
+                if ($returnVar === 0 && file_exists($path) && filesize($path) > 0) {
+                    ActivityLog::create([
+                        'user_id'     => auth()->id(),
+                        'action'      => 'database_backup',
+                        'description' => 'Created PostgreSQL database backup: ' . $filename,
+                        'ip_address'  => request()->ip(),
+                    ]);
+
+                    return back()->with('success', 'PostgreSQL database backup created successfully');
+                } else {
+                    $errorMsg = 'Failed to create PostgreSQL database backup.';
+                    if (!empty($output)) {
+                        $errorMsg .= ' Error: ' . implode(' ', $output);
+                    }
+                    return back()->withErrors(['error' => $errorMsg]);
+                }
+
             } else {
                 return back()->withErrors(['error' => 'Unsupported database driver: ' . $driver]);
             }
@@ -390,20 +471,28 @@ class TechnicalAdminController extends Controller
             // For SQLite, get the file size directly
             $dbPath = config('database.connections.sqlite.database');
             return file_exists($dbPath) ? filesize($dbPath) : 0;
-        } elseif ($driver === 'mysql') {
-            // For MySQL, query information_schema
-            $dbName = config('database.connections.mysql.database');
-            
+        } elseif ($driver === 'mysql' || $driver === 'mariadb') {
+            // For MySQL/MariaDB, query information_schema
+            $dbName = config("database.connections.{$driver}.database");
+
             $result = DB::select(
-                "SELECT SUM(data_length + index_length) as size 
-                 FROM information_schema.TABLES 
+                "SELECT SUM(data_length + index_length) as size
+                 FROM information_schema.TABLES
                  WHERE table_schema = ?",
                 [$dbName]
             );
 
             return $result[0]->size ?? 0;
+
+        } elseif ($driver === 'pgsql') {
+            // For PostgreSQL, use pg_database_size()
+            $dbName = config('database.connections.pgsql.database');
+
+            $result = DB::select('SELECT pg_database_size(?) AS size', [$dbName]);
+
+            return $result[0]->size ?? 0;
         }
-        
+
         return 0;
     }
 
